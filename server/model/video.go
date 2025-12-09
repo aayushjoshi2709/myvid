@@ -4,9 +4,10 @@ import "gorm.io/gorm"
 
 type Video struct {
 	*gorm.Model
-	videoUrl     string
-	originalType string
-	name         string
-	views        int
-	likes        int
+	VideoUrl     string
+	OriginalType string
+	Name         string
+	Views        int
+	Likes        int
+	ChannelId    int
 }

@@ -4,5 +4,8 @@ import "gorm.io/gorm"
 
 type Channel struct {
 	*gorm.Model
-	channelName string
+	ChannelName     string
+	UserId          int
+	SubscriptionIds []Subscription
+	VideoIds        []Video
 }
