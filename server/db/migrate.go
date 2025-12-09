@@ -21,9 +21,9 @@ func main() {
 	}
 
 	db.AutoMigrate(
+		&model.User{},
 		&model.Channel{},
 		&model.Subscription{},
-		&model.User{},
 		&model.Video{},
 	)
 }
