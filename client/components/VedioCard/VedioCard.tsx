@@ -1,37 +1,77 @@
 import Image from "next/image";
 import styles from "./VedioCard.module.css";
 import React from "react";
-const VedioCard = (): React.ReactElement => {
+import Link from "next/link";
+
+interface ThumbNailStyles {
+  size?: string;
+  width?: string;
+  height?: string;
+  aspectRatio?: string;
+}
+interface VedioCardProps {
+  id: string;
+  thumbnail: string;
+  thumbnailStyle?: ThumbNailStyles;
+  channelLogo: string;
+  title: string;
+  channelName: string;
+  createdAt: string;
+  viewCount: number;
+  hideChannelLogo?: boolean;
+  vedioInfoAlignment?: "vertical" | "horizontal";
+}
+
+const VedioCard = (props: VedioCardProps): React.ReactElement => {
   return (
-    <div>
-      <Image
-        id="vedio-logo"
-        src={"/hq720.jpg"}
-        width={0}
-        height={0}
-        sizes="100vw"
-        style={{ width: "100%", height: "auto" }}
-        alt="Image for"
-        className={styles.vedioLogo}
-      />
-      <div className="mt-2 flex gap-2">
+    <div
+      className={
+        props.vedioInfoAlignment === "horizontal"
+          ? "flex flex-row gap-2 p-1"
+          : "flex flex-col gap-2"
+      }
+    >
+      <Link href={`/watch/${props.id}`}>
         <Image
           id="vedio-logo"
-          src={"/hq720.jpg"}
+          src={props.thumbnail}
           width={0}
           height={0}
-          sizes="100vw"
-          style={{ width: "4em", aspectRatio: "1/1", borderRadius: "100%" }}
+          sizes={props.thumbnailStyle?.size || "100vw"}
+          style={{
+            width: props.thumbnailStyle?.width || "100%",
+            height: props.thumbnailStyle?.height || "auto",
+            aspectRatio: props.thumbnailStyle?.aspectRatio || "16/9",
+          }}
           alt="Image for"
-          className={`${styles.vedioLogo} rounded-full`}
+          className={styles.vedioLogo}
         />
+      </Link>
+      <div className="mt-2 flex gap-2">
+        {!props.hideChannelLogo ? (
+          <Image
+            id="vedio-logo"
+            src={props.channelLogo}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "4em", aspectRatio: "1/1", borderRadius: "100%" }}
+            alt="Image for"
+            className={`${styles.vedioLogo} rounded-full`}
+          />
+        ) : (
+          ""
+        )}
         <div>
-          <div>This is the recon tool you need in 2006</div>
-          <small>The XSS Rat</small>
+          <Link href={`/watch/${props.id}`}>
+            <div>{props.title}</div>
+          </Link>
+
+          <small>{props.channelName}</small>
           <div className="flex gap-2">
-            <small>306 view</small>
+            <small>{props.viewCount} view</small>
             <small>.</small>
-            <small>4 days to go</small>
+            <small>{props.createdAt}</small>
           </div>
         </div>
       </div>

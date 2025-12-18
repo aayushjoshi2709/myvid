@@ -1,0 +1,38 @@
+import RecomendationList from "@/components/RecomendationList/RecomendationList";
+import Image from "next/image";
+import React from "react";
+
+const page = () => {
+  return (
+    <div className="flex p-8 gap-4">
+      <div id="vedio-comments">
+        <Image
+          id="vedio-logo"
+          src={"/hq720.jpg"}
+          width={0}
+          height={0}
+          sizes={"100vw"}
+          style={{
+            width: "100%",
+            height: "auto",
+            borderRadius: "20px",
+            aspectRatio: "16/9",
+          }}
+          alt="Image for"
+        />
+        <h2 className="my-2 text-2xl">Here is the title</h2>
+        <div>
+            <div className="flex flex-col">
+                <p>Channel Name</p>
+                <p>Subs Count</p>
+            </div>
+        </div>
+      </div>
+      <div className="lg:w-4/12">
+        <RecomendationList />
+      </div>
+    </div>
+  );
+};
+
+export default page;
