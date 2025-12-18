@@ -1,5 +1,6 @@
 import VedioCard from "@/components/VedioCard/VedioCard";
-const VideoList = (): React.ReactElement => {
+
+const RecomendationList = () => {
   const data = [
     {
       id: "120",
@@ -57,12 +58,24 @@ const VideoList = (): React.ReactElement => {
     },
   ];
   return (
-    <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-3 2xl:grid-cols-6 gap-4">
+    <div className="flex flex-col">
       {data.map((vedioData, idx) => {
-        return <VedioCard key={idx} {...vedioData} />;
+        return (
+          <VedioCard
+            key={idx}
+            thumbnailStyle={{
+              size: "8vw",
+              width: "100%",
+              height: "100%",
+            }}
+            vedioInfoAlignment="horizontal"
+            hideChannelLogo={true}
+            {...vedioData}
+          />
+        );
       })}
     </div>
   );
 };
 
-export default VideoList;
+export default RecomendationList;
