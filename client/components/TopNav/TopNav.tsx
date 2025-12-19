@@ -13,14 +13,16 @@ const TopNav = (): React.ReactElement => {
       <div id="menu">
         <MenuOutlinedIcon />
       </div>
-      <Link href="/">
+      <Link href="/" className="hidden md:flex md:flex-row">
         <Logo height={40} width={160} />
       </Link>
-      <div className="justify-center items-center flex-1 mx-10">
+      <div className="justify-center items-center flex-1 mx-10 hidden md:block">
         <Search />
       </div>
-      <div className="flex gap-4">
-        <UploadVideoButton />
+      <div className="hidden gap-4 md:flex md:flex-row">
+        <div>
+          <UploadVideoButton />
+        </div>
         <div id="profile">
           <Image
             id="video-logo"

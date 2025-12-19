@@ -6,12 +6,12 @@ const DescriptionCard = (props: VedioDetailsInterface): React.ReactElement => {
   return (
     <div className="p-2 bg-gray-100 my-4 rounded-2xl px-4">
       <div className="flex gap-2">
-        <p>
+        <p className="text-sm">
           <strong>
             {numeral(props.viewCount).format("0.0a").toUpperCase()} views
           </strong>
         </p>
-        <p>
+        <p className="text-sm">
           <strong>
             {formatDistanceToNow(new Date(props.createdAt), {
               addSuffix: false,
@@ -19,7 +19,7 @@ const DescriptionCard = (props: VedioDetailsInterface): React.ReactElement => {
           </strong>
         </p>
       </div>
-      <p>{props.description}</p>
+      <p className="text-md">{props.description}</p>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
 import Link from "next/link";
 const SidePanel = (): React.ReactElement => {
   return (
@@ -10,7 +11,7 @@ const SidePanel = (): React.ReactElement => {
           <Link href={"/"}>
             <div className="p-2 flex gap-4 flex-wrap">
               <HomeOutlinedIcon />
-              <p>Home</p>
+              <p className="hidden md:block">Home</p>
             </div>
           </Link>
         </li>
@@ -18,7 +19,15 @@ const SidePanel = (): React.ReactElement => {
           <Link href={"/feed/subscriptions"}>
             <div className="p-2 flex gap-4 flex-wrap">
               <SubscriptionsOutlinedIcon />
-              <p>Subscriptions</p>
+              <p className="hidden md:block">Subscriptions</p>
+            </div>
+          </Link>
+        </li>
+        <li className="block md:hidden">
+          <Link href={"/me"}>
+            <div className="p-2 flex gap-4 flex-wrap">
+              <UploadOutlinedIcon />
+              <p className="hidden md:block">Upload Vedio</p>
             </div>
           </Link>
         </li>
@@ -26,7 +35,7 @@ const SidePanel = (): React.ReactElement => {
           <Link href={"/me"}>
             <div className="p-2 flex gap-4 flex-wrap">
               <AccountCircleOutlinedIcon />
-              <p>You</p>
+              <p className="hidden md:block">You</p>
             </div>
           </Link>
         </li>

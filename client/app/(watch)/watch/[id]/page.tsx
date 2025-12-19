@@ -18,8 +18,8 @@ const WatchPage = async ({
     DummyData[currentlyWatchingIndex];
 
   return (
-    <div className="flex p-6 gap-4">
-      <div id="video-comments">
+    <div className="flex flex-col lg:flex-row p-6 gap-4">
+      <div id="video-comments" className="w-full lg:w-8/12 ">
         <Image
           id="video-logo"
           src={"/hq720.jpg"}
@@ -43,8 +43,10 @@ const WatchPage = async ({
             imageUrl="/hq720.jpg"
           />
           <div className="flex flex-col mr-4">
-            <p>{currentlyWatching.channel.name}</p>
-            <p>Subs Count</p>
+            <p className="text-sm">
+              <strong>{currentlyWatching.channel.name}</strong>
+            </p>
+            <p className="text-sm">Subs Count</p>
           </div>
           <button className="p-1 px-4 border border-gray-300 rounded-full font-semibold">
             Subscribe
@@ -52,7 +54,7 @@ const WatchPage = async ({
         </div>
         <DescriptionCard {...currentlyWatching} />
       </div>
-      <div className="lg:w-4/12">
+      <div className="w-full lg:w-4/12">
         <RecomendationList />
       </div>
     </div>
