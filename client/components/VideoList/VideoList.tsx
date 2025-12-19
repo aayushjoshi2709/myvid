@@ -1,4 +1,4 @@
-import VedioCard from "@/components/VedioCard/VedioCard";
+import VideoCard from "@/components/VideoCard/VideoCard";
 const VideoList = (): React.ReactElement => {
   const data = [
     {
@@ -58,8 +58,8 @@ const VideoList = (): React.ReactElement => {
   ];
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-3 2xl:grid-cols-6 gap-4">
-      {data.map((vedioData, idx) => {
-        return <VedioCard key={idx} {...vedioData} />;
+      {data.map((videoData, idx) => {
+        return <VideoCard key={idx} {...videoData} />;
       })}
     </div>
   );

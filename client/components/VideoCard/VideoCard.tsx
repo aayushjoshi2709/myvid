@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./VedioCard.module.css";
+import styles from "./VideoCard.module.css";
 import React from "react";
 import Link from "next/link";
 import RoundedImage from "../RoundedImage/RoundedImage";
@@ -10,7 +10,7 @@ interface ThumbNailStyles {
   height?: string;
   aspectRatio?: string;
 }
-interface VedioCardProps {
+interface VideoCardProps {
   id: string;
   thumbnail: string;
   thumbnailStyle?: ThumbNailStyles;
@@ -20,21 +20,21 @@ interface VedioCardProps {
   createdAt: string;
   viewCount: number;
   hideChannelLogo?: boolean;
-  vedioInfoAlignment?: "vertical" | "horizontal";
+  videoInfoAlignment?: "vertical" | "horizontal";
 }
 
-const VedioCard = (props: VedioCardProps): React.ReactElement => {
+const VideoCard = (props: VideoCardProps): React.ReactElement => {
   return (
     <div
       className={
-        props.vedioInfoAlignment === "horizontal"
+        props.videoInfoAlignment === "horizontal"
           ? "flex flex-row gap-2 p-1"
           : "flex flex-col gap-2"
       }
     >
       <Link href={`/watch/${props.id}`}>
         <Image
-          id="vedio-logo"
+          id="video-logo"
           src={props.thumbnail}
           width={0}
           height={0}
@@ -45,7 +45,7 @@ const VedioCard = (props: VedioCardProps): React.ReactElement => {
             aspectRatio: props.thumbnailStyle?.aspectRatio || "16/9",
           }}
           alt="Image for"
-          className={styles.vedioLogo}
+          className={styles.videoLogo}
         />
       </Link>
       <div className="mt-2 flex gap-2">
@@ -71,4 +71,4 @@ const VedioCard = (props: VedioCardProps): React.ReactElement => {
   );
 };
 
-export default VedioCard;
+export default VideoCard;
