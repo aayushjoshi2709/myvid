@@ -2,6 +2,8 @@ import Image from "next/image";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import UploadVideoButton from "@/components/UploadVideoButton/UploadVideoButton";
 import Search from "@/components/Search/Search";
+import Logo from "../MyvidLogo/MyvidLogo";
+import Link from "next/link";
 const TopNav = (): React.ReactElement => {
   return (
     <div
@@ -11,6 +13,9 @@ const TopNav = (): React.ReactElement => {
       <div id="menu">
         <MenuOutlinedIcon />
       </div>
+      <Link href="/">
+        <Logo height={40} width={160} />
+      </Link>
       <div className="justify-center items-center flex-1 mx-10">
         <Search />
       </div>
