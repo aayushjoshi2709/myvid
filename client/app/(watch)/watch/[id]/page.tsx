@@ -1,6 +1,7 @@
+import DescriptionCard from "@/components/DescriptionCard/DescriptionCard";
 import RecomendationList from "@/components/RecomendationList/RecomendationList";
+import RoundedImage from "@/components/RoundedImage/RoundedImage";
 import Image from "next/image";
-import React from "react";
 
 const page = () => {
   return (
@@ -21,12 +22,22 @@ const page = () => {
           alt="Image for"
         />
         <h2 className="my-2 text-2xl">Here is the title</h2>
-        <div>
-            <div className="flex flex-col">
-                <p>Channel Name</p>
-                <p>Subs Count</p>
-            </div>
+        <div className="flex flex-row gap-4 items-center">
+          <RoundedImage
+            style={{
+              width: "3rem",
+            }}
+            imageUrl="/hq720.jpg"
+          />
+          <div className="flex flex-col mr-4">
+            <p>Channel Name</p>
+            <p>Subs Count</p>
+          </div>
+          <button className="p-1 px-4 border border-gray-300 rounded-full">
+            Subscribe
+          </button>
         </div>
+        <DescriptionCard />
       </div>
       <div className="lg:w-4/12">
         <RecomendationList />
