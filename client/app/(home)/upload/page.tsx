@@ -1,6 +1,6 @@
 "use client";
 import FormInput from "@/components/FormInput/FormInput";
-const Upload = () => {
+const VedioUploadPage = () => {
   return (
     <div className="justify-center flex-1 ">
       <form className="max-w-sm mx-auto p-4">
@@ -49,4 +49,4 @@ const Upload = () => {
   );
 };
 
-export default Upload;
+export default VedioUploadPage;
