@@ -23,10 +23,12 @@ const SidePanel = (): React.ReactElement => {
           </Link>
         </li>
         <li>
-          <div className="p-2 flex gap-4 flex-wrap">
-            <AccountCircleOutlinedIcon />
-            <p>You</p>
-          </div>
+          <Link href={"/me"}>
+            <div className="p-2 flex gap-4 flex-wrap">
+              <AccountCircleOutlinedIcon />
+              <p>You</p>
+            </div>
+          </Link>
         </li>
       </ul>
     </div>

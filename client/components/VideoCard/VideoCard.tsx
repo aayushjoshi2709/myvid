@@ -10,13 +10,19 @@ interface ThumbNailStyles {
   height?: string;
   aspectRatio?: string;
 }
+
+interface ChannelInfo {
+  logo: string;
+  name: string;
+  id: string;
+}
+
 interface VideoCardProps {
   id: string;
   thumbnail: string;
   thumbnailStyle?: ThumbNailStyles;
-  channelLogo: string;
+  channel: ChannelInfo;
   title: string;
-  channelName: string;
   createdAt: string;
   viewCount: number;
   hideChannelLogo?: boolean;
@@ -50,7 +56,7 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
       </Link>
       <div className="mt-2 flex gap-2">
         {!props.hideChannelLogo ? (
-          <RoundedImage imageUrl={props.channelLogo} />
+          <RoundedImage imageUrl={props.channel.logo} />
         ) : (
           ""
         )}
@@ -59,7 +65,9 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
             <div>{props.title}</div>
           </Link>
 
-          <small>{props.channelName}</small>
+          <Link href={`/channel/${props.channel.id}`}>
+            <small>{props.channel.name}</small>
+          </Link>
           <div className="flex gap-2">
             <small>{props.viewCount} view</small>
             <small>.</small>

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const page = () => {
   return (
-    <div className="flex p-8 gap-4">
+    <div className="flex p-6 gap-4">
       <div id="video-comments">
         <Image
           id="video-logo"
