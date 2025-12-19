@@ -1,6 +1,6 @@
 import VedioCard from "@/components/VedioCard/VedioCard";
 
-const RecomendationList = () => {
+const RecomendationList = (): React.ReactElement => {
   const data = [
     {
       id: "120",

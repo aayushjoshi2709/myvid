@@ -1,4 +1,4 @@
-const Search = () => {
+const Search = (): React.ReactElement => {
   return (
     <div id="search">
       <input

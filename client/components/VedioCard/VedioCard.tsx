@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./VedioCard.module.css";
 import React from "react";
 import Link from "next/link";
+import RoundedImage from "../RoundedImage/RoundedImage";
 
 interface ThumbNailStyles {
   size?: string;
@@ -49,16 +50,7 @@ const VedioCard = (props: VedioCardProps): React.ReactElement => {
       </Link>
       <div className="mt-2 flex gap-2">
         {!props.hideChannelLogo ? (
-          <Image
-            id="vedio-logo"
-            src={props.channelLogo}
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{ width: "4em", aspectRatio: "1/1", borderRadius: "100%" }}
-            alt="Image for"
-            className={`${styles.vedioLogo} rounded-full`}
-          />
+          <RoundedImage imageUrl={props.channelLogo} />
         ) : (
           ""
         )}
