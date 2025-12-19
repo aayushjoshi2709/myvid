@@ -8,21 +8,23 @@ interface RoundedImageProps {
 }
 const RoundedImage = (props: RoundedImageProps): React.ReactElement => {
   return (
-    <Image
-      id={props.id || "rounded-image"}
-      src={props.imageUrl}
-      width={0}
-      height={0}
-      sizes="100vw"
-      style={{
-        width: "4em",
-        aspectRatio: "1/1",
-        borderRadius: "100%",
-        ...props.style,
-      }}
-      alt="Image for"
-      className={`rounded-full`}
-    />
+    <div>
+      <Image
+        id={props.id || "rounded-image"}
+        src={props.imageUrl}
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{
+          width: "4em",
+          aspectRatio: "1/1",
+          borderRadius: "100%",
+          ...props.style,
+        }}
+        alt="Image for"
+        className={`rounded-full`}
+      />
+    </div>
   );
 };
 

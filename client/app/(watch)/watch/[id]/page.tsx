@@ -2,8 +2,21 @@ import DescriptionCard from "@/components/DescriptionCard/DescriptionCard";
 import RecomendationList from "@/components/RecomendationList/RecomendationList";
 import RoundedImage from "@/components/RoundedImage/RoundedImage";
 import Image from "next/image";
+import DummyData from "@/constants/DummyData";
+import VedioDetailsInterface from "@/common/interfaces/VedioDetails";
 
-const page = () => {
+const WatchPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<React.ReactElement> => {
+  const { id } = await params;
+  const currentlyWatchingIndex = DummyData.findIndex(
+    (vedioData) => vedioData.id === id
+  );
+  const currentlyWatching: VedioDetailsInterface =
+    DummyData[currentlyWatchingIndex];
+
   return (
     <div className="flex p-6 gap-4">
       <div id="video-comments">
@@ -21,7 +34,7 @@ const page = () => {
           }}
           alt="Image for"
         />
-        <h2 className="my-2 text-2xl">Here is the title</h2>
+        <h2 className="my-2 text-2xl">{currentlyWatching.title}</h2>
         <div className="flex flex-row gap-4 items-center">
           <RoundedImage
             style={{
@@ -30,14 +43,14 @@ const page = () => {
             imageUrl="/hq720.jpg"
           />
           <div className="flex flex-col mr-4">
-            <p>Channel Name</p>
+            <p>{currentlyWatching.channel.name}</p>
             <p>Subs Count</p>
           </div>
           <button className="p-1 px-4 border border-gray-300 rounded-full font-semibold">
             Subscribe
           </button>
         </div>
-        <DescriptionCard />
+        <DescriptionCard {...currentlyWatching} />
       </div>
       <div className="lg:w-4/12">
         <RecomendationList />
@@ -46,4 +59,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default WatchPage;

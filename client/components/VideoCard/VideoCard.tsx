@@ -3,28 +3,21 @@ import styles from "./VideoCard.module.css";
 import React from "react";
 import Link from "next/link";
 import RoundedImage from "../RoundedImage/RoundedImage";
+import VedioDetailsInterface from "@/common/interfaces/VedioDetails";
+import { formatDistanceToNow } from "date-fns";
+import numeral from "numeral";
 
 interface ThumbNailStyles {
   size?: string;
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
   aspectRatio?: string;
+  minWidth?: string | number;
 }
 
-interface ChannelInfo {
-  logo: string;
-  name: string;
-  id: string;
-}
-
-interface VideoCardProps {
-  id: string;
-  thumbnail: string;
+interface VideoCardProps extends VedioDetailsInterface {
   thumbnailStyle?: ThumbNailStyles;
-  channel: ChannelInfo;
-  title: string;
-  createdAt: string;
-  viewCount: number;
+  channelIconStyle?: object;
   hideChannelLogo?: boolean;
   videoInfoAlignment?: "vertical" | "horizontal";
 }
@@ -46,34 +39,52 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
           height={0}
           sizes={props.thumbnailStyle?.size || "100vw"}
           style={{
-            width: props.thumbnailStyle?.width || "100%",
-            height: props.thumbnailStyle?.height || "auto",
-            aspectRatio: props.thumbnailStyle?.aspectRatio || "16/9",
+            width: "100%",
+            height: "auto",
+            aspectRatio: "16/9",
+            ...props.thumbnailStyle,
           }}
           alt="Image for"
           className={styles.videoLogo}
         />
       </Link>
-      <div className="mt-2 flex gap-2">
+      <div
+        className={
+          props.videoInfoAlignment === "horizontal"
+            ? "mt-0 gap-0 flex flex-row"
+            : "mt-2 gap-2 flex flex-row"
+        }
+      >
         {!props.hideChannelLogo ? (
-          <RoundedImage imageUrl={props.channel.logo} />
+          <RoundedImage
+            imageUrl={props.channel.logo}
+            style={props.channelIconStyle}
+          />
         ) : (
           ""
         )}
-        <div className="flex-row gap-0.2">
+        <div className="flex-row gap-0 flex-1 w-full">
           <Link href={`/watch/${props.id}`} className="m-0 p-0">
-            <div className="font-semibold line-clamp-2 m-0 p-0">
+            <p className="font-semibold line-clamp-2 m-0 p-0 leading-tight">
               {props.title}
-            </div>
+            </p>
           </Link>
 
           <Link href={`/channel/${props.channel.id}`}>
-            <small className="m-0">{props.channel.name}</small>
+            <small className="m-0 p-0 leading-tight">
+              {props.channel.name}
+            </small>
           </Link>
-          <div className="flex gap-2">
-            <small>{props.viewCount} view</small>
-            <small>.</small>
-            <small>{props.createdAt}</small>
+          <div className="flex gap-1">
+            <small className="m-0 p-0 leading-tight">
+              {numeral(props.viewCount).format("0.0a").toUpperCase()} view
+            </small>
+            <small className="m-0 p-0 leading-tight">.</small>
+            <small className="m-0 p-0 leading-tight">
+              {formatDistanceToNow(new Date(props.createdAt), {
+                addSuffix: false,
+              })}
+            </small>
           </div>
         </div>
       </div>
