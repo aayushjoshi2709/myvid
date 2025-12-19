@@ -6,7 +6,7 @@ const UploadVideoButton = (): React.ReactElement => {
     <Link href={"/upload"}>
       <button className="p-1 px-4 border border-gray-300 rounded-full">
         <UploadOutlinedIcon />
-        Upload Vedio
+        Upload Video
       </button>
     </Link>
   );

@@ -6,9 +6,9 @@ import Image from "next/image";
 const page = () => {
   return (
     <div className="flex p-8 gap-4">
-      <div id="vedio-comments">
+      <div id="video-comments">
         <Image
-          id="vedio-logo"
+          id="video-logo"
           src={"/hq720.jpg"}
           width={0}
           height={0}

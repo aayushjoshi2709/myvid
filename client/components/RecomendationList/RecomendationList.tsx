@@ -1,4 +1,4 @@
-import VedioCard from "@/components/VedioCard/VedioCard";
+import VideoCard from "@/components/VideoCard/VideoCard";
 
 const RecomendationList = (): React.ReactElement => {
   const data = [
@@ -59,18 +59,18 @@ const RecomendationList = (): React.ReactElement => {
   ];
   return (
     <div className="flex flex-col">
-      {data.map((vedioData, idx) => {
+      {data.map((videoData, idx) => {
         return (
-          <VedioCard
+          <VideoCard
             key={idx}
             thumbnailStyle={{
               size: "8vw",
               width: "100%",
               height: "100%",
             }}
-            vedioInfoAlignment="horizontal"
+            videoInfoAlignment="horizontal"
             hideChannelLogo={true}
-            {...vedioData}
+            {...videoData}
           />
         );
       })}

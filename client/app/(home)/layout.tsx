@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Myvid",
-  description: "Your vedio sharing tool",
+  description: "Your video sharing tool",
 };
 
 export default function RootLayout({

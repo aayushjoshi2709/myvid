@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import SidePanel from "@/components/SidePanel/SidePanel";
 import TopNav from "@/components/TopNav/TopNav";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Myvid",
-  description: "Your vedio sharing tool",
+  description: "Your video sharing tool",
 };
 
 export default function RootLayout({

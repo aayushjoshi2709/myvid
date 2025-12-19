@@ -18,7 +18,7 @@ const TopNav = (): React.ReactElement => {
         <UploadVideoButton />
         <div id="profile">
           <Image
-            id="vedio-logo"
+            id="video-logo"
             src={"/hq720.jpg"}
             width={48}
             height={48}

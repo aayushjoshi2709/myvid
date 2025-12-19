@@ -15,10 +15,12 @@ const SidePanel = (): React.ReactElement => {
           </Link>
         </li>
         <li>
-          <div className="p-2 flex gap-4 flex-wrap">
-            <SubscriptionsOutlinedIcon />
-            <p>Subscriptions</p>
-          </div>
+          <Link href={"/feed/subscriptions"}>
+            <div className="p-2 flex gap-4 flex-wrap">
+              <SubscriptionsOutlinedIcon />
+              <p>Subscriptions</p>
+            </div>
+          </Link>
         </li>
         <li>
           <div className="p-2 flex gap-4 flex-wrap">

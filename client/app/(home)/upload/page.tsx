@@ -4,12 +4,12 @@ const Upload = () => {
   return (
     <div className="justify-center flex-1 ">
       <form className="max-w-sm mx-auto p-4">
-        <h1 className="text-4xl text-center">Vedio Upload</h1>
+        <h1 className="text-4xl text-center">Video Upload</h1>
         <FormInput
           title="Title"
           inputType="text"
           id="title"
-          placeHolder="Enter the title of vedio"
+          placeHolder="Enter the title of video"
           required={true}
         />
 
@@ -17,16 +17,11 @@ const Upload = () => {
           title="Description"
           inputType="text"
           id="description"
-          placeHolder="Enter the desciption of vedio"
+          placeHolder="Enter the desciption of video"
           required={true}
         />
 
-        <FormInput
-          title="Vedio"
-          inputType="file"
-          id="vedio"
-          required={true}
-        />
+        <FormInput title="Video" inputType="file" id="video" required={true} />
 
         <FormInput
           title="Thumbnail File"
