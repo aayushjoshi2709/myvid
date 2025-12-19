@@ -33,7 +33,7 @@ const page = () => {
             <p>Channel Name</p>
             <p>Subs Count</p>
           </div>
-          <button className="p-1 px-4 border border-gray-300 rounded-full">
+          <button className="p-1 px-4 border border-gray-300 rounded-full font-semibold">
             Subscribe
           </button>
         </div>

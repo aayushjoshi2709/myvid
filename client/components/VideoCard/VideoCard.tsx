@@ -60,13 +60,15 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
         ) : (
           ""
         )}
-        <div>
-          <Link href={`/watch/${props.id}`}>
-            <div>{props.title}</div>
+        <div className="flex-row gap-0.2">
+          <Link href={`/watch/${props.id}`} className="m-0 p-0">
+            <div className="font-semibold line-clamp-2 m-0 p-0">
+              {props.title}
+            </div>
           </Link>
 
           <Link href={`/channel/${props.channel.id}`}>
-            <small>{props.channel.name}</small>
+            <small className="m-0">{props.channel.name}</small>
           </Link>
           <div className="flex gap-2">
             <small>{props.viewCount} view</small>
