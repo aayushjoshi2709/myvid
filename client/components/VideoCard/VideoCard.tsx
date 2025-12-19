@@ -75,11 +75,11 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
               {props.channel.name}
             </small>
           </Link>
-          <div className="flex gap-1">
+          <div className="flex-auto gap-1">
             <small className="m-0 p-0 leading-tight text-sm">
               {numeral(props.viewCount).format("0.0a").toUpperCase()} view
             </small>
-            <small className="m-0 p-0 leading-tight text-sm">.</small>
+            <small className="m-0 p-0 leading-tight text-sm"> | </small>
             <small className="m-0 p-0 leading-tight text-sm">
               {formatDistanceToNow(new Date(props.createdAt), {
                 addSuffix: false,
