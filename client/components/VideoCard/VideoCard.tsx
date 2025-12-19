@@ -65,22 +65,22 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
         )}
         <div className="flex-row gap-0 flex-1 w-full">
           <Link href={`/watch/${props.id}`} className="m-0 p-0">
-            <p className="font-semibold line-clamp-2 m-0 p-0 leading-tight">
+            <p className="font-semibold line-clamp-2 m-0 p-0 leading-tight text-lg">
               {props.title}
             </p>
           </Link>
 
           <Link href={`/channel/${props.channel.id}`}>
-            <small className="m-0 p-0 leading-tight">
+            <small className="m-0 p-0 leading-tight text-sm">
               {props.channel.name}
             </small>
           </Link>
           <div className="flex gap-1">
-            <small className="m-0 p-0 leading-tight">
+            <small className="m-0 p-0 leading-tight text-sm">
               {numeral(props.viewCount).format("0.0a").toUpperCase()} view
             </small>
-            <small className="m-0 p-0 leading-tight">.</small>
-            <small className="m-0 p-0 leading-tight">
+            <small className="m-0 p-0 leading-tight text-sm">.</small>
+            <small className="m-0 p-0 leading-tight text-sm">
               {formatDistanceToNow(new Date(props.createdAt), {
                 addSuffix: false,
               })}
