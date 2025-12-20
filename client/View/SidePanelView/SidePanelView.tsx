@@ -2,7 +2,8 @@
 
 import SidePanel from "@/components/SidePanels/SidePanel/SidePanel";
 import TopNav from "@/components/TopNav/TopNav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import SidePanelOverlayView from "../SidePanelOverlayView/SidePanelOverlayView";
 
 const SidePanelView = ({
   children,
@@ -13,7 +14,15 @@ const SidePanelView = ({
   function toggleSideBarLabels() {
     setLabelVisible((isVisible) => !isVisible);
   }
-  return (
+  const [width, setWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return !width || width >= 500 ? (
     <div>
       <TopNav menuButtonClickAction={toggleSideBarLabels} />
       <div className="flex flex-row">
@@ -21,6 +30,10 @@ const SidePanelView = ({
         {children}
       </div>
     </div>
+  ) : (
+    <>
+      <SidePanelOverlayView>{children}</SidePanelOverlayView>
+    </>
   );
 };
 
