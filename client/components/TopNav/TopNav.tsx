@@ -13,7 +13,7 @@ const TopNav = ({ menuButtonClickAction }: TopNavProps): React.ReactElement => {
   return (
     <div
       id="top-nav"
-      className="sticky top-0  w-full bg-white flex justify-between items-center flex-row p-3 px-6 border-b border-gray-300 "
+      className="w-full bg-white flex justify-between items-center flex-row p-3 px-6 border-b border-gray-300 "
     >
       <div id="menu">
         <button onClick={menuButtonClickAction}>

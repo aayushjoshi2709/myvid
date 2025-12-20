@@ -1,11 +1,9 @@
 "use client";
 import FormInput from "@/components/FormInput/FormInput";
 const VedioUploadPage = () => {
-  function uploadVedio() {
-    
-  }
+  function uploadVedio() {}
   return (
-    <div className="justify-center flex-1 ">
+    <div className="justify-center flex-1 h-screen items-center">
       <form className="max-w-sm mx-auto p-4">
         <h1 className="text-4xl text-center">Video Upload</h1>
         <FormInput
