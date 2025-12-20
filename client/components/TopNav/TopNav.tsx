@@ -23,7 +23,7 @@ const TopNav = ({ menuButtonClickAction }: TopNavProps): React.ReactElement => {
       <Link href="/" className="hidden md:flex md:flex-row">
         <MyvidLogo height={40} width={160} />
       </Link>
-      <div className="justify-center items-center w-full  flex-1 mx-10 hidden md:flex">
+      <div className="justify-center items-center flex-1 mx-10 hidden md:flex md:w-full lg:w-1/2">
         <Search />
       </div>
       <div className="hidden gap-4 md:flex md:flex-row">
