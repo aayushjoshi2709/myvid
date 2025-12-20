@@ -21,8 +21,8 @@ const SidePanelOverlay = ({
       className="fixed top-0 left-0 w-full h-full bg-black/70 z-50"
       onClick={toggleVisibility}
     >
-      <aside className="sm:w-1/12 bg-white h-full md:w-2/8 lg:w-2/10 xl:w-1/6 border-r  border-gray-300">
-        <div className="flex  items-center flex-row p-3 px-6 border-b border-gray-300 ">
+      <aside className="bg-white h-full w-fit border-r  border-gray-300">
+        <div className="flex items-center flex-row p-3 px-6 border-b border-gray-300 ">
           <div id="menu">
             <button onClick={toggleVisibility}>
               <MenuOutlinedIcon />
@@ -32,9 +32,7 @@ const SidePanelOverlay = ({
             <MyVidLogo height={40} width={160} />
           </Link>
         </div>
-        <div className="flex justify-between items-center flex-row">
-          <SidePanelActions areLabelVisible={true} />
-        </div>
+        <SidePanelActions areLabelVisible={true} />
       </aside>
     </div>
   ) : null;
