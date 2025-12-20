@@ -2,19 +2,26 @@ import Image from "next/image";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import UploadVideoButton from "@/components/UploadVideoButton/UploadVideoButton";
 import Search from "@/components/Search/Search";
-import Logo from "../MyvidLogo/MyvidLogo";
+import MyvidLogo from "../MyvidLogo/MyvidLogo";
 import Link from "next/link";
-const TopNav = (): React.ReactElement => {
+
+interface TopNavProps {
+  menuButtonClickAction: () => void;
+}
+
+const TopNav = ({ menuButtonClickAction }: TopNavProps): React.ReactElement => {
   return (
     <div
       id="top-nav"
-      className="flex justify-between items-center flex-row p-3 px-6 border-b border-gray-300 "
+      className="sticky top-0  w-full bg-white flex justify-between items-center flex-row p-3 px-6 border-b border-gray-300 "
     >
       <div id="menu">
-        <MenuOutlinedIcon />
+        <button onClick={menuButtonClickAction}>
+          <MenuOutlinedIcon />
+        </button>
       </div>
       <Link href="/" className="hidden md:flex md:flex-row">
-        <Logo height={40} width={160} />
+        <MyvidLogo height={40} width={160} />
       </Link>
       <div className="justify-center items-center flex-1 mx-10 hidden md:block">
         <Search />

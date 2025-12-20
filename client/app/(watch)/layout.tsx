@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import TopNav from "@/components/TopNav/TopNav";
+import SidePanelOverlayView from "@/View/SidePanelOverlayView/SidePanelOverlayView";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,10 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TopNav />
-        <div className="display flex h-screen p-0 m-0 w-screen">
-          <div className="flex-1 h-full">{children}</div>
-        </div>
+        <SidePanelOverlayView>{children}</SidePanelOverlayView>
       </body>
     </html>
   );

@@ -1,6 +1,9 @@
 "use client";
 import FormInput from "@/components/FormInput/FormInput";
 const VedioUploadPage = () => {
+  function uploadVedio() {
+    
+  }
   return (
     <div className="justify-center flex-1 ">
       <form className="max-w-sm mx-auto p-4">
@@ -34,14 +37,12 @@ const VedioUploadPage = () => {
             className="border rounded-2xl bg-[#eaeaea] border-[#bbbbbb] p-1 px-6"
             type="button"
             value="Upload"
+            onClick={uploadVedio}
           />
           <input
             className="border rounded-2xl bg-[#eaeaea] border-[#bbbbbb] p-1 px-6"
-            type="button"
+            type="reset"
             value="Cancel"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
           />
         </div>
       </form>

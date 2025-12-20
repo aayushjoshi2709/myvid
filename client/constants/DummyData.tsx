@@ -86,6 +86,34 @@ const DummyData: VedioDetailsInterface[] = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum reprehenderit illum dolores eaque, nulla sed, nam at rem modi id beatae commodi sequi quas, vitae praesentium pariatur ipsam iusto quam?",
   },
+  {
+    id: "126",
+    thumbnail: "/hq720.jpg",
+    channel: {
+      name: "Code Masters",
+      logo: "/hq720.jpg",
+      id: "234",
+    },
+    title: "JavaScript Async/Await Patterns",
+    createdAt: new Date().toISOString(),
+    viewCount: 7120,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum reprehenderit illum dolores eaque, nulla sed, nam at rem modi id beatae commodi sequi quas, vitae praesentium pariatur ipsam iusto quam?",
+  },
+  {
+    id: "127",
+    thumbnail: "/hq720.jpg",
+    channel: {
+      name: "Code Masters",
+      logo: "/hq720.jpg",
+      id: "234",
+    },
+    title: "Database Design Best Practices",
+    createdAt: new Date().toISOString(),
+    viewCount: 10450,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum reprehenderit illum dolores eaque, nulla sed, nam at rem modi id beatae commodi sequi quas, vitae praesentium pariatur ipsam iusto quam?",
+  },
 ];
 
 export default DummyData;
