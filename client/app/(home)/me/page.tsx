@@ -1,7 +1,5 @@
-import React from "react";
-
 const MePage = () => {
-  return <div>MePage</div>;
+  return <div className="h-screen">MePage</div>;
 };
 
 export default MePage;

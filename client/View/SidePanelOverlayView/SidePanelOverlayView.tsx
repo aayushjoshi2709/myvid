@@ -15,9 +15,9 @@ const SidePanelOverlayView = ({
   }
 
   return (
-    <div>
+    <div className="h-screen w-screen flex flex-col">
       <TopNav menuButtonClickAction={toggleSideBar} />
-      <div className="flex flex-row">
+      <div className="flex-1 flex min-h-0">
         {sidePanelVisible ? (
           <SidePanelOverlay
             isVisible={sidePanelVisible}
@@ -26,7 +26,7 @@ const SidePanelOverlayView = ({
         ) : (
           ""
         )}
-        {children}
+        <div className="overflow-y-scroll">{children}</div>
       </div>
     </div>
   );

@@ -23,11 +23,11 @@ const SidePanelView = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return !width || width >= 500 ? (
-    <div>
+    <div className="h-screen w-screen flex flex-col">
       <TopNav menuButtonClickAction={toggleSideBarLabels} />
-      <div className="flex flex-row">
+      <div className="flex-1 flex min-h-0">
         <SidePanel areLabelVisible={labelVisible} />
-        {children}
+        <div className="overflow-y-scroll">{children}</div>
       </div>
     </div>
   ) : (

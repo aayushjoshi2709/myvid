@@ -19,7 +19,7 @@ const WatchPage = async ({
 
   return (
     <div className="flex flex-col lg:flex-row p-6 gap-4">
-      <div id="video-comments" className="w-full lg:w-8/12 ">
+      <div id="video-comments" className="w-full lg:w-8/12 2xl:w-9/12">
         <Image
           id="video-logo"
           src={"/hq720.jpg"}
@@ -54,7 +54,7 @@ const WatchPage = async ({
         </div>
         <DescriptionCard {...currentlyWatching} />
       </div>
-      <div className="w-full lg:w-4/12">
+      <div className="w-full lg:w-4/12 2xl:w-3/12">
         <RecomendationList />
       </div>
     </div>
