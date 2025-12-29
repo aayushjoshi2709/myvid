@@ -68,3 +68,4 @@
 **/!**/src/test/**/build/
 **/### VS Code ###
 **/.vscode/
+server/src/main/resources/application-local.yaml
