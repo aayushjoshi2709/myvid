@@ -3,8 +3,8 @@ import FormInput from "@/components/FormInput/FormInput";
 const VedioUploadPage = () => {
   function uploadVedio() {}
   return (
-    <div className="justify-center flex-1 h-screen items-center">
-      <form className="max-w-sm mx-auto p-4">
+    <div className="justify-center flex-1 bg-amber-400 h-screen items-center">
+      <form className="max-w-sm mx-auto p-4 bg-red-300">
         <h1 className="text-4xl text-center">Video Upload</h1>
         <FormInput
           title="Title"
