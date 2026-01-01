@@ -2,8 +2,10 @@ package com.github.aayushjoshi2709.myvid.server.entity;
 
 import com.github.aayushjoshi2709.myvid.server.entity.Common.Common;
 
+import com.github.aayushjoshi2709.myvid.server.entity.enums.VideoStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -25,4 +27,7 @@ public class Video extends Common {
     @Column(name = "description", length = 500, nullable = false, unique = true)
     private String description;
     private Long viewCount;
+
+    @Enumerated
+    private VideoStatus status = VideoStatus.CREATED;
 }
