@@ -23,13 +23,13 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video findById(UUID id) {
-        return null;
+        return this.videoRepository.findById(id).orElseThrow();
     }
 
     @Override
     public Video addVideo(CreateVideoDto createVideo) {
         Video video = new Video();
-        return this.videoRepository.save(video);
+        return this.videoRepository.save(video); 
     }
 
     @Override
