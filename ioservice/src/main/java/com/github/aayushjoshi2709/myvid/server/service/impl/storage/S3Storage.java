@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignReques
 import java.time.Duration;
 import java.util.Map;
 
-@ConditionalOnProperty(name="aws.s3")
+@ConditionalOnProperty(name="aws.s3.enabled", value = "true")
 public class S3Storage implements StorageService {
 
     @Value("${aws.s3.bucketname}")
