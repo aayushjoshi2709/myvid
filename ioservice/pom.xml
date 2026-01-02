@@ -11,7 +11,7 @@
 	<groupId>com.github.aayushjoshi2709.myvid</groupId>
 	<artifactId>ioservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>server</name>
+	<name>ioservice</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
