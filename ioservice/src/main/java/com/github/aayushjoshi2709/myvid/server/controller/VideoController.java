@@ -1,6 +1,7 @@
 package com.github.aayushjoshi2709.myvid.server.controller;
 
 import com.github.aayushjoshi2709.myvid.server.dto.video.CreateVideoDto;
+import com.github.aayushjoshi2709.myvid.server.dto.video.GetVideoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +20,22 @@ public class VideoController {
     private final VideoService videoService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Video>> getVideos() {
+    public ResponseEntity<List<GetVideoDto>> getVideos() {
         return ResponseEntity.ok(this.videoService.getVideos());
     }
 
     @GetMapping("/{videoId}")
-    public ResponseEntity<Video> getVideo(@PathVariable UUID videoId){
+    public ResponseEntity<GetVideoDto> getVideo(@PathVariable UUID videoId){
         return ResponseEntity.ok(this.videoService.findById(videoId));
     }
 
     @PostMapping("/")
-    public ResponseEntity<Video> addVideo(@RequestBody CreateVideoDto entity) {
+    public ResponseEntity<GetVideoDto> addVideo(@RequestBody CreateVideoDto entity) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.videoService.addVideo(entity));
     }
 
     @PutMapping("/{videoId}")
-    public ResponseEntity<Video> updateVideo(@PathVariable UUID videoId, @RequestBody CreateVideoDto updatedVideoData){
+    public ResponseEntity<GetVideoDto> updateVideo(@PathVariable UUID videoId, @RequestBody CreateVideoDto updatedVideoData){
         return ResponseEntity.ok(this.videoService.updateById(videoId, updatedVideoData));
     }
 

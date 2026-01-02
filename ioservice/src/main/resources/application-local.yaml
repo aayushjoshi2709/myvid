@@ -16,5 +16,6 @@ spring:
 
 aws:
   s3:
+    enabled: true
     bucket-name: my-vid-bucket
     region: ap-south

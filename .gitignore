@@ -69,3 +69,4 @@
 **/### VS Code ###
 **/.vscode/
 server/src/main/resources/application-local.yaml
+ioservice/src/main/resources/application-local.yaml
