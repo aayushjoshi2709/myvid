@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import com.github.aayushjoshi2709.myvid.server.dto.video.CreateVideoDto;
 import com.github.aayushjoshi2709.myvid.server.dto.video.GetVideoDto;
+import com.github.aayushjoshi2709.myvid.server.dto.video.UpdateVideoDto;
 import com.github.aayushjoshi2709.myvid.server.entity.enums.VideoStatus;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.CreateVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.GetVideoMapper;
+import com.github.aayushjoshi2709.myvid.server.mapper.video.UpdateVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class VideoServiceImpl implements VideoService {
     private final VideoRepository videoRepository;
     private final CreateVideoMapper createVideoMapper;
     private final GetVideoMapper getVideoMapper;
+    private final UpdateVideoMapper updateVideoMapper;
 
     private Video findByIdInDb(UUID id){
         return this.videoRepository.findById(id).orElseThrow();
@@ -33,8 +36,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public GetVideoDto findById(UUID id) {
-        return this.getVideoMapper.toDto(this.findByIdInDb(id));
+    public GetVideoDto findById(UUID videoId) {
+        return this.getVideoMapper.toDto(this.findByIdInDb(videoId));
     }
 
     @Override
@@ -45,8 +48,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public GetVideoDto updateById(UUID videoId, CreateVideoDto updatedVideoData) {
-        return null;
+    public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData) {
+        Video video = this.findByIdInDb(videoId);
+        this.updateVideoMapper.updateVideo(updatedVideoData, video);
+        Video updatedVideo = this.videoRepository.save(video);
+        return this.getVideoMapper.toDto(updatedVideo);
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.github.aayushjoshi2709.myvid.server.controller;
 
 import com.github.aayushjoshi2709.myvid.server.dto.user.CreateUserDto;
 import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
+import com.github.aayushjoshi2709.myvid.server.dto.user.UpdateUserDto;
 import com.github.aayushjoshi2709.myvid.server.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<GetUserDto> registerUser(@RequestBody CreateUserDto userDetails){
+    public ResponseEntity<GetUserDto> registerUser(@RequestBody @Valid CreateUserDto userDetails){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.registerUser(userDetails));
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<GetUserDto> updateUser(@PathVariable UUID userId, @RequestBody CreateUserDto updatedUserDetails){
+    public ResponseEntity<GetUserDto> updateUser(@PathVariable UUID userId, @RequestBody @Valid UpdateUserDto updatedUserDetails){
         return ResponseEntity.ok(this.userService.updateUser(userId, updatedUserDetails));
     }
 

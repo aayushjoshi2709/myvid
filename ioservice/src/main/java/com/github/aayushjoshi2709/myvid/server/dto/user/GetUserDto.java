@@ -11,6 +11,13 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetUserDto extends CreateUserDto{
+public class GetUserDto {
     private UUID id;
+    private String username;
+    private String password;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private Long phoneNo;
+    private String profilePicUrl;
 }

@@ -2,6 +2,8 @@ package com.github.aayushjoshi2709.myvid.server.controller;
 
 import com.github.aayushjoshi2709.myvid.server.dto.video.CreateVideoDto;
 import com.github.aayushjoshi2709.myvid.server.dto.video.GetVideoDto;
+import com.github.aayushjoshi2709.myvid.server.dto.video.UpdateVideoDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +32,12 @@ public class VideoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<GetVideoDto> addVideo(@RequestBody CreateVideoDto entity) {
+    public ResponseEntity<GetVideoDto> addVideo(@RequestBody @Valid CreateVideoDto entity) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.videoService.addVideo(entity));
     }
 
     @PutMapping("/{videoId}")
-    public ResponseEntity<GetVideoDto> updateVideo(@PathVariable UUID videoId, @RequestBody CreateVideoDto updatedVideoData){
+    public ResponseEntity<GetVideoDto> updateVideo(@PathVariable UUID videoId, @RequestBody @Valid UpdateVideoDto updatedVideoData){
         return ResponseEntity.ok(this.videoService.updateById(videoId, updatedVideoData));
     }
 
