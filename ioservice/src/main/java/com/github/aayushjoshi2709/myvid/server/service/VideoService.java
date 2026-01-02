@@ -2,6 +2,7 @@ package com.github.aayushjoshi2709.myvid.server.service;
 
 import com.github.aayushjoshi2709.myvid.server.dto.video.CreateVideoDto;
 import com.github.aayushjoshi2709.myvid.server.dto.video.GetVideoDto;
+import com.github.aayushjoshi2709.myvid.server.dto.video.UpdateVideoDto;
 import com.github.aayushjoshi2709.myvid.server.entity.Video;
 
 import java.util.List;
@@ -11,6 +12,6 @@ public interface VideoService {
     List<GetVideoDto> getVideos();
     GetVideoDto findById(UUID id);
     GetVideoDto addVideo(CreateVideoDto createVideo);
-    GetVideoDto updateById(UUID id, CreateVideoDto updatedVideoData);
+    GetVideoDto updateById(UUID id, UpdateVideoDto updatedVideoData);
     void deleteVideoById(UUID id);
 }

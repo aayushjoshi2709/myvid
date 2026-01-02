@@ -2,10 +2,12 @@ package com.github.aayushjoshi2709.myvid.server.service.impl;
 
 import com.github.aayushjoshi2709.myvid.server.dto.user.CreateUserDto;
 import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
+import com.github.aayushjoshi2709.myvid.server.dto.user.UpdateUserDto;
 import com.github.aayushjoshi2709.myvid.server.entity.User;
 import com.github.aayushjoshi2709.myvid.server.entity.enums.UserStatus;
 import com.github.aayushjoshi2709.myvid.server.mapper.user.CreateUserMapper;
 import com.github.aayushjoshi2709.myvid.server.mapper.user.GetUserMapper;
+import com.github.aayushjoshi2709.myvid.server.mapper.user.UpdateUserMapper;
 import com.github.aayushjoshi2709.myvid.server.repository.UserRepository;
 import com.github.aayushjoshi2709.myvid.server.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final GetUserMapper getUserMapper;
     private final CreateUserMapper createUserMapper;
+    private final UpdateUserMapper updateUserMapper;
 
 
     private User getUserFromDb(UUID userId){
@@ -32,20 +35,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserDto getUser(UUID userId) {
         User user = getUserFromDb(userId);
-        return getUserMapper.toDto(user);
+        return this.getUserMapper.toDto(user);
     }
 
     @Override
     public GetUserDto registerUser(CreateUserDto userDetails) {
         User user = createUserMapper.toEntity(userDetails);
         User createdUser = this.userRepository.save(user);
-        return getUserMapper.toDto(createdUser);
+        return this.getUserMapper.toDto(createdUser);
     }
 
     @Override
-    public GetUserDto updateUser(UUID userId, CreateUserDto userDetails) {
+    public GetUserDto updateUser(UUID userId, UpdateUserDto userDetails) {
         User user = getUserFromDb(userId);
-        return getUserMapper.toDto(user);
+        this.updateUserMapper.updateUserFromDto(userDetails, user);
+        User updatedUser = this.userRepository.save(user);
+        return this.getUserMapper.toDto(updatedUser);
     }
 
     @Override
