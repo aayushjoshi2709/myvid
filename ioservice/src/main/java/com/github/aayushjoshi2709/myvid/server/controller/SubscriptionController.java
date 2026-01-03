@@ -1,6 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.controller;
 
-import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
+import com.github.aayushjoshi2709.myvid.server.dto.subscription.GetSubscriptionDto;
 import com.github.aayushjoshi2709.myvid.server.dto.video.GetVideoDto;
 import com.github.aayushjoshi2709.myvid.server.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +28,8 @@ public class SubscriptionController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<GetUserDto>> getSubscriptions(){
+    @GetMapping
+    public ResponseEntity<List<GetSubscriptionDto>> getSubscriptions(){
         return ResponseEntity.ok(this.subscriptionService.getAllSubscriptions());
     }
 

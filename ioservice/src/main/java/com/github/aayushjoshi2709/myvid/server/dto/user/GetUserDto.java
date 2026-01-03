@@ -14,7 +14,6 @@ import java.util.UUID;
 public class GetUserDto {
     private UUID id;
     private String username;
-    private String password;
     private String email;
     private String firstName;
     private String lastName;
