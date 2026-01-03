@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/vedio")
+@RequestMapping("/v1/vedio")
 @RequiredArgsConstructor
 public class VideoController {
     private final VideoService videoService;
