@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController("/user")
+@RestController
+@RequestMapping("/v1/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;

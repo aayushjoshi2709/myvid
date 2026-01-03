@@ -47,7 +47,7 @@ public class User extends Common {
     @JoinTable(
             name="user_subscriptions",
             joinColumns = @JoinColumn(name="subscriber_id"),
-            inverseJoinColumns = @JoinColumn(name="subscribed_to_id"),
+            inverseJoinColumns = @JoinColumn(name="subscribed_to_id")
 
     )
     private Set<User> subscribedTo = new HashSet<>();
