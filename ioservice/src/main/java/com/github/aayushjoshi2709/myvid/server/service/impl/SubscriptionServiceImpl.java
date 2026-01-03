@@ -1,6 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.service.impl;
 
-import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
+import com.github.aayushjoshi2709.myvid.server.dto.subscription.GetSubscriptionDto;
 import com.github.aayushjoshi2709.myvid.server.dto.video.GetVideoDto;
 import com.github.aayushjoshi2709.myvid.server.repository.UserRepository;
 import com.github.aayushjoshi2709.myvid.server.service.SubscriptionService;
@@ -27,7 +27,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<GetUserDto> getAllSubscriptions() {
+    public List<GetSubscriptionDto> getAllSubscriptions() {
         return List.of();
     }
 
