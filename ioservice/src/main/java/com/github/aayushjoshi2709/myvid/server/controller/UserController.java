@@ -1,8 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.controller;
 
-import com.github.aayushjoshi2709.myvid.server.dto.user.CreateUserDto;
-import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
-import com.github.aayushjoshi2709.myvid.server.dto.user.UpdateUserDto;
+import com.github.aayushjoshi2709.myvid.server.dto.user.*;
 import com.github.aayushjoshi2709.myvid.server.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +16,22 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<GetUserDto> getUser(@PathVariable UUID userId){
-        return ResponseEntity.ok(this.userService.getUser(userId));
-    }
+
 
     @PostMapping
     public ResponseEntity<GetUserDto> registerUser(@RequestBody @Valid CreateUserDto userDetails){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.registerUser(userDetails));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody @Valid LoginUserDto loginRequest){
+        return ResponseEntity.ok(this.userService.loginUser(loginRequest));
+    }
+
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<GetUserDto> getUser(@PathVariable UUID userId){
+        return ResponseEntity.ok(this.userService.getUser(userId));
     }
 
     @PatchMapping("/{userId}")
