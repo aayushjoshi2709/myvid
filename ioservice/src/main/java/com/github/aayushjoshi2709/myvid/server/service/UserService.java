@@ -1,8 +1,7 @@
 package com.github.aayushjoshi2709.myvid.server.service;
 
-import com.github.aayushjoshi2709.myvid.server.dto.user.CreateUserDto;
-import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
-import com.github.aayushjoshi2709.myvid.server.dto.user.UpdateUserDto;
+import com.github.aayushjoshi2709.myvid.server.dto.user.*;
+import jakarta.validation.Valid;
 
 import java.util.UUID;
 
@@ -11,4 +10,5 @@ public interface UserService {
     GetUserDto registerUser(CreateUserDto userDetails);
     GetUserDto updateUser(UUID userId, UpdateUserDto userDetails);
     void deleteUser(UUID userId);
+    LoginResponseDto loginUser(LoginUserDto loginRequest);
 }

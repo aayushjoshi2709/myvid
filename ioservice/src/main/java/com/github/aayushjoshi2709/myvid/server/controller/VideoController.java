@@ -21,7 +21,7 @@ import java.util.UUID;
 public class VideoController {
     private final VideoService videoService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<GetVideoDto>> getVideos() {
         return ResponseEntity.ok(this.videoService.getVideos());
     }
@@ -31,7 +31,7 @@ public class VideoController {
         return ResponseEntity.ok(this.videoService.findById(videoId));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<GetVideoDto> addVideo(@RequestBody @Valid CreateVideoDto entity) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.videoService.addVideo(entity));
     }
