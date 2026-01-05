@@ -1,6 +1,6 @@
-import VedioDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
 
-const DummyData: VedioDetailsInterface[] = [
+const DummyData: VideoDetailsInterface[] = [
   {
     id: "120",
     thumbnail: "/hq720.jpg",

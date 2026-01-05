@@ -3,7 +3,7 @@ import styles from "./VideoCard.module.css";
 import React from "react";
 import Link from "next/link";
 import RoundedImage from "../RoundedImage/RoundedImage";
-import VedioDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
 import { formatDistanceToNow } from "date-fns";
 import numeral from "numeral";
 
@@ -15,10 +15,11 @@ interface ThumbNailStyles {
   minWidth?: string | number;
 }
 
-interface VideoCardProps extends VedioDetailsInterface {
+interface VideoCardProps {
+  vedioData: VideoDetailsInterface;
   thumbnailStyle?: ThumbNailStyles;
-  channelIconStyle?: object;
-  hideChannelLogo?: boolean;
+  userIconStyle?: object;
+  hideUserIcon?: boolean;
   videoInfoAlignment?: "vertical" | "horizontal";
 }
 
@@ -31,10 +32,10 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
           : "flex flex-col gap-2"
       }
     >
-      <Link href={`/watch/${props.id}`}>
+      <Link href={`/watch/${props.vedioData.id}`}>
         <Image
           id="video-logo"
-          src={props.thumbnail}
+          src={props.vedioData.thumbnail}
           width={0}
           height={0}
           sizes={props.thumbnailStyle?.size || "100vw"}
@@ -55,33 +56,34 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
             : "mt-2 gap-2 flex flex-row"
         }
       >
-        {!props.hideChannelLogo ? (
+        {!props.hideUserIcon ? (
           <RoundedImage
-            imageUrl={props.channel.logo}
-            style={props.channelIconStyle}
+            imageUrl={props.vedioData.createdBy.profilePic}
+            style={props.userIconStyle}
           />
         ) : (
           ""
         )}
         <div className="flex-row gap-0 flex-1 w-full">
-          <Link href={`/watch/${props.id}`} className="m-0 p-0">
+          <Link href={`/watch/${props.vedioData.id}`} className="m-0 p-0">
             <p className="font-semibold line-clamp-2 m-0 p-0 leading-tight text-lg">
-              {props.title}
+              {props.vedioData.title}
             </p>
           </Link>
 
-          <Link href={`/channel/${props.channel.id}`}>
+          <Link href={`/channel/${props.vedioData.createdBy.id}`}>
             <small className="m-0 p-0 leading-tight text-sm">
-              {props.channel.name}
+              {props.vedioData.createdBy.name}
             </small>
           </Link>
           <div className="flex-auto gap-1">
             <small className="m-0 p-0 leading-tight text-sm">
-              {numeral(props.viewCount).format("0.0a").toUpperCase()} view
+              {numeral(props.vedioData.viewCount).format("0.0a").toUpperCase()}{" "}
+              view
             </small>
             <small className="m-0 p-0 leading-tight text-sm"> | </small>
             <small className="m-0 p-0 leading-tight text-sm">
-              {formatDistanceToNow(new Date(props.createdAt), {
+              {formatDistanceToNow(new Date(props.vedioData.createdAt), {
                 addSuffix: false,
               })}
             </small>
