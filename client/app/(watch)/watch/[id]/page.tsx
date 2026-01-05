@@ -3,7 +3,7 @@ import RecomendationList from "@/components/RecomendationList/RecomendationList"
 import RoundedImage from "@/components/RoundedImage/RoundedImage";
 import Image from "next/image";
 import DummyData from "@/constants/DummyData";
-import VedioDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
 
 const WatchPage = async ({
   params,
@@ -14,7 +14,7 @@ const WatchPage = async ({
   const currentlyWatchingIndex = DummyData.findIndex(
     (vedioData) => vedioData.id === id
   );
-  const currentlyWatching: VedioDetailsInterface =
+  const currentlyWatching: VideoDetailsInterface =
     DummyData[currentlyWatchingIndex];
 
   return (

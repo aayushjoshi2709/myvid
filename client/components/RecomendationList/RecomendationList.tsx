@@ -14,7 +14,7 @@ const RecomendationList = (): React.ReactElement => {
               minWidth: "150px",
             }}
             videoInfoAlignment="horizontal"
-            hideChannelLogo={true}
+            hideUserIcon={true}
             {...videoData}
           />
         );

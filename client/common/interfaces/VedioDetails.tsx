@@ -1,12 +1,12 @@
-import ChannelInfo from "./ChannelInfo";
-interface VedioDetailsInterface {
+import UserInfo from "./UserInfo";
+interface VideoDetailsInterface {
   id: string;
   thumbnail: string;
-  channel: ChannelInfo;
+  createdBy: UserInfo;
   title: string;
   createdAt: string;
   viewCount: number;
   description: string;
 }
 
-export default VedioDetailsInterface;
+export default VideoDetailsInterface;
