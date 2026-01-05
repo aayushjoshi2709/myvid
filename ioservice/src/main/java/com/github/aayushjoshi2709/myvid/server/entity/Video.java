@@ -6,11 +6,13 @@ import com.github.aayushjoshi2709.myvid.server.entity.enums.VideoStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @Accessors(chain = true)
 public class Video extends Common {
     @Column(name = "thumbnailUrl", length = 50, nullable = false, unique = true)
@@ -29,7 +31,7 @@ public class Video extends Common {
     @Enumerated
     private VideoStatus status = VideoStatus.CREATED;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userId")
     private User createdBy;
 }

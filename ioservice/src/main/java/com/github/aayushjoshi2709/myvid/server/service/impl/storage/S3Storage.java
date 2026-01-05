@@ -1,6 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.service.impl.storage;
 
-import com.github.aayushjoshi2709.myvid.server.common.entity.StorageResponse;
+import com.github.aayushjoshi2709.myvid.server.dto.storage.StorageResponse;
 import com.github.aayushjoshi2709.myvid.server.service.StorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

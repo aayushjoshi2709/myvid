@@ -3,16 +3,13 @@ package com.github.aayushjoshi2709.myvid.server.service.impl;
 import com.github.aayushjoshi2709.myvid.server.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,21 +17,14 @@ import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    private final String secretKey;
+    @Value("${jwt.secret}")
+    private  String secretKey;
 
-    public  JwtServiceImpl(){
-        try {
-            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey sk = keyGen.generateKey();
-            this.secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
-        }catch(NoSuchAlgorithmException e){
-            throw new RuntimeException(e);
-        }
-    }
 
     private Key getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(
+                secretKey.getBytes(StandardCharsets.UTF_8)
+        );
     }
 
 
@@ -70,7 +60,7 @@ public class JwtServiceImpl implements JwtService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 10))
+                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 10))
                 .and()
                 .signWith(getKey())
                 .compact();

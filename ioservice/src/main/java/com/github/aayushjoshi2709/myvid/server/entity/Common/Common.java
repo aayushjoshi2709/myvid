@@ -3,18 +3,16 @@ package com.github.aayushjoshi2709.myvid.server.entity.Common;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.Getter;
-import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Common {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

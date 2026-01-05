@@ -1,6 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.service;
 
-import com.github.aayushjoshi2709.myvid.server.common.entity.StorageResponse;
+import com.github.aayushjoshi2709.myvid.server.dto.storage.StorageResponse;
 
 import java.util.Map;
 
