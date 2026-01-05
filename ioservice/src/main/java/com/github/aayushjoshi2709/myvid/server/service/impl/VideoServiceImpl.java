@@ -16,6 +16,7 @@ import com.github.aayushjoshi2709.myvid.server.repository.UserRepository;
 import com.github.aayushjoshi2709.myvid.server.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import com.github.aayushjoshi2709.myvid.server.entity.Video;
 import com.github.aayushjoshi2709.myvid.server.repository.VideoRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class VideoServiceImpl implements VideoService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()
                 || auth instanceof AnonymousAuthenticationToken) {
-            throw new RuntimeException("User not authenticated");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not authenticated");
         }
         return ((UserDetails) Objects.requireNonNull(auth.getPrincipal())).getUsername();
     }
@@ -49,48 +51,62 @@ public class VideoServiceImpl implements VideoService {
     private User getCurrentUser() {
         String username = getCurrentUsername();
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
-    private Video findByIdInDb(UUID id){
-        return this.videoRepository.findById(id).orElseThrow();
+    private Video findVideoById(UUID videoId){
+        return this.videoRepository.findById(videoId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
     }
 
     @Override
     public List<GetVideoDto> getVideos() {
         log.info("Going to get videos");
         List<Video> videos =  this.videoRepository.findAll();
-        log.info("videos found = {}", videos);
-        return videos.stream().map(this.getVideoMapper::toDto).toList();
+        List<GetVideoDto> getVideosResponse = videos.stream().map(this.getVideoMapper::toDto).toList();
+        log.info("videos found = {}", getVideosResponse);
+        return getVideosResponse;
     }
 
     @Override
     public GetVideoDto findById(UUID videoId) {
-        return this.getVideoMapper.toDto(this.findByIdInDb(videoId));
+        log.info("Going to get video with id: {}", videoId);
+        Video video = this.findVideoById(videoId);
+        GetVideoDto findByIdResponse = this.getVideoMapper.toDto(video);
+        log.info("Got video for id: {} with values: {}", videoId, findByIdResponse);
+        return findByIdResponse;
     }
 
     @Override
     @Transactional
     public GetVideoDto addVideo(CreateVideoDto createVideo) {
+        log.info("Going to add new video with following data: {}", createVideo);
         Video video = this.createVideoMapper.toEntity(createVideo);
         User user = getCurrentUser();
         video.setCreatedBy(user);
         Video savedVideo = this.videoRepository.save(video);
-        return this.getVideoMapper.toDto(savedVideo);
+        GetVideoDto addVideoResponse = this.getVideoMapper.toDto(savedVideo);
+        log.info("Video data saved successfully: {}", addVideoResponse);
+        return addVideoResponse;
     }
 
     @Override
     public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData) {
-        Video video = this.findByIdInDb(videoId);
+        log.info("Going to update video with id {} with the following data {}", videoId, updatedVideoData);
+        Video video = this.findVideoById(videoId);
+        log.info("Video data for id: {} before update: {}", videoId, video);
         this.updateVideoMapper.updateVideo(updatedVideoData, video);
         Video updatedVideo = this.videoRepository.save(video);
-        return this.getVideoMapper.toDto(updatedVideo);
+        GetVideoDto updateVideoResponse = getVideoMapper.toDto(updatedVideo);
+        log.info("Video data for id: {} after update {}", videoId, updateVideoResponse);
+        return updateVideoResponse;
     }
 
     @Override
-    public void deleteVideoById(UUID id) {
-        Video video = this.findByIdInDb(id);
+    public void deleteVideoById(UUID videoId) {
+        log.info("Going to delete video with id: {}", videoId);
+        Video video = this.findVideoById(videoId);
         video.setStatus(VideoStatus.DELETED);
         this.videoRepository.save(video);
+        log.info("Video with id: {} deleted successfully", videoId);
     }
 }

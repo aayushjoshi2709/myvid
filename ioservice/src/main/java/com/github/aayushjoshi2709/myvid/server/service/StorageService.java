@@ -7,4 +7,5 @@ import java.util.Map;
 public interface StorageService {
     StorageResponse getPresignedUrl(String keyName, Map<String, String> metaData);
     String getDataFromStorage(String originalUrl);
+    String generateKey(String name);
 }
