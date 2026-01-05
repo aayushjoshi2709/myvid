@@ -20,7 +20,7 @@ public class User extends Common {
     @Column(name="username", length = 25, nullable = false, unique = true)
     private String username;
 
-    @Column(name="password", length = 35, nullable = false)
+    @Column(name="password", length = 60, nullable = false)
     private String password;
 
     @Column(name="email", length = 35, nullable = false, unique = true)

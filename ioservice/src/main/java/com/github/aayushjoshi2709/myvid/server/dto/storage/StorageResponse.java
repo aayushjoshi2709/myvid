@@ -1,4 +1,4 @@
-package com.github.aayushjoshi2709.myvid.server.common.entity;
+package com.github.aayushjoshi2709.myvid.server.dto.storage;
 
 
 import lombok.AllArgsConstructor;

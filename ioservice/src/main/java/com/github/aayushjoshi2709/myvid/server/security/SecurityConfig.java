@@ -29,11 +29,18 @@ public class SecurityConfig extends HttpHeaderSecurityFilter {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/user/login", "/api/v1/user", "/api/v1/vedio")
+                        .requestMatchers(
+                                "/v1/user/login",
+                                "/v1/user",
+                                "/v1/vedio",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html"
+                        )
                         .permitAll()
                         .anyRequest().authenticated())
-//                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+                //.formLogin(Customizer.withDefaults())
+                //.httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
