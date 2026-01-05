@@ -21,10 +21,10 @@ public class Video extends Common {
     @Column(name = "videoUrl", length = 50, nullable = false, unique = true)
     private String videoUrl;
 
-    @Column(name = "title", length = 100, nullable = false, unique = true)
+    @Column(name = "title", length = 100, nullable = false)
     private String title;
 
-    @Column(name = "description", length = 500, nullable = false, unique = true)
+    @Column(name = "description", length = 500, nullable = false)
     private String description;
     private Long viewCount;
 
