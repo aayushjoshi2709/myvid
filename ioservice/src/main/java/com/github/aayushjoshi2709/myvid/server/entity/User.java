@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@ToString(exclude = "videos")
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")

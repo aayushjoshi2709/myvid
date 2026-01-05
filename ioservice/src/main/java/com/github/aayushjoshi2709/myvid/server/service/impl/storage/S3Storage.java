@@ -4,15 +4,20 @@ import com.github.aayushjoshi2709.myvid.server.dto.storage.StorageResponse;
 import com.github.aayushjoshi2709.myvid.server.service.StorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.UUID;
 
-@ConditionalOnProperty(name="aws.s3.enabled", value = "true")
+
+@ConditionalOnProperty(name="aws.s3.enabled", havingValue = "true")
+@Service
 public class S3Storage implements StorageService {
 
     @Value("${aws.s3.bucketname}")
@@ -46,5 +51,11 @@ public class S3Storage implements StorageService {
     @Override
     public String getDataFromStorage(String originalUrl) {
         return "";
+    }
+
+    @Override
+    public String generateKey(String name) {
+        String namePlusDate = name + "_" + LocalDateTime.now();
+        return namePlusDate + UUID.randomUUID();
     }
 }

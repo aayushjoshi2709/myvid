@@ -32,6 +32,6 @@ public class Video extends Common {
     private VideoStatus status = VideoStatus.CREATED;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="userId")
+    @JoinColumn(name="user_id")
     private User createdBy;
 }
