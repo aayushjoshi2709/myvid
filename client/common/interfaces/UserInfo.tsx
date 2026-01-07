@@ -1,6 +1,6 @@
 interface UserInfo {
   profilePic: string;
-  name: string;
+  username: string;
   id: string;
 }
 

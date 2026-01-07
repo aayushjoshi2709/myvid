@@ -27,7 +27,7 @@ const SidePanelView = ({
       <TopNav menuButtonClickAction={toggleSideBarLabels} />
       <div className="flex-1 flex min-h-0">
         <SidePanel areLabelVisible={labelVisible} />
-        <div className="overflow-y-scroll">{children}</div>
+        <div className="overflow-y-scroll w-full">{children}</div>
       </div>
     </div>
   ) : (

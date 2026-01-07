@@ -1,10 +1,11 @@
+import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
 import VideoCard from "@/components/VideoCard/VideoCard";
-import DummyData from "@/constants/DummyData";
 
 const RecomendationList = (): React.ReactElement => {
+  const RecomendationList: VideoDetailsInterface[] = [];
   return (
     <div className="flex flex-col">
-      {DummyData.map((videoData, idx) => {
+      {RecomendationList.map((videoData, idx) => {
         return (
           <VideoCard
             key={idx}

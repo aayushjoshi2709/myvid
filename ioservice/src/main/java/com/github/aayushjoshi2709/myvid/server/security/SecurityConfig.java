@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.filters.HttpHeaderSecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -29,14 +30,15 @@ public class SecurityConfig extends HttpHeaderSecurityFilter {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(
-                                "/v1/user/login",
-                                "/v1/user",
-                                "/v1/vedio",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html"
-                        )
+                        .requestMatchers(HttpMethod.POST,"/v1/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/v1/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/v1/user").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/v1/user").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/v1/vedio", "/v1/vedio/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers( "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html")
                         .permitAll()
                         .anyRequest().authenticated())
                 //.formLogin(Customizer.withDefaults())

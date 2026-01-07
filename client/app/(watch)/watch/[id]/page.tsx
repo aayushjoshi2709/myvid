@@ -2,8 +2,8 @@ import DescriptionCard from "@/components/DescriptionCard/DescriptionCard";
 import RecomendationList from "@/components/RecomendationList/RecomendationList";
 import RoundedImage from "@/components/RoundedImage/RoundedImage";
 import Image from "next/image";
-import DummyData from "@/constants/DummyData";
 import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
+import axios from "axios";
 
 const WatchPage = async ({
   params,
@@ -11,11 +11,11 @@ const WatchPage = async ({
   params: Promise<{ id: string }>;
 }): Promise<React.ReactElement> => {
   const { id } = await params;
-  const currentlyWatchingIndex = DummyData.findIndex(
-    (vedioData) => vedioData.id === id
+  const response = await axios.get(
+    `${process.env.HOST_URL}/api/v1/vedio/${id}`
   );
-  const currentlyWatching: VideoDetailsInterface =
-    DummyData[currentlyWatchingIndex];
+  const currentlyWatching: VideoDetailsInterface = response.data;
+  console.log(currentlyWatching)
 
   return (
     <div className="flex flex-col lg:flex-row p-6 gap-4">
@@ -44,7 +44,7 @@ const WatchPage = async ({
           />
           <div className="flex flex-col mr-4">
             <p className="text-sm">
-              <strong>{currentlyWatching.channel.name}</strong>
+              <strong>{currentlyWatching.createdBy.username}</strong>
             </p>
             <p className="text-sm">Subs Count</p>
           </div>

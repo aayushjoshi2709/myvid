@@ -2,7 +2,7 @@
 import FormInput from "@/components/FormInput/FormInput";
 import TopNav from "@/components/TopNav/TopNav";
 import Link from "next/link";
-const VedioUploadPage = () => {
+const LoginPage = () => {
   function uploadVedio() {}
   return (
     <div className="justify-center flex-1 h-screen items-center">
@@ -60,4 +60,4 @@ const VedioUploadPage = () => {
   );
 };
 
-export default VedioUploadPage;
+export default LoginPage;
