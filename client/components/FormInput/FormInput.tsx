@@ -17,7 +17,7 @@ const FormInput = (props: FromInputProps): React.ReactElement => {
       <input
         type={props.inputType}
         id={props.id}
-        className="border rounded-2xl border-[#bbbbbb] text-sm rounded-base w-full px-3 py-2.5 shadow-xs"
+        className="border rounded-xl border-[#bbbbbb] text-sm rounded-base w-full px-3 py-2.5 shadow-xs"
         placeholder={props.placeHolder}
         required={props.required}
       />

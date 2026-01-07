@@ -1,11 +1,13 @@
 "use client";
 import FormInput from "@/components/FormInput/FormInput";
+
+import UploadIcon from "@mui/icons-material/UploadSharp";
 const VedioUploadPage = () => {
   function uploadVedio() {}
   return (
-    <div className="justify-center flex-1 bg-amber-400 h-screen items-center">
-      <form className="max-w-sm mx-auto p-4 bg-red-300">
-        <h1 className="text-4xl text-center">Video Upload</h1>
+    <div className="justify-center  mt-16 flex-1 w-full h-screen items-center">
+      <form className="max-w-sm border-gray-50 rounded-2xl shadow-2xl border mx-auto p-4">
+        <h1 className="text-4xl text-center my-4">Video Upload</h1>
         <FormInput
           title="Title"
           inputType="text"
@@ -30,18 +32,12 @@ const VedioUploadPage = () => {
           id="thumbnail"
           required={true}
         />
-        <div className="mb-5 flex gap-2">
-          <input
-            className="border rounded-2xl bg-[#eaeaea] border-[#bbbbbb] p-1 px-6"
-            type="button"
-            value="Upload"
-            onClick={uploadVedio}
-          />
-          <input
-            className="border rounded-2xl bg-[#eaeaea] border-[#bbbbbb] p-1 px-6"
-            type="reset"
-            value="Cancel"
-          />
+        <hr className=" border-gray-100 border" />
+        <div className="my-4 w-full flex justify-center">
+          <button className="border rounded-3xl text-center font-bold bg-green-500 text-white border-[#eee2e2] shadow-xl p-2 px-6">
+            <UploadIcon />
+            Upload
+          </button>
         </div>
       </form>
     </div>
