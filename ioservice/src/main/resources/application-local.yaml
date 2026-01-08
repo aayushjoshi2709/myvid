@@ -20,5 +20,9 @@ jwt:
 aws:
   s3:
     enabled: true
+    type: local
     bucket-name: my-vid-bucket
-    region: ap-south
+    region: us-east-1
+  access-key: test
+  secret-key: test
+  endpoint: http://localhost:4566

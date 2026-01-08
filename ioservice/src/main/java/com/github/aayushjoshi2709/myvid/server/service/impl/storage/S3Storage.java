@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
-
-@ConditionalOnProperty(name="aws.s3.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "aws.s3.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "aws.s3.type", havingValue = "aws")
 @Service
 public class S3Storage implements StorageService {
 
@@ -28,7 +28,7 @@ public class S3Storage implements StorageService {
 
     @Override
     public StorageResponse getPresignedUrl(String keyName, Map<String, String> metaData) {
-        try(S3Presigner presigner = S3Presigner.create()){
+        try (S3Presigner presigner = S3Presigner.create()) {
             String originalUrl = "https://s3." + region + ".amazonaws.com/" + bucketName + "/" + keyName;
             PutObjectRequest objectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
@@ -43,8 +43,7 @@ public class S3Storage implements StorageService {
             PresignedPutObjectRequest presignedRequest = presigner.presignPutObject(presignRequest);
             return new StorageResponse(
                     presignedRequest.url().toExternalForm(),
-                    originalUrl
-            );
+                    originalUrl);
         }
     }
 

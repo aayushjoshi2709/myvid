@@ -1,31 +1,13 @@
 import { NextResponse } from "next/server";
-import { HttpStatusCode } from "axios";
+import { ApiClient } from "@/app/lib/api";
+import { LoginRequestBody, LoginResponse } from "@/common/interfaces/Login";
 
-interface LoginRequestBody{
-    username: string;
-    password: string;
-}
 
 export async function POST(req:Request){
     const body: LoginRequestBody = await req.json();
-
-    const res:Response = await fetch(`${process.env.HOST_URL}/api/v1/user/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-
-
-    if(!res.ok){
-        return NextResponse.json(
-            {message: "Invalid credentials"},
-            {status: HttpStatusCode.Unauthorized}
-        )
-    }
-
-    const data = await res.json();
+    const apiClient = new ApiClient<LoginResponse>(process.env.HOST_URL as string);
+    const data:LoginResponse = await apiClient.post("/api/v1/user/login", body);
     const response = NextResponse.json({ success: true });
-
     response.cookies.set("accessToken", data.accessToken, {
         httpOnly: true,
         secure: true,
@@ -33,6 +15,5 @@ export async function POST(req:Request){
         path: "/",
         maxAge: 60 * 60,
     });
-
     return response;
 }
