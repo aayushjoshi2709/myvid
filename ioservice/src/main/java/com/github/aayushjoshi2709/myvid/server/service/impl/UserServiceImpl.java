@@ -31,11 +31,9 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
-
-    private User getUserFromDb(UUID userId){
+    private User getUserFromDb(UUID userId) {
         return this.userRepository.findById(userId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not found")
-        );
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not found"));
     }
 
     @Override
@@ -46,9 +44,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetUserDto registerUser(CreateUserDto userDetails) {
-        if(userDetails.getPassword() != null){
+        if (userDetails.getPassword() != null) {
             userDetails.setPassword(bCryptPasswordEncoder.encode(userDetails.getPassword()));
         }
+
+        User existingUser = this.userRepository.findByEmailOrUsername(userDetails.getEmail(),
+                userDetails.getUsername()).orElse(null);
+
+        if (existingUser != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with same email or username already exist");
+        }
+
         User user = createUserMapper.toEntity(userDetails);
         User createdUser = this.userRepository.save(user);
         return this.getUserMapper.toDto(createdUser);
@@ -56,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetUserDto updateUser(UUID userId, UpdateUserDto userDetails) {
-        if(userDetails.getPassword() != null){
+        if (userDetails.getPassword() != null) {
             userDetails.setPassword(bCryptPasswordEncoder.encode(userDetails.getPassword()));
         }
         User user = getUserFromDb(userId);
@@ -75,10 +81,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponseDto loginUser(LoginUserDto loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        if(!authentication.isAuthenticated()){
+        if (!authentication.isAuthenticated()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid username or password");
         }
 

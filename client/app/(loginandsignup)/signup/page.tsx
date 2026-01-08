@@ -2,8 +2,59 @@
 import FormInput from "@/components/FormInput/FormInput";
 import TopNav from "@/components/TopNav/TopNav";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+
 const SignUpPage = () => {
-  function uploadVedio() {}
+
+  const router = useRouter();
+  // loader state
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // data to be stored
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [phoneNo, setPhoneNo] = useState<number>(0);
+
+  async function createUser(e: React.FormEvent) {
+    e.preventDefault();
+    if (confirmPassword != password) {
+      return;
+    }
+
+    setLoading(true);
+
+    const response: Response = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+        username,
+        phoneNo,
+        firstName,
+        lastName,
+      }),
+    });
+
+
+    if (response.ok) {
+      toast.success("User has been created successfully. Please Login to continue");
+      router.push("/login");
+    } else {
+      console.log(response);
+      toast.error("Error creating user");
+    }
+
+    setLoading(false);
+  }
+
   return (
     <div className="justify-center flex-1 h-screen items-center">
       <TopNav />
@@ -21,6 +72,8 @@ const SignUpPage = () => {
                     inputType="text"
                     id="fname"
                     required={true}
+                    value={firstName}
+                    onChange={(value) => setFirstName(value as string)}
                   />
                 </div>
                 <div className="flex-1">
@@ -29,6 +82,8 @@ const SignUpPage = () => {
                     inputType="text"
                     id="lname"
                     required={true}
+                    value={lastName}
+                    onChange={(value) => setLastName(value as string)}
                   />
                 </div>
               </div>
@@ -40,6 +95,8 @@ const SignUpPage = () => {
                     inputType="email"
                     id="email"
                     required={true}
+                    value={email}
+                    onChange={(value) => setEmail(value as string)}
                   />
                 </div>
                 <div className="flex-1">
@@ -49,6 +106,8 @@ const SignUpPage = () => {
                     id="username"
                     placeHolder="Enter the username"
                     required={true}
+                    value={username}
+                    onChange={(value) => setUsername(value as string)}
                   />
                 </div>
               </div>
@@ -60,6 +119,8 @@ const SignUpPage = () => {
                     id="Password"
                     placeHolder="Enter the password"
                     required={true}
+                    value={password}
+                    onChange={(value) => setPassword(value as string)}
                   />
                 </div>
                 <div className="flex-1">
@@ -69,6 +130,8 @@ const SignUpPage = () => {
                     id="Confirm Password"
                     placeHolder="Enter the password again"
                     required={true}
+                    value={confirmPassword}
+                    onChange={(value) => setConfirmPassword(value as string)}
                   />
                 </div>
               </div>
@@ -80,6 +143,8 @@ const SignUpPage = () => {
                     inputType="phone"
                     id="phone"
                     required={true}
+                    value={phoneNo?.toString()}
+                    onChange={(value) => setPhoneNo(Number(value))}
                   />
                 </div>
               </div>
@@ -88,8 +153,8 @@ const SignUpPage = () => {
                   <input
                     className="border rounded-2xl bg-[#eaeaea] border-[#bbbbbb] p-1 px-6"
                     type="button"
-                    value="Create User"
-                    onClick={uploadVedio}
+                    value={loading ? "Creating user..." : "Create User"}
+                    onClick={createUser}
                   />
                 </div>
                 <div>
