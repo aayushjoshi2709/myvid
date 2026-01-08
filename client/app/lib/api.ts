@@ -1,12 +1,12 @@
 import { cookies } from "next/headers";
 
 export class ApiClient<T> {
-  baseUrl: string = "";
+  #baseUrl: string = "";
   constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+    this.#baseUrl = baseUrl;
   }
 
-  async buildHeader(): Promise<HeadersInit> {
+  async #buildHeader(): Promise<HeadersInit> {
     const headers: { [key: string]: string } = {
       "Content-Type": "application/json",
     };
@@ -20,8 +20,8 @@ export class ApiClient<T> {
   }
 
   async post(endpoint: string, body: object | null): Promise<T> {
-    const headers = await this.buildHeader();
-    const res: Response = await fetch(`${this.baseUrl}${endpoint}`, {
+    const headers = await this.#buildHeader();
+    const res: Response = await fetch(`${this.#baseUrl}${endpoint}`, {
       method: "POST",
       headers,
       body: body ? JSON.stringify(body) : null,
@@ -35,8 +35,8 @@ export class ApiClient<T> {
   }
 
   async get(endpoint: string): Promise<T> {
-    const headers = await this.buildHeader();
-    const res: Response = await fetch(`${this.baseUrl}${endpoint}`, {
+    const headers = await this.#buildHeader();
+    const res: Response = await fetch(`${this.#baseUrl}${endpoint}`, {
       headers,
     });
     if (!res.ok) {
