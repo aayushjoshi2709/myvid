@@ -22,8 +22,7 @@ const UserDetailsPage = () => {
     const fetchUserDetails = async () => {
       const response: Response = await fetch("/api/user/details");
       if (response.ok) {
-        const jsonResponse = await response.json();
-        const userDetails: UserInfo = jsonResponse.data;
+        const userDetails: UserInfo = await response.json();
         setFirstName(userDetails.firstName);
         setLastName(userDetails.lastName);
         setEmail(userDetails.email);

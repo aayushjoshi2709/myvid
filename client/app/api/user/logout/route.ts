@@ -1,18 +1,9 @@
-import { cookies } from "next/headers";
+import { ApiClient } from "@/app/lib/api";
 import { NextResponse } from "next/server";
 
 export async function POST(){
-    const cookieStore = await cookies();
-    const token = cookieStore.get("accessToken")?.value;
-    if(token){
-        await fetch(`${process.env.HOST_URL}/api/v1/logout`,{
-            method: "POST",
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        })
-    }
-
+    const apiClient = new ApiClient<null>(process.env.HOST_URL as string);
+    await apiClient.post("/api/v1/logout", null);
     const res = NextResponse.json({success: true})
         res.cookies.set("accessToken", "", {
         maxAge: 0,
