@@ -12,10 +12,6 @@ interface SignupRequestBody{
 
 export async function POST(req:Request){
     const body: SignupRequestBody = await req.json();
-
-    console.log(body)
-
-
     const res:Response = await fetch(`${process.env.HOST_URL}/api/v1/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

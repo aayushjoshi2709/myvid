@@ -5,6 +5,7 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNo: number;
 }
 
 export interface CreateInfoForVedio {
