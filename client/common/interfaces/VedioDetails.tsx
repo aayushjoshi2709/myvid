@@ -1,8 +1,8 @@
-import UserInfo from "./UserInfo";
+import { CreateInfoForVedio } from "./UserInfo";
 interface VideoDetailsInterface {
   id: string;
   thumbnail: string;
-  createdBy: UserInfo;
+  createdBy: CreateInfoForVedio;
   title: string;
   createdAt: string;
   viewCount: number;

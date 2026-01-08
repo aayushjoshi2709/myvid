@@ -6,7 +6,7 @@ import MyvidLogo from "../MyvidLogo/MyvidLogo";
 import Link from "next/link";
 
 interface TopNavProps {
-  menuButtonClickAction: () => void;
+  menuButtonClickAction?: () => void;
 }
 
 const TopNav = ({ menuButtonClickAction }: TopNavProps): React.ReactElement => {
@@ -15,11 +15,15 @@ const TopNav = ({ menuButtonClickAction }: TopNavProps): React.ReactElement => {
       id="top-nav"
       className="w-full bg-white flex justify-between items-center flex-row p-3 px-6 border-b border-gray-300 "
     >
-      <div id="menu">
-        <button onClick={menuButtonClickAction}>
-          <MenuOutlinedIcon />
-        </button>
-      </div>
+      {menuButtonClickAction ? (
+        <div id="menu">
+          <button onClick={menuButtonClickAction}>
+            <MenuOutlinedIcon />
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
       <Link href="/" className="hidden md:flex md:flex-row">
         <MyvidLogo height={40} width={160} />
       </Link>

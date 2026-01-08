@@ -2,8 +2,39 @@
 import FormInput from "@/components/FormInput/FormInput";
 import TopNav from "@/components/TopNav/TopNav";
 import Link from "next/link";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 const LoginPage = () => {
-  function uploadVedio() {}
+  const router = useRouter();
+  // loader state
+  const [loading, setLoading] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  async function loginUser(e: React.FormEvent) {
+    e.preventDefault();
+
+    setLoading(true);
+    const response: Response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        password,
+        username,
+      }),
+    });
+
+    if (response.ok) {
+      toast.success("Login successful");
+      router.push("/");
+    } else {
+      toast.error("Error logging in");
+    }
+
+    setLoading(false);
+  }
   return (
     <div className="justify-center flex-1 h-screen items-center">
       <TopNav />
@@ -21,6 +52,8 @@ const LoginPage = () => {
                     inputType="username"
                     id="username"
                     required={true}
+                    value={username}
+                    onChange={(value) => setUsername(value as string)}
                   />
                 </div>
                 <div className="flex-1">
@@ -29,6 +62,8 @@ const LoginPage = () => {
                     inputType="text"
                     id="Password"
                     placeHolder="Enter the password"
+                    value={password}
+                    onChange={(value) => setPassword(value as string)}
                     required={true}
                   />
                 </div>
@@ -38,8 +73,8 @@ const LoginPage = () => {
                   <input
                     className="border rounded-2xl bg-[#eaeaea] border-[#bbbbbb] p-1 px-6"
                     type="button"
-                    value="Login"
-                    onClick={uploadVedio}
+                    value={loading ? "Logging In ..." : "Login"}
+                    onClick={loginUser}
                   />
                 </div>
                 <div>
