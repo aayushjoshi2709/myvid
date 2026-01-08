@@ -17,7 +17,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     setLoading(true);
-    const response: Response = await fetch("/api/login", {
+    const response: Response = await fetch("/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

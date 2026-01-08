@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { HttpStatusCode } from "axios";
 
 interface SignupRequestBody{
     username: string;
