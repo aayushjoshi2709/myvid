@@ -20,11 +20,10 @@ const UserDetailsPage = () => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response: Response = await fetch("/api/userDetails");
+      const response: Response = await fetch("/api/user/details");
       if (response.ok) {
         const jsonResponse = await response.json();
         const userDetails: UserInfo = jsonResponse.data;
-        console.log(userDetails);
         setFirstName(userDetails.firstName);
         setLastName(userDetails.lastName);
         setEmail(userDetails.email);

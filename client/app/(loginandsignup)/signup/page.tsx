@@ -30,7 +30,7 @@ const SignUpPage = () => {
 
     setLoading(true);
 
-    const response: Response = await fetch("/api/signup", {
+    const response: Response = await fetch("/api/user/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -24,8 +24,6 @@ export async function GET(){
         const response = NextResponse.json({ data });
         return response;
     }
-
-
     const response = NextResponse.json({ message: "Invalid token" }, {status: HttpStatusCode.BadRequest});
     return response;
 }
