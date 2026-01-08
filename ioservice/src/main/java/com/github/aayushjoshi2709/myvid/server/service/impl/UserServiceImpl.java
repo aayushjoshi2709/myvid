@@ -11,13 +11,17 @@ import com.github.aayushjoshi2709.myvid.server.service.JwtService;
 import com.github.aayushjoshi2709.myvid.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -36,9 +40,30 @@ public class UserServiceImpl implements UserService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not found"));
     }
 
+    private String getCurrentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()
+                || auth instanceof AnonymousAuthenticationToken) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not authenticated");
+        }
+        return ((UserDetails) Objects.requireNonNull(auth.getPrincipal())).getUsername();
+    }
+
+    public User getCurrentUserDetails() {
+        String username = getCurrentUsername();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
     @Override
     public GetUserDto getUser(UUID userId) {
         User user = getUserFromDb(userId);
+        return this.getUserMapper.toDto(user);
+    }
+
+    @Override
+    public GetUserDto getCurrentUser() {
+        User user = this.getCurrentUserDetails();
         return this.getUserMapper.toDto(user);
     }
 

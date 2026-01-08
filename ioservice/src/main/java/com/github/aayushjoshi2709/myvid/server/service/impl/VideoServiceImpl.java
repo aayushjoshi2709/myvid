@@ -13,6 +13,7 @@ import com.github.aayushjoshi2709.myvid.server.mapper.video.CreateVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.GetVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.UpdateVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.repository.UserRepository;
+import com.github.aayushjoshi2709.myvid.server.service.UserService;
 import com.github.aayushjoshi2709.myvid.server.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,31 +38,17 @@ public class VideoServiceImpl implements VideoService {
     private final CreateVideoMapper createVideoMapper;
     private final GetVideoMapper getVideoMapper;
     private final UpdateVideoMapper updateVideoMapper;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    private String getCurrentUsername(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()
-                || auth instanceof AnonymousAuthenticationToken) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not authenticated");
-        }
-        return ((UserDetails) Objects.requireNonNull(auth.getPrincipal())).getUsername();
-    }
-
-    private User getCurrentUser() {
-        String username = getCurrentUsername();
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    private Video findVideoById(UUID videoId){
-        return this.videoRepository.findById(videoId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
+    private Video findVideoById(UUID videoId) {
+        return this.videoRepository.findById(videoId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
     }
 
     @Override
     public List<GetVideoDto> getVideos() {
         log.info("Going to get videos");
-        List<Video> videos =  this.videoRepository.findAll();
+        List<Video> videos = this.videoRepository.findAll();
         List<GetVideoDto> getVideosResponse = videos.stream().map(this.getVideoMapper::toDto).toList();
         log.info("videos found = {}", getVideosResponse);
         return getVideosResponse;
@@ -81,7 +68,7 @@ public class VideoServiceImpl implements VideoService {
     public GetVideoDto addVideo(CreateVideoDto createVideo) {
         log.info("Going to add new video with following data: {}", createVideo);
         Video video = this.createVideoMapper.toEntity(createVideo);
-        User user = getCurrentUser();
+        User user = this.userService.getCurrentUserDetails();
         video.setCreatedBy(user);
         Video savedVideo = this.videoRepository.save(video);
         GetVideoDto addVideoResponse = this.getVideoMapper.toDto(savedVideo);

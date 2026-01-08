@@ -16,31 +16,34 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-
-
     @PostMapping
-    public ResponseEntity<GetUserDto> registerUser(@RequestBody @Valid CreateUserDto userDetails){
+    public ResponseEntity<GetUserDto> registerUser(@RequestBody @Valid CreateUserDto userDetails) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.registerUser(userDetails));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody @Valid LoginUserDto loginRequest){
+    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody @Valid LoginUserDto loginRequest) {
         return ResponseEntity.ok(this.userService.loginUser(loginRequest));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<GetUserDto> getCurrentUser() {
+        return ResponseEntity.ok(this.userService.getCurrentUser());
+    }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<GetUserDto> getUser(@PathVariable UUID userId){
+    public ResponseEntity<GetUserDto> getUser(@PathVariable UUID userId) {
         return ResponseEntity.ok(this.userService.getUser(userId));
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<GetUserDto> updateUser(@PathVariable UUID userId, @RequestBody @Valid UpdateUserDto updatedUserDetails){
+    public ResponseEntity<GetUserDto> updateUser(@PathVariable UUID userId,
+            @RequestBody @Valid UpdateUserDto updatedUserDetails) {
         return ResponseEntity.ok(this.userService.updateUser(userId, updatedUserDetails));
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable  UUID userId){
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
         this.userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
