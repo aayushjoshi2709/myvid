@@ -1,5 +1,5 @@
 "use client";
-import FormInput from "@/components/FormInput/FormInput";
+import TextInput from "@/components/TextInput/TextInput";
 import TopNav from "@/components/TopNav/TopNav";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -67,7 +67,7 @@ const SignUpPage = () => {
             <main className="mt-8">
               <div className="flex gap-2">
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="First Name"
                     inputType="text"
                     id="fname"
@@ -77,7 +77,7 @@ const SignUpPage = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Last Name"
                     inputType="text"
                     id="lname"
@@ -90,7 +90,7 @@ const SignUpPage = () => {
 
               <div className="flex gap-2">
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Email"
                     inputType="email"
                     id="email"
@@ -100,7 +100,7 @@ const SignUpPage = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Username"
                     inputType="text"
                     id="username"
@@ -113,7 +113,7 @@ const SignUpPage = () => {
               </div>
               <div className="flex gap-2">
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Password"
                     inputType="text"
                     id="Password"
@@ -124,7 +124,7 @@ const SignUpPage = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Confirm Password"
                     inputType="text"
                     id="Confirm Password"
@@ -138,7 +138,7 @@ const SignUpPage = () => {
 
               <div className="flex gap-2">
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Phone No"
                     inputType="phone"
                     id="phone"

@@ -1,6 +1,5 @@
 package com.github.aayushjoshi2709.myvid.server.entity;
 
-import com.github.aayushjoshi2709.myvid.server.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

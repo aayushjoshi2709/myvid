@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/vedio")
+@RequestMapping("/v1/video")
 @RequiredArgsConstructor
 public class VideoController {
     private final VideoService videoService;
@@ -27,7 +27,7 @@ public class VideoController {
     }
 
     @GetMapping("/{videoId}")
-    public ResponseEntity<GetVideoDto> getVideo(@PathVariable UUID videoId){
+    public ResponseEntity<GetVideoDto> getVideo(@PathVariable UUID videoId) {
         return ResponseEntity.ok(this.videoService.findById(videoId));
     }
 
@@ -37,12 +37,13 @@ public class VideoController {
     }
 
     @PutMapping("/{videoId}")
-    public ResponseEntity<GetVideoDto> updateVideo(@PathVariable UUID videoId, @RequestBody @Valid UpdateVideoDto updatedVideoData){
+    public ResponseEntity<GetVideoDto> updateVideo(@PathVariable UUID videoId,
+            @RequestBody @Valid UpdateVideoDto updatedVideoData) {
         return ResponseEntity.ok(this.videoService.updateById(videoId, updatedVideoData));
     }
 
     @DeleteMapping("/{videoId}")
-    public ResponseEntity<Video> deleteVideo(@PathVariable UUID videoId){
+    public ResponseEntity<Video> deleteVideo(@PathVariable UUID videoId) {
         this.videoService.deleteVideoById(videoId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

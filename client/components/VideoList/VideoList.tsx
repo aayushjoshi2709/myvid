@@ -1,8 +1,8 @@
-import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/VideoDetails";
 import VideoCard from "@/components/VideoCard/VideoCard";
 import axios from "axios";
 const VideoList = async (): Promise<React.ReactElement> => {
-  const response = await axios.get(`${process.env.HOST_URL}/api/v1/vedio`);
+  const response = await axios.get(`${process.env.HOST_URL}/api/v1/video`);
   const videoData: VideoDetailsInterface[] = response.data;
   return (
     <div className="overflow-y-scroll">
@@ -11,7 +11,7 @@ const VideoList = async (): Promise<React.ReactElement> => {
           return (
             <VideoCard
               key={idx}
-              vedioData={videoData}
+              videoData={videoData}
               userIconStyle={{
                 width: "3em",
                 aspectRatio: "1/1",

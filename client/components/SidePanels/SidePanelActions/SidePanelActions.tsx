@@ -28,7 +28,7 @@ const SidePanelActions = ({ areLabelVisible }: SidePanelActionsProps) => {
       <SidePanelActionItem
         imageIcon={<UploadOutlinedIcon />}
         url="/upload"
-        label="Upload Vedio"
+        label="Upload video"
         areLabelVisible={areLabelVisible}
       />
 

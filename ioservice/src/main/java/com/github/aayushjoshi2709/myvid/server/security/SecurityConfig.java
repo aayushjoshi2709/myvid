@@ -27,37 +27,36 @@ public class SecurityConfig extends HttpHeaderSecurityFilter {
     private final JwtFilter jwtFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST,"/v1/user/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/v1/user/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/v1/user").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/v1/user").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/v1/vedio", "/v1/vedio/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/user").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/user").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/video", "/v1/video/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers( "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui.html")
                         .permitAll()
                         .anyRequest().authenticated())
-                //.formLogin(Customizer.withDefaults())
-                //.httpBasic(Customizer.withDefaults())
+                // .formLogin(Customizer.withDefaults())
+                // .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         return provider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config){
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 }

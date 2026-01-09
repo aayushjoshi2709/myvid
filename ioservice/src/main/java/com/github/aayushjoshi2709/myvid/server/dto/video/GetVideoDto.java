@@ -1,8 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.dto.video;
 
 import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDetailsForVideo;
-import com.github.aayushjoshi2709.myvid.server.dto.user.GetUserDto;
-import com.github.aayushjoshi2709.myvid.server.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

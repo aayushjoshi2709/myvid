@@ -11,7 +11,7 @@ interface FromInputProps {
   onChange: Dispatch<SetStateAction<InputValue>>;
 }
 
-const FormInput = (props: FromInputProps): React.ReactElement => {
+const TextInput = (props: FromInputProps): React.ReactElement => {
   return (
     <div className="mb-5">
       <label htmlFor={props.id} className="font-medium text-heading">
@@ -32,4 +32,4 @@ const FormInput = (props: FromInputProps): React.ReactElement => {
   );
 };
 
-export default FormInput;
+export default TextInput;

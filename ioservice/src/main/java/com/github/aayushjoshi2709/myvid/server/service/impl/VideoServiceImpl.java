@@ -1,7 +1,6 @@
 package com.github.aayushjoshi2709.myvid.server.service.impl;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.github.aayushjoshi2709.myvid.server.dto.video.CreateVideoDto;
@@ -12,17 +11,11 @@ import com.github.aayushjoshi2709.myvid.server.entity.enums.VideoStatus;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.CreateVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.GetVideoMapper;
 import com.github.aayushjoshi2709.myvid.server.mapper.video.UpdateVideoMapper;
-import com.github.aayushjoshi2709.myvid.server.repository.UserRepository;
 import com.github.aayushjoshi2709.myvid.server.service.UserService;
 import com.github.aayushjoshi2709.myvid.server.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.github.aayushjoshi2709.myvid.server.entity.Video;

@@ -15,10 +15,10 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 public class Video extends Common {
-    @Column(name = "thumbnailUrl", length = 50, nullable = false, unique = true)
+    @Column(name = "thumbnailUrl", length = 150, nullable = false, unique = true)
     private String thumbnailUrl;
 
-    @Column(name = "videoUrl", length = 50, nullable = false, unique = true)
+    @Column(name = "videoUrl", length = 150, nullable = false, unique = true)
     private String videoUrl;
 
     @Column(name = "title", length = 100, nullable = false)
@@ -32,6 +32,6 @@ public class Video extends Common {
     private VideoStatus status = VideoStatus.CREATED;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User createdBy;
 }
