@@ -60,7 +60,7 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
       >
         {!props.hideUserIcon ? (
           <RoundedImage
-            imageUrl={props.videoData.createdBy.profilePic}
+            imageUrl={props.videoData.createdBy.profilePicUrl}
             style={props.userIconStyle}
           />
         ) : (

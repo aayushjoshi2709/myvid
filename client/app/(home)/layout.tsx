@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 import SidePanelView from "@/View/SidePanelView/SidePanelView";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SidePanelView>{children}</SidePanelView>
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            style: {
+              textAlign: "center",
+            },
+          }}
+        />
       </body>
     </html>
   );

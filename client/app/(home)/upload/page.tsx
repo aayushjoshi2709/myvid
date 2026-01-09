@@ -1,16 +1,13 @@
 "use client";
-import {
-  PresignedUrlBody,
-  PresignedUrlResponse,
-  PresignedUrlStorageTypes,
-} from "@/common/interfaces/PresignedUrl";
+import { s3FileUpload } from "@/common/functions/S3FileUpload";
+import { PresignedUrlStorageTypes } from "@/common/interfaces/PresignedUrl";
 import { VideoUpload } from "@/common/interfaces/video";
 import TextInput from "@/components/TextInput/TextInput";
 
 import UploadIcon from "@mui/icons-material/UploadSharp";
 import { useState } from "react";
 import toast from "react-hot-toast";
-const videoUploadPage = () => {
+const VideoUploadPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -42,50 +39,12 @@ const videoUploadPage = () => {
     );
   }
 
-  async function uploadFile(
-    file: File,
-    fileType: PresignedUrlStorageTypes
-  ): Promise<string> {
-    const body: PresignedUrlBody = {
-      storageType: fileType,
-      name: file.name,
-    };
-
-    console.log("Here is upload body", body);
-
-    const response: Response = await fetch("/api/storage/presignedUrl", {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
-
-    if (response.ok) {
-      const presignedUrlData: PresignedUrlResponse = await response.json();
-
-      console.log("Here is presigned url response", presignedUrlData);
-      const s3Response: Response = await fetch(presignedUrlData.presignedUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": file.type,
-        },
-        body: file,
-      });
-
-      if (s3Response.ok) {
-        console.log(presignedUrlData.originalUrl);
-        return presignedUrlData.originalUrl;
-      }
-    }
-
-    toast.error("Error video file uploading file");
-    return "";
-  }
-
   async function handlevideoFileUpload(
     e: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> {
     const file = e.target.files?.[0];
     if (file) {
-      setVideoUrl(await uploadFile(file, PresignedUrlStorageTypes.VIDEO));
+      setVideoUrl(await s3FileUpload(file, PresignedUrlStorageTypes.VIDEO));
     }
   }
   async function handleThumbnailUpload(
@@ -93,7 +52,7 @@ const videoUploadPage = () => {
   ): Promise<void> {
     const file = e.target.files?.[0];
     if (file) {
-      setThumbnailUrl(await uploadFile(file, PresignedUrlStorageTypes.IMAGE));
+      setThumbnailUrl(await s3FileUpload(file, PresignedUrlStorageTypes.IMAGE));
     }
   }
   return (
@@ -157,4 +116,4 @@ const videoUploadPage = () => {
   );
 };
 
-export default videoUploadPage;
+export default VideoUploadPage;

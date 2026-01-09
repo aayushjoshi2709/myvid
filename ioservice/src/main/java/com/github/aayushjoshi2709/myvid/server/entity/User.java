@@ -16,27 +16,27 @@ import java.util.Set;
 @ToString(exclude = "videos")
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="users")
+@Table(name = "users")
 public class User extends Common {
-    @Column(name="username", length = 25, nullable = false, unique = true)
+    @Column(name = "username", length = 25, nullable = false, unique = true)
     private String username;
 
-    @Column(name="password", length = 60, nullable = false)
+    @Column(name = "password", length = 60, nullable = false)
     private String password;
 
-    @Column(name="email", length = 35, nullable = false, unique = true)
+    @Column(name = "email", length = 35, nullable = false, unique = true)
     private String email;
 
-    @Column(name="firstName", length = 25, nullable = false)
+    @Column(name = "firstName", length = 25, nullable = false)
     private String firstName;
 
-    @Column(name="lastName", length = 25, nullable = false)
+    @Column(name = "lastName", length = 25, nullable = false)
     private String lastName;
 
-    @Column(name="phoneNumber", length = 25, nullable = false)
+    @Column(name = "phoneNumber", length = 25, nullable = false)
     private Long phoneNo;
 
-    @Column(name="profilePicUrl", length = 50)
+    @Column(name = "profilePicUrl", length = 150)
     private String profilePicUrl;
 
     private UserStatus status = UserStatus.ACTIVE;
@@ -45,10 +45,7 @@ public class User extends Common {
     private List<Video> videos;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name="user_subscriptions",
-            joinColumns = @JoinColumn(name="subscriber_id"),
-            inverseJoinColumns = @JoinColumn(name="subscribed_to_id")
+    @JoinTable(name = "user_subscriptions", joinColumns = @JoinColumn(name = "subscriber_id"), inverseJoinColumns = @JoinColumn(name = "subscribed_to_id")
 
     )
     private Set<User> subscribedTo = new HashSet<>();

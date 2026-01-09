@@ -3,6 +3,7 @@ import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
 import SidePanelActionItem from "./SidePanelActionItem/SidePanelActionItem";
+import Logout from "@mui/icons-material/LogoutRounded";
 
 interface SidePanelActionsProps {
   areLabelVisible: boolean;
@@ -36,6 +37,13 @@ const SidePanelActions = ({ areLabelVisible }: SidePanelActionsProps) => {
         imageIcon={<AccountCircleOutlinedIcon />}
         url="/me"
         label="You"
+        areLabelVisible={areLabelVisible}
+      />
+
+      <SidePanelActionItem
+        imageIcon={<Logout />}
+        url="/logout"
+        label="Logout"
         areLabelVisible={areLabelVisible}
       />
     </ul>

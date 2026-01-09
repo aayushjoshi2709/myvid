@@ -17,7 +17,7 @@ const WatchPage = async ({
   console.log(currentlyWatching);
 
   return (
-    <div className="flex flex-col lg:flex-row p-6 gap-4">
+    <div className="flex w-full h-full flex-col lg:flex-row p-6 gap-4">
       <div id="video-comments" className="w-full lg:w-8/12 2xl:w-9/12">
         <MediaPlayerWrapper
           src={currentlyWatching.videoUrl}
@@ -25,12 +25,7 @@ const WatchPage = async ({
         />
         <h2 className="my-2 text-2xl">{currentlyWatching.title}</h2>
         <div className="flex flex-row gap-4 items-center">
-          <RoundedImage
-            style={{
-              width: "3rem",
-            }}
-            imageUrl="/hq720.jpg"
-          />
+          <RoundedImage imageUrl={currentlyWatching.createdBy.profilePicUrl} />
           <div className="flex flex-col mr-4">
             <p className="text-sm">
               <strong>{currentlyWatching.createdBy.username}</strong>
