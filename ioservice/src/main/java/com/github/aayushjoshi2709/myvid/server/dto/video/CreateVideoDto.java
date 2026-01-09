@@ -13,11 +13,11 @@ import lombok.Setter;
 @Setter
 public class CreateVideoDto {
     @NotBlank(message = "Thumbnail URL is required")
-    @Size(max = 50, message = "Thumbnail URL can be max 50 characters")
+    @Size(max = 150, message = "Thumbnail URL can be max 50 characters")
     private String thumbnailUrl;
 
     @NotBlank(message = "Video URL is required")
-    @Size(max = 50, message = "Video URL can be max 50 characters")
+    @Size(max = 150, message = "Video URL can be max 50 characters")
     private String videoUrl;
 
     @NotBlank(message = "Title is required")

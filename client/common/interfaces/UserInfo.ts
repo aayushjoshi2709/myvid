@@ -8,7 +8,7 @@ interface UserInfo {
   phoneNo: number;
 }
 
-export interface CreateInfoForVedio {
+export interface CreateInfoForvideo {
   profilePic: string;
   username: string;
   id: string;

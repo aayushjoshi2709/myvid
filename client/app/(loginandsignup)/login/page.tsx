@@ -1,5 +1,5 @@
 "use client";
-import FormInput from "@/components/FormInput/FormInput";
+import TextInput from "@/components/TextInput/TextInput";
 import TopNav from "@/components/TopNav/TopNav";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -47,7 +47,7 @@ const LoginPage = () => {
             <main className="mt-8">
               <div className="flex-row gap-1">
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Username"
                     inputType="username"
                     id="username"
@@ -57,7 +57,7 @@ const LoginPage = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <FormInput
+                  <TextInput
                     title="Password"
                     inputType="text"
                     id="Password"

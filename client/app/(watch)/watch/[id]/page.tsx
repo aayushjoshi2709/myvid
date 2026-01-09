@@ -1,10 +1,9 @@
 import DescriptionCard from "@/components/DescriptionCard/DescriptionCard";
 import RecomendationList from "@/components/RecomendationList/RecomendationList";
 import RoundedImage from "@/components/RoundedImage/RoundedImage";
-import Image from "next/image";
-import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/VideoDetails";
 import axios from "axios";
-
+import MediaPlayerWrapper from "@/components/MediaPlayer/MediaPlayer";
 const WatchPage = async ({
   params,
 }: {
@@ -12,27 +11,17 @@ const WatchPage = async ({
 }): Promise<React.ReactElement> => {
   const { id } = await params;
   const response = await axios.get(
-    `${process.env.HOST_URL}/api/v1/vedio/${id}`
+    `${process.env.HOST_URL}/api/v1/video/${id}`
   );
   const currentlyWatching: VideoDetailsInterface = response.data;
-  console.log(currentlyWatching)
+  console.log(currentlyWatching);
 
   return (
     <div className="flex flex-col lg:flex-row p-6 gap-4">
       <div id="video-comments" className="w-full lg:w-8/12 2xl:w-9/12">
-        <Image
-          id="video-logo"
-          src={"/hq720.jpg"}
-          width={0}
-          height={0}
-          sizes={"100vw"}
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "20px",
-            aspectRatio: "16/9",
-          }}
-          alt="Image for"
+        <MediaPlayerWrapper
+          src={currentlyWatching.videoUrl}
+          poster={currentlyWatching.thumbnailUrl}
         />
         <h2 className="my-2 text-2xl">{currentlyWatching.title}</h2>
         <div className="flex flex-row gap-4 items-center">

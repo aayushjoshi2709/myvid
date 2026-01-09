@@ -1,4 +1,4 @@
-import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/videoDetails";
 
 const DummyData: VideoDetailsInterface[] = [
   {

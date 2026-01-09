@@ -1,4 +1,4 @@
-import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/videoDetails";
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
 import numeral from "numeral";

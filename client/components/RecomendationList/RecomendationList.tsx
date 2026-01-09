@@ -1,9 +1,9 @@
-import VideoDetailsInterface from "@/common/interfaces/VedioDetails";
+import VideoDetailsInterface from "@/common/interfaces/videoDetails";
 import VideoCard from "@/components/VideoCard/VideoCard";
 import axios from "axios";
 
 const RecomendationList = async (): Promise<React.ReactElement> => {
-  const response = await axios.get(`${process.env.HOST_URL}/api/v1/vedio`);
+  const response = await axios.get(`${process.env.HOST_URL}/api/v1/video`);
   const RecomendationList: VideoDetailsInterface[] = response.data;
   return (
     <div className="flex flex-col">
@@ -18,7 +18,7 @@ const RecomendationList = async (): Promise<React.ReactElement> => {
             }}
             videoInfoAlignment="horizontal"
             hideUserIcon={true}
-            vedioData={videoData}
+            videoData={videoData}
           />
         );
       })}
