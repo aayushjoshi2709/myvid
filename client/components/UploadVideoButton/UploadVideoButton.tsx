@@ -4,7 +4,7 @@ import Link from "next/link";
 const UploadVideoButton = (): React.ReactElement => {
   return (
     <Link href={"/upload"}>
-      <button className="p-1 px-4 border border-gray-300 rounded-full">
+      <button className="p-1 px-4 border border-gray-300 hover:background-black-300 rounded-full">
         <UploadOutlinedIcon />
         Upload Video
       </button>

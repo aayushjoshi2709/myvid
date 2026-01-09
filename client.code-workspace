@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "ioservice"
+		},
+		{
+			"path": "encodingservice"
 		}
 	],
 	"settings": {}

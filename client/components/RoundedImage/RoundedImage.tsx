@@ -7,7 +7,6 @@ interface RoundedImageProps {
   style?: object;
 }
 const RoundedImage = (props: RoundedImageProps): React.ReactElement => {
-  console.log(props.imageUrl);
   const isDev = process.env.NODE_ENV == "development";
   return (
     <div>
