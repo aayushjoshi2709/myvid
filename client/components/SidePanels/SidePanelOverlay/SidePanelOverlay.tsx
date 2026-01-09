@@ -12,7 +12,6 @@ const SidePanelOverlay = ({
   setIsVisible,
 }: SidePanelOverlayProps): React.ReactElement | null => {
   function toggleVisibility() {
-    console.log("here is click");
     setIsVisible((visible) => !visible);
   }
 

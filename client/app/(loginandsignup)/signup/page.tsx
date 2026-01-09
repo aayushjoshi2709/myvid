@@ -48,7 +48,6 @@ const SignUpPage = () => {
       toast.success("User has been created successfully. Please Login to continue");
       router.push("/login");
     } else {
-      console.log(response);
       toast.error("Error creating user");
     }
 

@@ -14,7 +14,6 @@ const WatchPage = async ({
     `${process.env.HOST_URL}/api/v1/video/${id}`
   );
   const currentlyWatching: VideoDetailsInterface = response.data;
-  console.log(currentlyWatching);
 
   return (
     <div className="flex w-full h-full flex-col lg:flex-row p-6 gap-4">
