@@ -26,7 +26,7 @@ const SidePanelOverlayView = ({
         ) : (
           ""
         )}
-        <div className="overflow-y-scroll">{children}</div>
+        <div className="overflow-y-scroll w-full h-full">{children}</div>
       </div>
     </div>
   );

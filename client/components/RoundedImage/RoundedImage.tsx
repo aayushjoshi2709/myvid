@@ -7,6 +7,8 @@ interface RoundedImageProps {
   style?: object;
 }
 const RoundedImage = (props: RoundedImageProps): React.ReactElement => {
+  console.log(props.imageUrl);
+  const isDev = process.env.NODE_ENV == "development";
   return (
     <div>
       <Image
@@ -16,13 +18,11 @@ const RoundedImage = (props: RoundedImageProps): React.ReactElement => {
         height={0}
         sizes="100vw"
         style={{
-          width: "4em",
-          aspectRatio: "1/1",
-          borderRadius: "100%",
           ...props.style,
         }}
+        unoptimized={isDev}
         alt="Image for"
-        className={`rounded-full`}
+        className={`rounded-full w-14 h-14 object-cover`}
       />
     </div>
   );

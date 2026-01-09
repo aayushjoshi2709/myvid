@@ -12,11 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateUserDto {
     @NotBlank(message = "Username is required")
-    @Size(min=3, max=25, message = "Username must be between 2 to 25 characters")
+    @Size(min = 3, max = 25, message = "Username must be between 2 to 25 characters")
     private String username;
 
     @NotBlank(message = "Password is required")
-    @Size(min=8, max=35, message = "Password must be between 8 and 35 characters")
+    @Size(min = 8, max = 35, message = "Password must be between 8 and 35 characters")
     private String password;
 
     @NotBlank(message = "Email is required")
@@ -36,6 +36,6 @@ public class CreateUserDto {
     @Digits(integer = 15, fraction = 0, message = "Invalid phone number")
     private Long phoneNo;
 
-    @Size(max = 50, message = "Profile pic URL can be max 50 characters")
+    @Size(max = 150, message = "Profile pic URL can be max 50 characters")
     private String profilePicUrl;
 }

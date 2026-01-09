@@ -1,5 +1,5 @@
 interface UserInfo {
-  profilePic: string;
+  profilePicUrl: string;
   username: string;
   id: string;
   firstName: string;
@@ -9,7 +9,7 @@ interface UserInfo {
 }
 
 export interface CreateInfoForvideo {
-  profilePic: string;
+  profilePicUrl: string;
   username: string;
   id: string;
 }

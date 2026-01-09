@@ -1,4 +1,4 @@
-import VideoDetailsInterface from "@/common/interfaces/videoDetails";
+import VideoDetailsInterface from "@/common/interfaces/VideoDetails";
 import VideoCard from "@/components/VideoCard/VideoCard";
 import axios from "axios";
 

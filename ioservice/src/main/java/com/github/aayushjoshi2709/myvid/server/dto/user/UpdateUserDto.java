@@ -30,6 +30,6 @@ public class UpdateUserDto {
     @Digits(integer = 15, fraction = 0, message = "Invalid phone number")
     private Long phoneNo;
 
-    @Size(max = 50, message = "Profile pic URL can be max 50 characters")
+    @Size(max = 150, message = "Profile pic URL can be max 50 characters")
     private String profilePicUrl;
 }

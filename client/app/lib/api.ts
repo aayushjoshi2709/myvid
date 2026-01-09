@@ -56,9 +56,38 @@ export class ApiClient<T> {
     });
 
     if (!res.ok) {
-      console.log(res)
+      throw new Error("An error occoured");
     }
     const data: T = await res.json();
     return data;
+  }
+
+
+  async patch(endpoint: string, body: object | null): Promise<T> {
+    const headers = await this.#buildHeader();
+    const res: Response = await fetch(`${this.#baseUrl}${endpoint}`, {
+      method: "PATCH",
+      headers,
+      body: body ? JSON.stringify(body) : null,
+    });
+
+    if (!res.ok) {
+      throw new Error("An error occoured");
+    }
+    const data: T = await res.json();
+    return data;
+  }
+
+
+  async delete(endpoint: string){
+    const headers = await this.#buildHeader();
+    const res: Response = await fetch(`${this.#baseUrl}${endpoint}`, {
+      method: "DELETE",
+      headers
+    });
+
+    if (!res.ok) {
+      throw new Error("An error occoured");
+    }
   }
 }
