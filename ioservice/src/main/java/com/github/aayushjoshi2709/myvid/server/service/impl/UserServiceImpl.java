@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
-    private User getUserFromDb(UUID userId) {
+    public User getUserById(UUID userId) {
         return this.userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not found"));
     }
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetUserDto getUser(UUID userId) {
-        User user = getUserFromDb(userId);
+        User user = getUserById(userId);
         return this.getUserMapper.toDto(user);
     }
 
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
         if (userDetails.getPassword() != null) {
             userDetails.setPassword(bCryptPasswordEncoder.encode(userDetails.getPassword()));
         }
-        User user = getUserFromDb(userId);
+        User user = getUserById(userId);
         this.updateUserMapper.updateUserFromDto(userDetails, user);
         User updatedUser = this.userRepository.save(user);
         return this.getUserMapper.toDto(updatedUser);
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(UUID userId) {
-        User user = getUserFromDb(userId);
+        User user = getUserById(userId);
         user.setStatus(UserStatus.INACTIVE);
         this.userRepository.save(user);
     }

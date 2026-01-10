@@ -13,15 +13,21 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
 jwt:
   secret: sdfkdsfdke-csdfe-erer-serersdfewr-sdfsdf-erew-sdfre
-
 aws:
+  sqs:
+    video-processing:
+      queue-url: my-vid-video-processing-queue
+    processed-video:
+      queue-url: my-vid-video-processed-queue
   s3:
     enabled: true
     type: local
-    bucket-name: my-vid-bucket
+    video-processing:
+      bucket-name: my-vid-video-processing-bucket
+    processed-video:
+      bucket-name: my-vid-video-processed-bucket
     region: us-east-1
   access-key: test
   secret-key: test

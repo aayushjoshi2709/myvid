@@ -25,7 +25,7 @@ import java.util.UUID;
 @Service
 public class S3LocalStorage implements StorageService {
 
-        @Value("${aws.s3.bucketname}")
+        @Value("${aws.s3.video-processing.bucketname}")
         private String bucketName;
 
         @Value("${aws.s3.region}")
