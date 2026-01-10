@@ -18,5 +18,7 @@ public interface UserService {
 
     GetUserDto getCurrentUser();
 
+    User getUserById(UUID userId);
+
     User getCurrentUserDetails();
 }

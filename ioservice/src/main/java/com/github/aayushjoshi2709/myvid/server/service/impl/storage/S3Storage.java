@@ -19,8 +19,7 @@ import java.util.UUID;
 @ConditionalOnProperty(name = "aws.s3.type", havingValue = "aws")
 @Service
 public class S3Storage implements StorageService {
-
-    @Value("${aws.s3.bucketname}")
+    @Value("${aws.s3.video-processing.bucketname}")
     private String bucketName;
 
     @Value("${aws.s3.region}")
