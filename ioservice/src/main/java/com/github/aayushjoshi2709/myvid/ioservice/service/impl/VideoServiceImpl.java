@@ -6,7 +6,6 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,6 @@ import com.github.aayushjoshi2709.myvid.ioservice.service.VideoService;
 @RequiredArgsConstructor
 @Slf4j
 public class VideoServiceImpl implements VideoService {
-    @Value("${aws.sqs.video-processing.queue-url}")
-    private final String vedioProcessingQueueUrl;
     private final VideoRepository videoRepository;
     private final CreateVideoMapper createVideoMapper;
     private final GetVideoMapper getVideoMapper;
@@ -47,14 +44,17 @@ public class VideoServiceImpl implements VideoService {
     private final PublishVideoMapper publishVideoMapper;
 
     private Video findVideoById(UUID videoId) {
-        return this.videoRepository.findById(videoId).orElseThrow(
+        log.info("Going to get video with id: {}", videoId);
+        Video video = this.videoRepository.findById(videoId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
+        log.info("Found video with id: {}", videoId);
+        return video;
     }
 
     @Async
     private void publishVedioForProcessing(PublishVideoDto vedioData) {
         try {
-            this.PubSubService.sendMessage(vedioProcessingQueueUrl, objectMapper.writeValueAsString(vedioData));
+            this.PubSubService.sendMessage(objectMapper.writeValueAsString(vedioData));
         } catch (JsonProcessingException e) {
             log.error("An error occoured while processing vedio: {}", e.getStackTrace().toString());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

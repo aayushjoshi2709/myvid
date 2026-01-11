@@ -17,20 +17,16 @@ jwt:
   secret: sdfkdsfdke-csdfe-erer-serersdfewr-sdfsdf-erew-sdfre
 aws:
   sqs:
-    enabled: true
-    type: local
-    video-processing:
+    data-processing:
       queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-video-processing-queue
-    processed-video:
+    processed-data:
       queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-video-processed-queue
   s3:
-    enabled: true
-    type: local
-    video-processing:
-      bucket-name: my-vid-video-processing-bucket
-    processed-video:
-      bucket-name: my-vid-video-processed-bucket
-    region: us-east-1
+    data-processing:
+      bucket-name: my-vid-data-processing-bucket
+    processed-data:
+      bucket-name: my-vid-data-processed-bucket
+  region: us-east-1
   access-key: test
   secret-key: test
   endpoint: http://localhost:4566
