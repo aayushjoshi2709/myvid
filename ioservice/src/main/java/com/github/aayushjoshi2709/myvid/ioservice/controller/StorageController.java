@@ -18,13 +18,14 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class StorageController {
     private final StorageService storageService;
-    
+
     @PostMapping("/presignedUrl")
     public ResponseEntity<StorageResponse> getPresignedUrl(@RequestBody StorageRequest storageRequested) {
         String key = this.storageService.generateKey(storageRequested.getName());
         HashMap<String, String> metaData = new HashMap<>();
         String storageType = storageRequested.getStorageType().toString();
         metaData.put("storageType", storageType);
+        metaData.put("name", storageRequested.getName());
         return ResponseEntity.ok(this.storageService.getPresignedUrl(key, metaData));
     }
 }

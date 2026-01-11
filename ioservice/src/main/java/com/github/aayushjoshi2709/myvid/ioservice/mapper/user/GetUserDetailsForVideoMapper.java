@@ -8,5 +8,6 @@ import com.github.aayushjoshi2709.myvid.ioservice.entity.User;
 @Mapper(componentModel = "spring")
 public interface GetUserDetailsForVideoMapper {
     GetUserDetailsForVideo toDto(User user);
+
     User toEntity(GetUserDetailsForVideo getUserDetailsForVideo);
 }

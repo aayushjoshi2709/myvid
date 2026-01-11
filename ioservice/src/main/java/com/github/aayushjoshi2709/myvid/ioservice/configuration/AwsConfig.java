@@ -13,12 +13,12 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
+import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.SqsClientBuilder;
 
 @Configuration
-@ConditionalOnProperty(name = "aws")
 public class AwsConfig {
     @Value("${aws.region}")
     private String region;
@@ -31,6 +31,9 @@ public class AwsConfig {
 
     @Value("${aws.secret-key:#{null}}")
     private String secretKey;
+
+    @Value("${aws.pathAccess:true}")
+    private boolean pathAccess;
 
     @Bean
     SqsClient sqsClient() {
@@ -58,6 +61,13 @@ public class AwsConfig {
         S3ClientBuilder builder = S3Client.builder();
         builder.region(Region.of(region));
 
+        if (pathAccess == true) {
+            builder.serviceConfiguration(
+                    S3Configuration.builder()
+                            .pathStyleAccessEnabled(true)
+                            .build());
+        }
+
         if (endpoint != null) {
             builder.endpointOverride(URI.create(endpoint));
         }
@@ -79,6 +89,13 @@ public class AwsConfig {
         S3Presigner.Builder builder = S3Presigner.builder();
 
         builder.region(Region.of(region));
+
+        if (pathAccess == true) {
+            builder.serviceConfiguration(
+                    S3Configuration.builder()
+                            .pathStyleAccessEnabled(true)
+                            .build());
+        }
 
         if (endpoint != null) {
             builder.endpointOverride(URI.create(endpoint));

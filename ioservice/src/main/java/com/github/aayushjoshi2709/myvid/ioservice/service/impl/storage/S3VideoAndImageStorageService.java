@@ -12,15 +12,12 @@ import com.github.aayushjoshi2709.myvid.ioservice.dto.storage.StorageResponse;
 import com.github.aayushjoshi2709.myvid.ioservice.repository.S3StorageRepository;
 import com.github.aayushjoshi2709.myvid.ioservice.service.StorageService;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@ConditionalOnProperty("aws.s3")
-@RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "aws.s3.data-processing", name = "bucket-name")
 public class S3VideoAndImageStorageService implements StorageService {
     @Value("${aws.s3.data-processing.bucket-name}")
     private String bucketName;
-    private S3StorageRepository s3StorageRepository;
+    private final S3StorageRepository s3StorageRepository;
 
     S3VideoAndImageStorageService(S3StorageRepository s3StorageRepository) {
         this.s3StorageRepository = s3StorageRepository;
