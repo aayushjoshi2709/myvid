@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.myvid.ioservice.repository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +15,10 @@ import java.time.Duration;
 import java.util.Map;
 
 @Repository
-@ConditionalOnProperty(name = "aws.s3")
 public class S3StorageRepository {
+    @Value("${aws.endpoint:#{null}}")
+    private String endpointUrl;
+
     private final S3Presigner s3Presigner;
 
     S3StorageRepository(S3Presigner s3Presigner) {
@@ -40,9 +43,15 @@ public class S3StorageRepository {
 
         PresignedPutObjectRequest presignedRequest = s3Presigner.presignPutObject(presignRequest);
 
+        String originalUrl = String.format(
+                "%s/%s/%s",
+                this.endpointUrl,
+                bucketName,
+                keyName);
+
         return new StorageResponse(
                 presignedRequest.url().toString(),
-                presignedRequest.httpRequest().getUri().toString());
+                originalUrl);
     }
 
     public String getDataFromStorage(String originalUrl) {

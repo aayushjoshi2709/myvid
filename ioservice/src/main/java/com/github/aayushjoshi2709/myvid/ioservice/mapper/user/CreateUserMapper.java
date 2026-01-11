@@ -8,5 +8,6 @@ import com.github.aayushjoshi2709.myvid.ioservice.entity.User;
 @Mapper(componentModel = "spring")
 public interface CreateUserMapper {
     CreateUserDto toDto(User user);
+
     User toEntity(CreateUserDto createUserDto);
 }

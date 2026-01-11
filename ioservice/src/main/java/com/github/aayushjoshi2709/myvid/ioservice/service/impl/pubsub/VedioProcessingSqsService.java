@@ -12,7 +12,8 @@ import com.github.aayushjoshi2709.myvid.ioservice.service.PubSubService;
 import software.amazon.awssdk.services.sqs.model.Message;
 
 @Service
-@ConditionalOnProperty("aws.sqs")
+@ConditionalOnProperty(prefix = "aws.sqs.data-processing", name = "queue-url")
+@ConditionalOnProperty(prefix = "aws.sqs.processed-data", name = "queue-url")
 public class VedioProcessingSqsService implements PubSubService {
 
     @Value("${aws.sqs.data-processing.queue-url}")

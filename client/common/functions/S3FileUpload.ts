@@ -24,6 +24,8 @@ export async function s3FileUpload(
         body: file,
       });
 
+      console.log(presignedUrlData)
+
       if (s3Response.ok) {
         return presignedUrlData.originalUrl;
       }

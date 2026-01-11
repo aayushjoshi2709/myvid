@@ -18,9 +18,9 @@ jwt:
 aws:
   sqs:
     data-processing:
-      queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-video-processing-queue
+      queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-data-processing-queue
     processed-data:
-      queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-video-processed-queue
+      queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-processed-data-queue
   s3:
     data-processing:
       bucket-name: my-vid-data-processing-bucket
@@ -29,4 +29,5 @@ aws:
   region: us-east-1
   access-key: test
   secret-key: test
+  pathAccess: true
   endpoint: http://localhost:4566

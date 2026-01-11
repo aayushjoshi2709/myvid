@@ -3,7 +3,6 @@ package com.github.aayushjoshi2709.myvid.ioservice.repository;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +14,6 @@ import software.amazon.awssdk.services.sqs.model.*;
 @RequiredArgsConstructor
 @Log4j2
 @Repository
-@ConditionalOnProperty(name = "aws.sqs")
 public class SqsRepository {
     private final SqsClient sqsClient;
 
