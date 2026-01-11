@@ -1,6 +1,6 @@
 spring:
   application:
-    name: server
+    name: ioservice
   datasource:
     url: jdbc:postgresql://localhost:5432/myvid
     username: postgres
@@ -17,10 +17,12 @@ jwt:
   secret: sdfkdsfdke-csdfe-erer-serersdfewr-sdfsdf-erew-sdfre
 aws:
   sqs:
+    enabled: true
+    type: local
     video-processing:
-      queue-url: my-vid-video-processing-queue
+      queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-video-processing-queue
     processed-video:
-      queue-url: my-vid-video-processed-queue
+      queue-url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-vid-video-processed-queue
   s3:
     enabled: true
     type: local
