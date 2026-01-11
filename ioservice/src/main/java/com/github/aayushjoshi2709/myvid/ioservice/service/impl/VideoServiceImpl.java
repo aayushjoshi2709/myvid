@@ -5,22 +5,29 @@ import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.aayushjoshi2709.myvid.ioservice.dto.video.CreateVideoDto;
 import com.github.aayushjoshi2709.myvid.ioservice.dto.video.GetVideoDto;
+import com.github.aayushjoshi2709.myvid.ioservice.dto.video.PublishVideoDto;
 import com.github.aayushjoshi2709.myvid.ioservice.dto.video.UpdateVideoDto;
 import com.github.aayushjoshi2709.myvid.ioservice.entity.User;
 import com.github.aayushjoshi2709.myvid.ioservice.entity.Video;
 import com.github.aayushjoshi2709.myvid.ioservice.entity.enums.VideoStatus;
 import com.github.aayushjoshi2709.myvid.ioservice.mapper.video.CreateVideoMapper;
 import com.github.aayushjoshi2709.myvid.ioservice.mapper.video.GetVideoMapper;
+import com.github.aayushjoshi2709.myvid.ioservice.mapper.video.PublishVideoMapper;
 import com.github.aayushjoshi2709.myvid.ioservice.mapper.video.UpdateVideoMapper;
 import com.github.aayushjoshi2709.myvid.ioservice.repository.VideoRepository;
-import com.github.aayushjoshi2709.myvid.ioservice.service.PubSubServices;
+import com.github.aayushjoshi2709.myvid.ioservice.service.PubSubService;
 import com.github.aayushjoshi2709.myvid.ioservice.service.UserService;
 import com.github.aayushjoshi2709.myvid.ioservice.service.VideoService;
 
@@ -28,16 +35,31 @@ import com.github.aayushjoshi2709.myvid.ioservice.service.VideoService;
 @RequiredArgsConstructor
 @Slf4j
 public class VideoServiceImpl implements VideoService {
+    @Value("${aws.sqs.video-processing.queue-url}")
+    private final String vedioProcessingQueueUrl;
     private final VideoRepository videoRepository;
     private final CreateVideoMapper createVideoMapper;
     private final GetVideoMapper getVideoMapper;
     private final UpdateVideoMapper updateVideoMapper;
     private final UserService userService;
     private final PubSubService PubSubService;
+    private final ObjectMapper objectMapper;
+    private final PublishVideoMapper publishVideoMapper;
 
     private Video findVideoById(UUID videoId) {
         return this.videoRepository.findById(videoId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
+    }
+
+    @Async
+    private void publishVedioForProcessing(PublishVideoDto vedioData) {
+        try {
+            this.PubSubService.sendMessage(vedioProcessingQueueUrl, objectMapper.writeValueAsString(vedioData));
+        } catch (JsonProcessingException e) {
+            log.error("An error occoured while processing vedio: {}", e.getStackTrace().toString());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "An error occoured while sending vedio for id:" + vedioData.getId());
+        }
     }
 
     @Override
@@ -68,6 +90,7 @@ public class VideoServiceImpl implements VideoService {
         Video savedVideo = this.videoRepository.save(video);
         GetVideoDto addVideoResponse = this.getVideoMapper.toDto(savedVideo);
         log.info("Video data saved successfully: {}", addVideoResponse);
+        this.publishVedioForProcessing(this.publishVideoMapper.toDto(savedVideo));
         return addVideoResponse;
     }
 
@@ -75,10 +98,23 @@ public class VideoServiceImpl implements VideoService {
     public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData) {
         log.info("Going to update video with id {} with the following data {}", videoId, updatedVideoData);
         Video video = this.findVideoById(videoId);
+
+        if (video.getStatus() == VideoStatus.DELETED) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vedio has already been deleted");
+        }
+
+        String originalVedioUrl = video.getVideoUrl();
+
         log.info("Video data for id: {} before update: {}", videoId, video);
         this.updateVideoMapper.updateVideo(updatedVideoData, video);
+        if (updatedVideoData.getVideoUrl() != null) {
+            video.setStatus(VideoStatus.CREATED);
+        }
         Video updatedVideo = this.videoRepository.save(video);
         GetVideoDto updateVideoResponse = getVideoMapper.toDto(updatedVideo);
+        if (originalVedioUrl != updatedVideo.getVideoUrl()) {
+            this.publishVedioForProcessing(this.publishVideoMapper.toDto(updatedVideo));
+        }
         log.info("Video data for id: {} after update {}", videoId, updateVideoResponse);
         return updateVideoResponse;
     }
@@ -87,6 +123,9 @@ public class VideoServiceImpl implements VideoService {
     public void deleteVideoById(UUID videoId) {
         log.info("Going to delete video with id: {}", videoId);
         Video video = this.findVideoById(videoId);
+        if (video.getStatus() == VideoStatus.DELETED) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vedio has already been deleted");
+        }
         video.setStatus(VideoStatus.DELETED);
         this.videoRepository.save(video);
         log.info("Video with id: {} deleted successfully", videoId);

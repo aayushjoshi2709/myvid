@@ -14,13 +14,16 @@ import software.amazon.awssdk.services.sqs.model.*;
 public class SqsService implements PubSubService {
     private final SqsClient sqsClient;
 
-    public void sendMessage(String sendQueueUrl, Object messageBody) {
+    @Async
+    public void sendMessage(String sendQueueUrl, String messageBody) {
+        log.info("Going to send message to queue: {} \n message:{}", sendQueueUrl, messageBody.toString());
         sqsClient.sendMessage(
                 SendMessageRequest.builder()
                         .queueUrl(sendQueueUrl)
-                        .messageBody(messageBody.toString())
+                        .messageBody(messageBody)
                         .delaySeconds(10)
                         .build());
+        log.info("Message send successfully");
     }
 
     public List<Message> receiveMessage(String receiveQueueUrl) {
@@ -30,6 +33,7 @@ public class SqsService implements PubSubService {
                     .maxNumberOfMessages(5)
                     .build();
             List<Message> messages = sqsClient.receiveMessage(receiveMessageRequest).messages();
+            log.info("Received: {} messages from {}", messages.size(), receiveQueueUrl);
             return messages;
         } catch (SqsException e) {
             log.error("An error occoured while trying to get messages from queue: {} \n error: {}", receiveQueueUrl,
