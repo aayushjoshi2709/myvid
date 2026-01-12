@@ -7,15 +7,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3AsyncClient;
+import software.amazon.awssdk.services.s3.S3AsyncClientBuilder;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.sqs.SqsClient;
-import software.amazon.awssdk.services.sqs.SqsClientBuilder;
+import software.amazon.awssdk.transfer.s3.S3TransferManager;
 
 @Configuration
 public class AwsConfig {
@@ -34,81 +38,77 @@ public class AwsConfig {
     @Value("${aws.pathAccess:true}")
     private boolean pathAccess;
 
-    @Bean
-    SqsClient sqsClient() {
-        SqsClientBuilder builder = SqsClient.builder();
-        builder.region(Region.of(region));
+
+    private AwsCredentialsProvider credentialsProvider() {
+        if (accessKey != null && secretKey != null) {
+            return StaticCredentialsProvider.create(
+                    AwsBasicCredentials.create(accessKey, secretKey));
+        }
+        return DefaultCredentialsProvider.builder().build();
+    }
+
+    private <T extends AwsClientBuilder<T, ?>> T baseBuilder(T builder) {
+        builder.region(Region.of(region))
+               .credentialsProvider(credentialsProvider());
 
         if (endpoint != null) {
             builder.endpointOverride(URI.create(endpoint));
         }
+        return builder;
+    }
 
-        if (accessKey != null && secretKey != null) {
-            builder.credentialsProvider(
-                    StaticCredentialsProvider.create(
-                            AwsBasicCredentials.create(accessKey, secretKey)));
-        } else {
-            builder.credentialsProvider(
-                    DefaultCredentialsProvider.builder().build());
-        }
+    private S3Configuration s3Config() {
+        return pathAccess
+                ? S3Configuration.builder()
+                        .pathStyleAccessEnabled(true)
+                        .build()
+                : null;
+    }
 
-        return builder.build();
+
+    @Bean
+    SqsClient sqsClient() {
+        return baseBuilder(SqsClient.builder())
+                .build();
     }
 
     @Bean
     S3Client s3Client() {
-        S3ClientBuilder builder = S3Client.builder();
-        builder.region(Region.of(region));
+        S3ClientBuilder builder = baseBuilder(S3Client.builder());
 
-        if (pathAccess == true) {
-            builder.serviceConfiguration(
-                    S3Configuration.builder()
-                            .pathStyleAccessEnabled(true)
-                            .build());
+        if (pathAccess) {
+            builder.serviceConfiguration(s3Config());
         }
-
-        if (endpoint != null) {
-            builder.endpointOverride(URI.create(endpoint));
-        }
-
-        if (accessKey != null && secretKey != null) {
-            builder.credentialsProvider(
-                    StaticCredentialsProvider.create(
-                            AwsBasicCredentials.create(accessKey, secretKey)));
-        } else {
-            builder.credentialsProvider(
-                    DefaultCredentialsProvider.builder().build());
-        }
-
         return builder.build();
     }
 
     @Bean
     S3Presigner s3Presigner() {
-        S3Presigner.Builder builder = S3Presigner.builder();
-
-        builder.region(Region.of(region));
-
-        if (pathAccess == true) {
-            builder.serviceConfiguration(
-                    S3Configuration.builder()
-                            .pathStyleAccessEnabled(true)
-                            .build());
-        }
+        S3Presigner.Builder builder =
+                S3Presigner.builder()
+                        .region(Region.of(region))
+                        .credentialsProvider(credentialsProvider());
 
         if (endpoint != null) {
             builder.endpointOverride(URI.create(endpoint));
         }
+        if (pathAccess) {
+            builder.serviceConfiguration(s3Config());
+        }
+        return builder.build();
+    }
 
-        if (accessKey != null && secretKey != null) {
-            builder.credentialsProvider(
-                    StaticCredentialsProvider.create(
-                            AwsBasicCredentials.create(accessKey, secretKey)));
-        } else {
-            builder.credentialsProvider(
-                    DefaultCredentialsProvider.builder().build());
+    @Bean
+    S3TransferManager s3TransferManager() {
+        S3AsyncClientBuilder builder =
+                baseBuilder(S3AsyncClient.builder());
+
+        if (pathAccess) {
+            builder.serviceConfiguration(s3Config());
         }
 
-        return builder.build();
+        return S3TransferManager.builder()
+                .s3Client(builder.build())
+                .build();
     }
 }
