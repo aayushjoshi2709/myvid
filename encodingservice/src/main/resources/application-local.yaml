@@ -9,6 +9,13 @@ aws:
       bucket-name: my-vid-data-processing-bucket
     processed-data:
       bucket-name: my-vid-data-processed-bucket
+  temp-store:
+    video:
+      src: "./temp/src/video/"
+      dest: "./temp/dest/video/"
+    image:
+      src: "./temp/src/image/"
+      dest: "./temp/dest/image/"
   region: us-east-1
   access-key: test
   secret-key: test

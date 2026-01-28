@@ -2,7 +2,12 @@ package com.github.aayushjoshi2709.myvid.encodingservice.service;
 
 public interface StorageService {
 
-    void getFileFromStorage(String fileUrl, String downloadPath);
+    void getFileByKey(String key, String downloadPath);
 
-    void writeFileToStorage(String uploadPath);
+    void getFileByUrl(String fileUrl, String downloadPath);
+
+    
+    String uploadFolder(String prefix, String folderPath);
+
+    void uploadFile(String filePath);
 }
