@@ -1,0 +1,11 @@
+/* constrain the actual video element */
+media-player video {
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+media-player{
+  justify-content: center;
+  display: flex;
+}

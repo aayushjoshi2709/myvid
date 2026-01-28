@@ -19,13 +19,13 @@ public class S3VideoAndImageStorageService implements StorageService {
     }
 
     @Override
-    public void getFileFromStorage(String originalUrl, String downloadPath) {
-        this.s3StorageRepository.getFileFromS3(originalUrl, downloadPath);
+    public void getFileFromStorage(String fileUrl, String downloadPath) {
+        this.s3StorageRepository.getFileFromS3(fileUrl, downloadPath);
     }
 
     @Override
-    public void addFilesToStorage(String originalUrl) {
-        
+    public void writeFileToStorage(String fileUrl) {
+        this.s3StorageRepository.saveFilesToS3(fileUrl);
         throw new UnsupportedOperationException("Unimplemented method 'addFilesToStorage'");
     }
 

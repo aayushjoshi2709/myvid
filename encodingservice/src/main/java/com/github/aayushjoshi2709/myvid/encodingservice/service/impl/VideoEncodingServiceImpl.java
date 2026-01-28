@@ -27,7 +27,7 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
     public void encodeVideo(PublishVideoDto videoDetails) {
         try {
             this.storageService.getFileFromStorage(videoDetails.getVideoUrl(), "/temp/" + videoDetails.getId());
-            this.storageService.addFilesToStorage("/temp" + videoDetails.getId());
+            this.storageService.writeFileToStorage("/temp" + videoDetails.getId());
             videoDetails.setStatus(VideoStatus.SAVED);
             this.pubSubService.sendMessage(objectMapper.writeValueAsString(videoDetails));
         } catch (JsonProcessingException e) {

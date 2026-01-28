@@ -21,5 +21,4 @@ export async function DELETE(
     const { id } = await context.params; 
     const apiClient: ApiClient<UserInfo> = new ApiClient<UserInfo>(process.env.HOST_URL as string)
     await apiClient.delete(`/api/v1/user/${id}`)
-    return NextResponse.
 }

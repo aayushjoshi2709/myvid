@@ -35,8 +35,7 @@ public class S3VideoAndImageStorageService implements StorageService {
 
     @Override
     public String generateKey(String name) {
-        String namePlusDate = name + "_" + LocalDateTime.now();
-        return namePlusDate + UUID.randomUUID();
+        return UUID.randomUUID().toString();
     }
 
 }
