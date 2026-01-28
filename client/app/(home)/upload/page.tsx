@@ -23,7 +23,6 @@ const VideoUploadPage = () => {
       thumbnailUrl,
       videoUrl,
     };
-    // const response = await fetch();
     const response: Response = await fetch("/api/video", {
       method: "POST",
       body: JSON.stringify(body),
@@ -37,6 +36,10 @@ const VideoUploadPage = () => {
     toast.success(
       "video updated successfully and will be avaiable to watch in few minutes"
     );
+    setThumbnailUrl("");
+    setVideoUrl("");
+    setTitle("");
+    setDescription("");
   }
 
   async function handlevideoFileUpload(
@@ -105,7 +108,8 @@ const VideoUploadPage = () => {
         <div className="my-4 w-full flex justify-center">
           <button
             onClick={uploadvideo}
-            className="border rounded-3xl text-center font-bold bg-green-500 text-white border-[#eee2e2] shadow-xl p-2 px-6"
+            disabled={thumbnailUrl.length == 0 || videoUrl.length == 0}
+            className="border rounded-3xl text-center font-bold bg-green-500 disabled:bg-green-100 text-white border-[#eee2e2] shadow-xl p-2 px-6"
           >
             <UploadIcon />
             {loading ? "Uploading video..." : "Upload video"}

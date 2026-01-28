@@ -5,9 +5,7 @@ import java.nio.file.Paths;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
 import software.amazon.awssdk.transfer.s3.model.CompletedFileDownload;
 import software.amazon.awssdk.transfer.s3.model.DownloadFileRequest;
@@ -21,14 +19,13 @@ public class S3StorageRepository {
         private final S3TransferManager transferManager;
 
         public S3StorageRepository(
-                S3TransferManager transferManager
-        ){
+                        S3TransferManager transferManager) {
                 this.transferManager = transferManager;
         }
 
         public void getFileFromS3(
-                        String key,
-                        String downloadedFileWithPath) {
+                        String downloadedFileWithPath,
+                        String key) {
                 DownloadFileRequest downloadFileRequest = DownloadFileRequest.builder()
                                 .getObjectRequest(b -> b.bucket(dataProcessingBucket).key(key))
                                 .destination(Paths.get(downloadedFileWithPath))
