@@ -1,7 +1,6 @@
 package com.github.aayushjoshi2709.myvid.ioservice.repository;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import com.github.aayushjoshi2709.myvid.ioservice.dto.storage.StorageResponse;

@@ -14,10 +14,10 @@ import com.github.aayushjoshi2709.myvid.ioservice.entity.enums.UserStatus;
 @Getter
 @Setter
 @Builder
-@ToString(exclude = "videos")
+@ToString(exclude = { "videos", "subscribedTo", "subscribers" })
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users,subscribedTo,subscribers")
+@Table(name = "users")
 public class User extends Common {
     @Column(name = "username", length = 25, nullable = false, unique = true)
     private String username;
@@ -40,6 +40,7 @@ public class User extends Common {
     @Column(name = "profilePicUrl", length = 150)
     private String profilePicUrl;
 
+    @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
     @OneToMany(mappedBy = "createdBy")
@@ -47,8 +48,10 @@ public class User extends Common {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_subscriptions", joinColumns = @JoinColumn(name = "subscriber_id"), inverseJoinColumns = @JoinColumn(name = "subscribed_to_id"))
+    @Builder.Default
     private Set<User> subscribedTo = new HashSet<>();
 
     @ManyToMany(mappedBy = "subscribedTo", fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<User> subscribers = new HashSet<>();
 }

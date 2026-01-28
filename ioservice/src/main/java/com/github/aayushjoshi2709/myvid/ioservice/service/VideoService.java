@@ -8,10 +8,15 @@ import com.github.aayushjoshi2709.myvid.ioservice.dto.video.GetVideoDto;
 import com.github.aayushjoshi2709.myvid.ioservice.dto.video.UpdateVideoDto;
 
 public interface VideoService {
-    List<GetVideoDto> getVideos();
+    List<GetVideoDto> getVideos(Integer Page, Integer Size);
+
     GetVideoDto findById(UUID id);
+
     GetVideoDto addVideo(CreateVideoDto createVideo);
-    GetVideoDto updateById(UUID id, UpdateVideoDto updatedVideoData);
+
+    GetVideoDto updateById(UUID id, UpdateVideoDto updatedVideoData, boolean publishVideoEvent);
+
     void deleteVideoById(UUID id);
+
     void getAndUpdateVideosFromQueue();
 }
