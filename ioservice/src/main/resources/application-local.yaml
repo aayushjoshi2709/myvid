@@ -31,3 +31,10 @@ aws:
   secret-key: test
   pathAccess: true
   endpoint: http://localhost:4566
+logging:
+  level:
+    software:
+      amazon:
+        awssdk: DEBUG
+        awssdk:
+          request: DEBUG
