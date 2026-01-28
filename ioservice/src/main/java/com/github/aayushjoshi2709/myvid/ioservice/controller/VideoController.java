@@ -22,8 +22,10 @@ public class VideoController {
     private final VideoService videoService;
 
     @GetMapping
-    public ResponseEntity<List<GetVideoDto>> getVideos() {
-        return ResponseEntity.ok(this.videoService.getVideos());
+    public ResponseEntity<List<GetVideoDto>> getVideos(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(this.videoService.getVideos(page, size));
     }
 
     @GetMapping("/{videoId}")
@@ -39,7 +41,7 @@ public class VideoController {
     @PutMapping("/{videoId}")
     public ResponseEntity<GetVideoDto> updateVideo(@PathVariable UUID videoId,
             @RequestBody @Valid UpdateVideoDto updatedVideoData) {
-        return ResponseEntity.ok(this.videoService.updateById(videoId, updatedVideoData));
+        return ResponseEntity.ok(this.videoService.updateById(videoId, updatedVideoData, true));
     }
 
     @DeleteMapping("/{videoId}")

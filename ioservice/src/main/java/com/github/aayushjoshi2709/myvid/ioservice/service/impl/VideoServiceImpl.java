@@ -31,6 +31,10 @@ import com.github.aayushjoshi2709.myvid.ioservice.service.PubSubService;
 import com.github.aayushjoshi2709.myvid.ioservice.service.UserService;
 import com.github.aayushjoshi2709.myvid.ioservice.service.VideoService;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -44,7 +48,7 @@ public class VideoServiceImpl implements VideoService {
     private final ObjectMapper objectMapper;
     private final PublishVideoMapper publishVideoMapper;
 
-    private Video findVideoById(UUID videoId) {
+    private Video findVideoById(UUID videoId) throws ResponseStatusException {
         log.info("Going to get video with id: {}", videoId);
         Video video = this.videoRepository.findById(videoId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
@@ -64,16 +68,17 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<GetVideoDto> getVideos() {
-        log.info("Going to get videos");
-        List<Video> videos = this.videoRepository.findAll();
+    public List<GetVideoDto> getVideos(Integer page, Integer size) {
+        log.info("Going to get videos with page: {} and size: {}", page, size);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Video> videos = this.videoRepository.findAll(pageable);
         List<GetVideoDto> getVideosResponse = videos.stream().map(this.getVideoMapper::toDto).toList();
-        log.info("videos found = {}", getVideosResponse);
+        log.info("videos found with page: {} and size: {} = {}", page, size, getVideosResponse);
         return getVideosResponse;
     }
 
     @Override
-    public GetVideoDto findById(UUID videoId) {
+    public GetVideoDto findById(UUID videoId) throws ResponseStatusException {
         log.info("Going to get video with id: {}", videoId);
         Video video = this.findVideoById(videoId);
         GetVideoDto findByIdResponse = this.getVideoMapper.toDto(video);
@@ -83,7 +88,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @Transactional
-    public GetVideoDto addVideo(CreateVideoDto createVideo) {
+    public GetVideoDto addVideo(CreateVideoDto createVideo) throws ResponseStatusException {
         log.info("Going to add new video with following data: {}", createVideo);
         Video video = this.createVideoMapper.toEntity(createVideo);
         User user = this.userService.getCurrentUserDetails();
@@ -96,7 +101,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData) {
+    public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData, boolean publishVideoEvent)
+            throws ResponseStatusException {
         log.info("Going to update video with id {} with the following data {}", videoId, updatedVideoData);
         Video video = this.findVideoById(videoId);
 
@@ -113,7 +119,7 @@ public class VideoServiceImpl implements VideoService {
         }
         Video updatedVideo = this.videoRepository.save(video);
         GetVideoDto updateVideoResponse = getVideoMapper.toDto(updatedVideo);
-        if (originalVedioUrl != updatedVideo.getVideoUrl()) {
+        if (publishVideoEvent && originalVedioUrl != updatedVideo.getVideoUrl()) {
             this.publishVedioForProcessing(this.publishVideoMapper.toDto(updatedVideo));
         }
         log.info("Video data for id: {} after update {}", videoId, updateVideoResponse);
@@ -121,7 +127,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void deleteVideoById(UUID videoId) {
+    public void deleteVideoById(UUID videoId) throws ResponseStatusException {
         log.info("Going to delete video with id: {}", videoId);
         Video video = this.findVideoById(videoId);
         if (video.getStatus() == VideoStatus.DELETED) {
@@ -138,16 +144,17 @@ public class VideoServiceImpl implements VideoService {
         log.info("Going to process vedio processed messages of size:  {}", videoMessage.size());
         for (Message message : videoMessage) {
             try {
+                log.info("Going to process message with message id: {}", message.messageId());
                 PublishVideoDto videoDetails = objectMapper.readValue(message.body(), PublishVideoDto.class);
                 log.info("Here are the video details we got: {}", videoDetails);
                 UpdateVideoDto updateVideoDto = UpdateVideoDto.builder()
                         .thumbnailUrl(videoDetails.getThumbnailUrl())
                         .videoUrl(videoDetails.getVideoUrl())
                         .build();
-                this.updateById(videoDetails.getId(), updateVideoDto);
+                this.updateById(videoDetails.getId(), updateVideoDto, false);
                 log.info("Going to delete vedio processed event with data: ", videoDetails);
                 this.pubSubService.deleteMessage(message);
-            } catch (JsonProcessingException e) {
+            } catch (JsonProcessingException | ResponseStatusException e) {
                 log.error("Failed to decode json payload inside process encoding vedio for messageId: {} {}",
                         message.messageId(), e);
             }
