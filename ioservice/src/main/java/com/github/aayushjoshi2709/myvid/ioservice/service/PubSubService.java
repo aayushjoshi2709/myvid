@@ -8,4 +8,6 @@ public interface PubSubService {
     void sendMessage(String messageBody);
 
     List<Message> receiveMessages();
+    
+    void deleteMessage(Message message);
 }

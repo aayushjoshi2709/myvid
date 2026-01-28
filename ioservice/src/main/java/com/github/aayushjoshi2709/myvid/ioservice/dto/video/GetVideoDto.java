@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import com.github.aayushjoshi2709.myvid.ioservice.dto.user.GetUserDetailsForVide
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class GetVideoDto implements Serializable {
     private UUID id;
     private String thumbnailUrl;
