@@ -36,4 +36,9 @@ public class VedioProcessingSqsService implements PubSubService {
     public List<Message> receiveMessages() {
         return this.sqsRepository.receiveMessages(receiveQueueUrl);
     }
+
+    @Override
+    public void deleteMessage(Message message) {
+        this.sqsRepository.deleteMessage(receiveQueueUrl, message);
+    }
 }

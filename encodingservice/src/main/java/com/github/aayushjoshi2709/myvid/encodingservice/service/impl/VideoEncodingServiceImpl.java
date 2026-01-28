@@ -147,20 +147,17 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
 
     public void processEncodingVideo() {
         List<Message> videoMessage = this.pubSubService.receiveMessages();
-        while (videoMessage.size() > 0) {
-            log.info("Going to process {} messages", videoMessage.size());
-            for (Message message : videoMessage) {
-                try {
-                    PublishVideoDto videoDetails = objectMapper.readValue(message.body(), PublishVideoDto.class);
-                    this.encodeVideo(videoDetails);
-                    log.info("Going to delete vedio processing event with data: ", videoDetails);
-                    this.pubSubService.deleteMessage(message);
-                } catch (JsonProcessingException e) {
-                    log.error("Failed to decode json payload inside process encoding vedio for messageId: {} {}",
-                            message.messageId(), e);
-                }
+        log.info("Going to process {} messages", videoMessage.size());
+        for (Message message : videoMessage) {
+            try {
+                PublishVideoDto videoDetails = objectMapper.readValue(message.body(), PublishVideoDto.class);
+                this.encodeVideo(videoDetails);
+                log.info("Going to delete vedio processing event with data: ", videoDetails);
+                this.pubSubService.deleteMessage(message);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to decode json payload inside process encoding vedio for messageId: {} {}",
+                        message.messageId(), e);
             }
-            videoMessage = this.pubSubService.receiveMessages();
         }
     }
 }

@@ -17,7 +17,7 @@ import com.github.aayushjoshi2709.myvid.ioservice.entity.enums.UserStatus;
 @ToString(exclude = "videos")
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "users,subscribedTo,subscribers")
 public class User extends Common {
     @Column(name = "username", length = 25, nullable = false, unique = true)
     private String username;
@@ -46,9 +46,7 @@ public class User extends Common {
     private List<Video> videos;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_subscriptions", joinColumns = @JoinColumn(name = "subscriber_id"), inverseJoinColumns = @JoinColumn(name = "subscribed_to_id")
-
-    )
+    @JoinTable(name = "user_subscriptions", joinColumns = @JoinColumn(name = "subscriber_id"), inverseJoinColumns = @JoinColumn(name = "subscribed_to_id"))
     private Set<User> subscribedTo = new HashSet<>();
 
     @ManyToMany(mappedBy = "subscribedTo", fetch = FetchType.LAZY)

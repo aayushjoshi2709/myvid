@@ -35,6 +35,5 @@ logging:
   level:
     software:
       amazon:
-        awssdk: DEBUG
         awssdk:
           request: DEBUG

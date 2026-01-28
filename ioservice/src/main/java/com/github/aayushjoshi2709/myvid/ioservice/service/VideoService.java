@@ -13,4 +13,5 @@ public interface VideoService {
     GetVideoDto addVideo(CreateVideoDto createVideo);
     GetVideoDto updateById(UUID id, UpdateVideoDto updatedVideoData);
     void deleteVideoById(UUID id);
+    void getAndUpdateVideosFromQueue();
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.services.sqs.model.Message;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -39,7 +40,7 @@ public class VideoServiceImpl implements VideoService {
     private final GetVideoMapper getVideoMapper;
     private final UpdateVideoMapper updateVideoMapper;
     private final UserService userService;
-    private final PubSubService PubSubService;
+    private final PubSubService pubSubService;
     private final ObjectMapper objectMapper;
     private final PublishVideoMapper publishVideoMapper;
 
@@ -54,7 +55,7 @@ public class VideoServiceImpl implements VideoService {
     @Async
     private void publishVedioForProcessing(PublishVideoDto vedioData) {
         try {
-            this.PubSubService.sendMessage(objectMapper.writeValueAsString(vedioData));
+            this.pubSubService.sendMessage(objectMapper.writeValueAsString(vedioData));
         } catch (JsonProcessingException e) {
             log.error("An error occoured while processing vedio: {}", e.getStackTrace().toString());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -129,5 +130,27 @@ public class VideoServiceImpl implements VideoService {
         video.setStatus(VideoStatus.DELETED);
         this.videoRepository.save(video);
         log.info("Video with id: {} deleted successfully", videoId);
+    }
+
+    @Override
+    public void getAndUpdateVideosFromQueue() {
+        List<Message> videoMessage = this.pubSubService.receiveMessages();
+        log.info("Going to process vedio processed messages of size:  {}", videoMessage.size());
+        for (Message message : videoMessage) {
+            try {
+                PublishVideoDto videoDetails = objectMapper.readValue(message.body(), PublishVideoDto.class);
+                log.info("Here are the video details we got: {}", videoDetails);
+                UpdateVideoDto updateVideoDto = UpdateVideoDto.builder()
+                        .thumbnailUrl(videoDetails.getThumbnailUrl())
+                        .videoUrl(videoDetails.getVideoUrl())
+                        .build();
+                this.updateById(videoDetails.getId(), updateVideoDto);
+                log.info("Going to delete vedio processed event with data: ", videoDetails);
+                this.pubSubService.deleteMessage(message);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to decode json payload inside process encoding vedio for messageId: {} {}",
+                        message.messageId(), e);
+            }
+        }
     }
 }

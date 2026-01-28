@@ -50,4 +50,12 @@ public class SqsRepository {
         }
     }
 
+    public void deleteMessage(String deleteQueueUrl, Message message) {
+        DeleteMessageRequest deleteRequest = DeleteMessageRequest.builder()
+                .queueUrl(deleteQueueUrl)
+                .receiptHandle(message.receiptHandle())
+                .build();
+
+        sqsClient.deleteMessage(deleteRequest);
+    }
 }
