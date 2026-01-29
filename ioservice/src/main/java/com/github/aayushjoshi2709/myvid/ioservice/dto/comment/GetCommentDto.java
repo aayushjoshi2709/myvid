@@ -19,4 +19,6 @@ public class GetCommentDto {
     private String message;
     private LocalDateTime createdAt;
     private GetUserDto author;
+    private UUID vedioId;
+    private Integer replyCount;
 }

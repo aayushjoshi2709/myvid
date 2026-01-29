@@ -4,11 +4,7 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-
-import com.github.aayushjoshi2709.myvid.ioservice.dto.user.UpdateUserDto;
-import com.github.aayushjoshi2709.myvid.ioservice.dto.video.CreateVideoDto;
 import com.github.aayushjoshi2709.myvid.ioservice.dto.video.UpdateVideoDto;
-import com.github.aayushjoshi2709.myvid.ioservice.entity.User;
 import com.github.aayushjoshi2709.myvid.ioservice.entity.Video;
 
 @Mapper(componentModel = "spring")
