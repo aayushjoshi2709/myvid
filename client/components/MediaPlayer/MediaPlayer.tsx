@@ -1,23 +1,41 @@
 "use client";
 
-import { MediaPlayer, MediaOutlet } from "@vidstack/react";
-import "./MediaPlayer.css";
+import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import {
+  defaultLayoutIcons,
+  DefaultVideoLayout,
+} from "@vidstack/react/player/layouts/default";
+import "@vidstack/react/player/styles/default/theme.css";
+import "@vidstack/react/player/styles/default/layouts/video.css";
+
 interface MediaPlayerProps {
   src: string;
   poster: string;
+  autoplay?: boolean;
 }
 
-const MediaPlayerWrapper = ({ src, poster }: MediaPlayerProps) => {
+const MediaPlayerWrapper = ({
+  src,
+  poster,
+  autoplay = true,
+}: MediaPlayerProps) => {
   return (
-    <div className="w-full aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center">
+    <div className="w-full aspect-video bg-black rounded-xl overflow-hidden">
       <MediaPlayer
-        src={src}
+        src={{
+          src: src,
+          type: "application/x-mpegurl",
+        }}
         poster={poster}
-        controls
-        preload="metadata"
+        autoplay={autoplay}
+        muted={autoplay}
+        playsInline
         className="w-full h-full"
+        streamType="on-demand"
+        load="eager"
       >
-        <MediaOutlet />
+        <MediaProvider />
+        <DefaultVideoLayout icons={defaultLayoutIcons} noModal />
       </MediaPlayer>
     </div>
   );

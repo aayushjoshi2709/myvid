@@ -1,5 +1,7 @@
 package com.github.aayushjoshi2709.myvid.ioservice.entity;
 
+import java.util.List;
+
 import com.github.aayushjoshi2709.myvid.ioservice.entity.Common.Common;
 import com.github.aayushjoshi2709.myvid.ioservice.entity.enums.VideoStatus;
 
@@ -30,6 +32,9 @@ public class Video extends Common {
 
     @Enumerated
     private VideoStatus status = VideoStatus.CREATED;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "video")
+    private List<Comment> comments;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

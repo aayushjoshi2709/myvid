@@ -3,7 +3,6 @@ package com.github.aayushjoshi2709.myvid.ioservice.configuration;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

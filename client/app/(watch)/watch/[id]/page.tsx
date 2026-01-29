@@ -4,6 +4,7 @@ import RoundedImage from "@/components/RoundedImage/RoundedImage";
 import VideoDetailsInterface from "@/common/interfaces/VideoDetails";
 import axios from "axios";
 import MediaPlayerWrapper from "@/components/MediaPlayer/MediaPlayer";
+import CommentsCard from "@/components/Comments/CommentsCard/CommentsCard";
 const WatchPage = async ({
   params,
 }: {
@@ -11,18 +12,18 @@ const WatchPage = async ({
 }): Promise<React.ReactElement> => {
   const { id } = await params;
   const response = await axios.get(
-    `${process.env.HOST_URL}/api/v1/video/${id}`
+    `${process.env.HOST_URL}/api/v1/video/${id}`,
   );
   const currentlyWatching: VideoDetailsInterface = response.data;
 
   return (
-    <div className="flex w-full h-full flex-col lg:flex-row p-6 gap-4">
+    <div className="flex w-full flex-col lg:flex-row p-6 gap-4 backdrop-brightness">
       <div id="video-comments" className="w-full lg:w-8/12 2xl:w-9/12">
         <MediaPlayerWrapper
           src={currentlyWatching.videoUrl}
           poster={currentlyWatching.thumbnailUrl}
         />
-        <h2 className="my-2 text-2xl">{currentlyWatching.title}</h2>
+        <h2 className="my-2 text-2xl ">{currentlyWatching.title}</h2>
         <div className="flex flex-row gap-4 items-center">
           <RoundedImage imageUrl={currentlyWatching.createdBy.profilePicUrl} />
           <div className="flex flex-col mr-4">
@@ -36,6 +37,7 @@ const WatchPage = async ({
           </button>
         </div>
         <DescriptionCard {...currentlyWatching} />
+        <CommentsCard videoId={currentlyWatching.id} />
       </div>
       <div className="w-full lg:w-4/12 2xl:w-3/12">
         <RecomendationList />
