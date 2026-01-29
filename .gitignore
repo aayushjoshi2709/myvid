@@ -70,5 +70,6 @@
 **/.vscode/
 server/src/main/resources/application-local.yaml
 ioservice/src/main/resources/application-local.yaml
+analyticsservice/src/main/resources/application-local.yaml
 /temp
 ioservice/temp

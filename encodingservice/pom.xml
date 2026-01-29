@@ -13,7 +13,7 @@
 	<artifactId>encodingservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>encodingservice</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Vedio and thumbnail encoder for myvid</description>
 	<url />
 	<licenses>
 		<license />
