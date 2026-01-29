@@ -8,9 +8,10 @@ import { useEffect, useState } from "react";
 import CommentList from "../CommentList/CommentList";
 
 const Comment = ({ comment }: { comment: CommentBody }) => {
-  const [addReply, setAddReply] = useState(false);
-  const [showReplies, setShowReplies] = useState(false);
-  const [fetchComments, setFetchComments] = useState(false);
+  const [addReply, setAddReply] = useState<boolean>(false);
+  const [showReplies, setShowReplies] = useState<boolean>(false);
+  const [fetchComments, setFetchComments] = useState<boolean>(false);
+  const [newCommentAdded, setNewCommentAdded] = useState<boolean>(false);
 
   useEffect(() => {
     if (showReplies) {
@@ -20,6 +21,21 @@ const Comment = ({ comment }: { comment: CommentBody }) => {
       updateFetchComments();
     }
   }, [showReplies]);
+
+  useEffect(() => {
+    if (newCommentAdded) {
+      async function updateFetchComments() {
+        if (!showReplies) {
+          setShowReplies(true);
+        } else {
+          setFetchComments(true);
+        }
+        setNewCommentAdded(false);
+        setAddReply(!addReply);
+      }
+      updateFetchComments();
+    }
+  }, [newCommentAdded, showReplies, addReply]);
 
   return (
     <ul className="flex gap-4 w-full mb-1">
@@ -51,7 +67,7 @@ const Comment = ({ comment }: { comment: CommentBody }) => {
         </div>
         {addReply ? (
           <AddComment
-            setFetchComments={setFetchComments}
+            setFetchComments={setNewCommentAdded}
             videoId={comment.vedioId}
             parentCommentId={comment.id}
             onClose={() => setAddReply(false)}

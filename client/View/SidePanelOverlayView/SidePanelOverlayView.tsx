@@ -9,7 +9,7 @@ const SidePanelOverlayView = ({
 }: {
   children: React.ReactNode;
 }): React.ReactElement => {
-  const [sidePanelVisible, setSidePanelVisible] = useState(false);
+  const [sidePanelVisible, setSidePanelVisible] = useState<boolean>(false);
   function toggleSideBar() {
     setSidePanelVisible((isVisible) => !isVisible);
   }
