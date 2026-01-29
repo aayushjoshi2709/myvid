@@ -5,7 +5,7 @@ export interface CommentBody{
     author: Partial<UserInfo>;
     message: string;
     createdAt: string;
-    vedioId: string;
+    videoId: string;
     parentCommentId: string | null;
     replyCount: number;
 }
