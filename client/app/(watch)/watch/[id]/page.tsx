@@ -23,7 +23,7 @@ const WatchPage = async ({
           src={currentlyWatching.videoUrl}
           poster={currentlyWatching.thumbnailUrl}
         />
-        <h2 className="my-2 text-2xl ">{currentlyWatching.title}</h2>
+        <h2 className="my-2 text-2xl">{currentlyWatching.title}</h2>
         <div className="flex flex-row gap-4 items-center">
           <RoundedImage imageUrl={currentlyWatching.createdBy.profilePicUrl} />
           <div className="flex flex-col mr-4">
