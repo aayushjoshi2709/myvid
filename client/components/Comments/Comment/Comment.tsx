@@ -68,7 +68,7 @@ const Comment = ({ comment }: { comment: CommentBody }) => {
         {addReply ? (
           <AddComment
             setFetchComments={setNewCommentAdded}
-            videoId={comment.vedioId}
+            videoId={comment.videoId}
             parentCommentId={comment.id}
             onClose={() => setAddReply(false)}
           />
@@ -78,7 +78,7 @@ const Comment = ({ comment }: { comment: CommentBody }) => {
         {showReplies ? (
           <div className="mt-2">
             <CommentList
-              videoId={comment.vedioId}
+              videoId={comment.videoId}
               parentCommentId={comment.id}
               fetchComments={fetchComments}
               setFetchComments={setFetchComments}

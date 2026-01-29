@@ -8,7 +8,7 @@ export const Routes = {
             GET_ALL_CHILD:"/api/v1/video/%s/comment?parentCommentId=%s",
             ADD: "/api/v1/video/%s/comment"
         },
-        vedio:{
+        video:{
             ADD: "/api/v1/video",
             GET: "/api/v1/video/%s"
         },
