@@ -66,29 +66,26 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
         ) : (
           ""
         )}
-        <div className="flex-row gap-0 flex-1 w-full">
+        <div className="flex-row gap-0 flex-1 w-full justify-center">
           <Link href={`/watch/${props.videoData.id}`} className="m-0 p-0">
-            <p className="font-semibold line-clamp-2 m-0 p-0 leading-tight text-lg">
+            <p className="font-semibold line-clamp-2 m-0 p-0 leading-5 text-lg">
               {props.videoData.title}
             </p>
           </Link>
 
           <Link href={`/channel/${props.videoData.createdBy.id}`}>
-            <small className="m-0 p-0 leading-tight text-sm">
-              {props.videoData.createdBy.username}
-            </small>
+            <p className="m-0 p-0 leading-5 text-md">
+              @{props.videoData.createdBy.username}
+            </p>
           </Link>
           <div className="flex-auto gap-1">
-            <small className="m-0 p-0 leading-tight text-sm">
+            <p className="m-0 p-0 leading-tight text-sm">
               {numeral(props.videoData.viewCount).format("0.0a").toUpperCase()}{" "}
-              view
-            </small>
-            <small className="m-0 p-0 leading-tight text-sm"> | </small>
-            <small className="m-0 p-0 leading-tight text-sm">
+              view |{" "}
               {formatDistanceToNow(new Date(props.videoData.createdAt), {
                 addSuffix: false,
               })}
-            </small>
+            </p>
           </div>
         </div>
       </div>

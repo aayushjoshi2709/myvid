@@ -50,9 +50,6 @@ export const AddComment = ({
       await axios.post(`/api/video/${videoId}/comment`, body);
       setFetchComments(true);
       setIsLoading(false);
-      if (onClose) {
-        onClose();
-      }
     }
     addComment(messageText);
   };

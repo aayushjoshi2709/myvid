@@ -1,6 +1,7 @@
+"use client";
 import { CommentBody } from "@/common/interfaces/Comment";
 import Comment from "../Comment/Comment";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, memo } from "react";
 import axios from "axios";
 
 interface CommentListProps {
@@ -20,9 +21,9 @@ const CommentList = ({
   useEffect(() => {
     if (fetchComments) {
       async function getComments() {
-        let path = `/api/video/${videoId}/comment`
-        if(parentCommentId){
-          path += `?parentCommentId=${parentCommentId}`
+        let path = `/api/video/${videoId}/comment`;
+        if (parentCommentId) {
+          path += `?parentCommentId=${parentCommentId}`;
         }
         const response = await axios.get(path);
         setComments(response.data.data);
@@ -41,4 +42,4 @@ const CommentList = ({
   );
 };
 
-export default CommentList;
+export default memo(CommentList);

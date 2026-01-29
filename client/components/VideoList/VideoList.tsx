@@ -13,7 +13,8 @@ const VideoList = async (): Promise<React.ReactElement> => {
               key={idx}
               videoData={videoData}
               userIconStyle={{
-                width: "3em",
+                width: "4rem",
+                height: "4rem",
                 aspectRatio: "1/1",
               }}
             />
