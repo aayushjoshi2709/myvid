@@ -5,4 +5,12 @@ export interface CommentBody{
     author: Partial<UserInfo>;
     message: string;
     createdAt: string;
+    vedioId: string;
+    parentCommentId: string | null;
+    replyCount: number;
+}
+
+export interface AddCommentBody {
+    message: string;
+    parentCommentId?: string | null;
 }

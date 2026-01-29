@@ -38,7 +38,7 @@ public class SecurityConfig extends HttpHeaderSecurityFilter {
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/v1/video/*/comment",
-                                "/v1/video/*/comment/**")
+                                "/v1/video/*/comment/*")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/video", "/v1/video/*").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()

@@ -7,6 +7,7 @@ import com.github.aayushjoshi2709.myvid.ioservice.dto.comment.AddCommentDto;
 import com.github.aayushjoshi2709.myvid.ioservice.dto.comment.GetCommentDto;
 import com.github.aayushjoshi2709.myvid.ioservice.service.CommentService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -18,31 +19,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/v1/video/{videoId}/comment")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<GetCommentDto> getComments(
-        @PathVariable UUID videoId,
-        @RequestParam Integer size,
-        @RequestParam Integer page) {
-        return this.commentService.getComments(videoId, page, size);
+            @PathVariable UUID videoId,
+            @RequestParam(required = false) UUID parentCommentId,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "0") Integer page) {
+        return this.commentService.getComments(videoId, parentCommentId, page, size);
     }
 
     @GetMapping("/{id}")
     public GetCommentDto getComment(@RequestParam UUID commentId) {
         return this.commentService.getComment(commentId);
     }
-    
-    @PostMapping("/")
+
+    @PostMapping
     public GetCommentDto addCommentDto(
-        @PathVariable UUID videoId,
-        @RequestBody AddCommentDto commentData
-    ) {
+            @PathVariable UUID videoId,
+            @RequestBody @Valid AddCommentDto commentData) {
         return this.commentService.addComment(videoId, commentData);
     }
 }

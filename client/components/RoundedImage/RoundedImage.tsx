@@ -9,7 +9,10 @@ interface RoundedImageProps {
 const RoundedImage = (props: RoundedImageProps): React.ReactElement => {
   const isDev = process.env.NODE_ENV == "development";
   return (
-    <div className="relative w-16 h-16 rounded-full overflow-hidden">
+    <div
+      className="relative w-16 h-16 rounded-full overflow-hidden"
+      style={props.style}
+    >
       <Image
         src={props.imageUrl}
         alt="Image"

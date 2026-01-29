@@ -1,12 +1,15 @@
 package com.github.aayushjoshi2709.myvid.ioservice.entity;
 
+import java.util.Set;
+
 import com.github.aayushjoshi2709.myvid.ioservice.entity.Common.Common;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +35,16 @@ public class Comment extends Common {
     @JoinColumn(name = "video_id")
     private Video video;
 
+    @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
+    private Set<Comment> replies;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comment parentComment;
+
     private Integer likes;
     private Integer dislikes;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer replyCount = 0;
 }
