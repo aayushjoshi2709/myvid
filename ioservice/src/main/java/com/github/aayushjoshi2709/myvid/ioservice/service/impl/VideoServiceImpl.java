@@ -48,7 +48,7 @@ public class VideoServiceImpl implements VideoService {
     private final ObjectMapper objectMapper;
     private final PublishVideoMapper publishVideoMapper;
 
-    private Video findVideoById(UUID videoId) throws ResponseStatusException {
+    public Video findVideoObjectById(UUID videoId) throws ResponseStatusException {
         log.info("Going to get video with id: {}", videoId);
         Video video = this.videoRepository.findById(videoId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found for video id:" + videoId));
@@ -80,7 +80,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public GetVideoDto findById(UUID videoId) throws ResponseStatusException {
         log.info("Going to get video with id: {}", videoId);
-        Video video = this.findVideoById(videoId);
+        Video video = this.findVideoObjectById(videoId);
         GetVideoDto findByIdResponse = this.getVideoMapper.toDto(video);
         log.info("Got video for id: {} with values: {}", videoId, findByIdResponse);
         return findByIdResponse;
@@ -104,7 +104,7 @@ public class VideoServiceImpl implements VideoService {
     public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData, boolean publishVideoEvent)
             throws ResponseStatusException {
         log.info("Going to update video with id {} with the following data {}", videoId, updatedVideoData);
-        Video video = this.findVideoById(videoId);
+        Video video = this.findVideoObjectById(videoId);
 
         if (video.getStatus() == VideoStatus.DELETED) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vedio has already been deleted");
@@ -129,7 +129,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public void deleteVideoById(UUID videoId) throws ResponseStatusException {
         log.info("Going to delete video with id: {}", videoId);
-        Video video = this.findVideoById(videoId);
+        Video video = this.findVideoObjectById(videoId);
         if (video.getStatus() == VideoStatus.DELETED) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vedio has already been deleted");
         }

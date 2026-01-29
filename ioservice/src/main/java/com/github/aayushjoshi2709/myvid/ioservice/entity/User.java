@@ -46,6 +46,9 @@ public class User extends Common {
     @OneToMany(mappedBy = "createdBy")
     private List<Video> videos;
 
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_subscriptions", joinColumns = @JoinColumn(name = "subscriber_id"), inverseJoinColumns = @JoinColumn(name = "subscribed_to_id"))
     @Builder.Default

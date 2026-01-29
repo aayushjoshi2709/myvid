@@ -35,7 +35,12 @@ public class SecurityConfig extends HttpHeaderSecurityFilter {
                         .requestMatchers(HttpMethod.POST, "/v1/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/user").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/user").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/video", "/v1/video/**").permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/v1/video/*/comment",
+                                "/v1/video/*/comment/**")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/video", "/v1/video/*").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()

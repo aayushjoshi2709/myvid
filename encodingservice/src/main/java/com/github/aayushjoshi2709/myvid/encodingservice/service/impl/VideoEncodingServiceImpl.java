@@ -60,27 +60,38 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
                 "-i", inputPath,
 
                 // 1080p
-                "-map", "0:v", "-map", "0:a",
-                "-s:v:0", "1920x1080", "-b:v:0", "5000k",
+                "-map", "0:v:0", "-map", "0:a:0",
+                "-s:v:0", "1920x1080", "-c:v:0", "libx264", "-b:v:0", "5000k",
+                "-maxrate:v:0", "5350k", "-bufsize:v:0", "7500k",
+                "-c:a:0", "aac", "-b:a:0", "128k", "-ar:a:0", "48000",
 
                 // 720p
-                "-map", "0:v", "-map", "0:a",
-                "-s:v:1", "1280x720", "-b:v:1", "2800k",
+                "-map", "0:v:0", "-map", "0:a:0",
+                "-s:v:1", "1280x720", "-c:v:1", "libx264", "-b:v:1", "2800k",
+                "-maxrate:v:1", "2996k", "-bufsize:v:1", "4200k",
+                "-c:a:1", "aac", "-b:a:1", "128k", "-ar:a:1", "48000",
 
                 // 480p
-                "-map", "0:v", "-map", "0:a",
-                "-s:v:2", "854x480", "-b:v:2", "1400k",
+                "-map", "0:v:0", "-map", "0:a:0",
+                "-s:v:2", "854x480", "-c:v:2", "libx264", "-b:v:2", "1400k",
+                "-maxrate:v:2", "1498k", "-bufsize:v:2", "2100k",
+                "-c:a:2", "aac", "-b:a:2", "128k", "-ar:a:2", "48000",
 
-                "-c:v", "libx264",
-                "-profile:v", "main",
-                "-c:a", "aac",
-                "-ar", "48000",
+                // 360p
+                "-map", "0:v:0", "-map", "0:a:0",
+                "-s:v:3", "640x360", "-c:v:3", "libx264", "-b:v:3", "800k",
+                "-maxrate:v:3", "856k", "-bufsize:v:3", "1200k",
+                "-c:a:3", "aac", "-b:a:3", "96k", "-ar:a:3", "48000",
 
+                // HLS settings
                 "-f", "hls",
-                "-hls_time", "2",
+                "-hls_time", "6",
                 "-hls_playlist_type", "vod",
+                "-hls_flags", "independent_segments",
+                "-hls_segment_type", "mpegts",
                 "-hls_segment_filename", outputDir + "/output_%v/segment_%03d.ts",
                 "-master_pl_name", masterFileName,
+                "-var_stream_map", "v:0,a:0 v:1,a:1 v:2,a:2 v:3,a:3",
                 outputDir + "/output_%v/playlist.m3u8");
 
         ProcessBuilder builder = new ProcessBuilder(command);

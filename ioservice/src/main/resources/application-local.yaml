@@ -37,3 +37,6 @@ logging:
       amazon:
         awssdk:
           request: DEBUG
+    org:
+      springframework:
+        security: DEBUG
