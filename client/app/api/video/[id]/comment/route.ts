@@ -11,11 +11,9 @@ export async function GET(
     const apiClient = new ApiClient<CommentBody>(process.env.HOST_URL as string)
     let data: CommentBody|null = null;
     const parentCommentId = searchParams.get("parentCommentId")
-    console.log("here is parent comment id", parentCommentId)
     if(parentCommentId != null){
         data = await apiClient.get(`/api/v1/video/${id}/comment?parentCommentId=${searchParams.get("parentCommentId")}`)
     }else{
-        console.log('here we are')
         data = await apiClient.get(`/api/v1/video/${id}/comment`)
     }
     const response = NextResponse.json({ success: true, data: data });
