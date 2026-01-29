@@ -20,15 +20,12 @@ import java.util.function.Function;
 @Service
 public class JwtServiceImpl implements JwtService {
     @Value("${jwt.secret}")
-    private  String secretKey;
-
+    private String secretKey;
 
     private Key getKey() {
         return Keys.hmacShaKeyFor(
-                secretKey.getBytes(StandardCharsets.UTF_8)
-        );
+                secretKey.getBytes(StandardCharsets.UTF_8));
     }
-
 
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
@@ -50,8 +47,6 @@ public class JwtServiceImpl implements JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-
-
 
     @Override
     public String generateToken(String username) {
