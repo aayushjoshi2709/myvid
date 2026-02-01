@@ -1,13 +1,13 @@
 
 #### IO Service Installation
-
-1. Navigate to the **ioservice** directory.
-2. Install the required dependencies using Maven wrapper
+1. Install Java 21+
+2. Navigate to the **ioservice** directory.
+3. Install the required dependencies using Maven wrapper
 ```
    ./mvnw clean install
 ```
 
-3. Create an **application-local.yml**  file and add configuration similar to the example shown below.
+4. Create an **application-local.yml**  file and add configuration similar to the example shown below.
 
 ```
     jwt:
@@ -44,11 +44,11 @@
     endpoint: http://localhost:4566
 ```
 
-4. now you can build it using mvnw build
+5. now you can build it using mvnw build
 ```
     ./mvnw package
 ```
-5. run it
+6. run it
 ```
     ./mvnw spring-boot:run
 ```
