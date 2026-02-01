@@ -1,6 +1,7 @@
 #### encoding service installation
-1. Navigate to the **encodingservice** directory.
-2. Install the **ffmpeg** package, which is used to encode videos and images.
+1. Install Java 21+
+2. Navigate to the **encodingservice** directory.
+3. Install the **ffmpeg** package, which is used to encode videos and images.
 
 **Debian / Ubuntu**
 ```
@@ -15,12 +16,12 @@
 ```
     brew install ffmpeg
 ```
-3. Install the required dependencies using Maven 
+4. Install the required dependencies using Maven 
 ```
    ./mvnw clean install
 ```
 
-4. Create an **application-local.yml**  file and add configuration similar to the example shown below.
+5. Create an **application-local.yml**  file and add configuration similar to the example shown below.
 ```
     aws:
     sqs:
@@ -46,11 +47,11 @@
     pathAccess: true
     endpoint: http://localhost:4566
 ```
-5. now you can build it using mvnw build
+6. now you can build it using mvnw build
 ```
     ./mvnw package
 ```
-6. run it
+7. run it
 ```
     ./mvnw spring-boot:run
 ```
