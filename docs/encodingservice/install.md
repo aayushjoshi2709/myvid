@@ -1,6 +1,6 @@
 #### encoding service installation
 1. Install Java 21+
-2. Navigate to the **encodingservice** directory.
+2. Navigate to the **encodingservice (/server/encodingservice)** directory.
 3. Install the **ffmpeg** package, which is used to encode videos and images.
 
 **Debian / Ubuntu**
