@@ -1,7 +1,7 @@
 
 #### IO Service Installation
 1. Install Java 21+
-2. Navigate to the **ioservice** directory.
+2. Navigate to the **ioservice (/server/ioservice)** directory.
 3. Install the required dependencies using Maven wrapper
 ```
    ./mvnw clean install
