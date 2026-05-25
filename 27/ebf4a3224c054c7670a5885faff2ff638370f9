@@ -1,0 +1,18 @@
+server/analyticsservice/pom.xml
+  h_433e0a6a1836a6 9
+server/ioservice/pom.xml
+  h_433e0a6a1836a6 9
+server/encodingservice/pom.xml
+  h_433e0a6a1836a6 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "27ebf4a3224c054c7670a5885faff2ff638370f9",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
