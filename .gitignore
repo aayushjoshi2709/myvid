@@ -67,7 +67,6 @@
 **/!**/src/main/**/build/
 **/!**/src/test/**/build/
 **/### VS Code ###
-**/.vscode/
 server/analyticsservice/src/main/resources/application-local.yaml
 server/ioservice/src/main/resources/application-local.yaml
 server/analyticsservice/src/main/resources/application-local.yaml

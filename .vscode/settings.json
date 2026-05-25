@@ -1,0 +1,10 @@
+{
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "yaml.schemas": {
+    "https://json.schemastore.org/spring-boot": [
+      "server/*/src/main/resources/application.{yml,yaml}",
+      "server/*/src/main/resources/application-*.{yml,yaml}"
+    ]
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

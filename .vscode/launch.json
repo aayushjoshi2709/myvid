@@ -1,0 +1,70 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Client: Next.js Dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "cwd": "${workspaceFolder}/client",
+      "console": "integratedTerminal",
+      "env": {
+        "BROWSER": "none"
+      }
+    },
+    {
+      "type": "java",
+      "name": "Auth Service",
+      "request": "launch",
+      "projectName": "authservice",
+      "mainClass": "com.github.aayushjoshi.authservice.AuthserviceApplication",
+      "cwd": "${workspaceFolder}/server/authservice"
+    },
+    {
+      "type": "java",
+      "name": "Comment Service",
+      "request": "launch",
+      "projectName": "commentservice",
+      "mainClass": "com.github.aayushjoshi.commentservice.CommentserviceApplication",
+      "cwd": "${workspaceFolder}/server/commentservice"
+    },
+    {
+      "type": "java",
+      "name": "Encoding Service",
+      "request": "launch",
+      "projectName": "encodingservice",
+      "mainClass": "com.github.aayushjoshi.myvid.encodingservice.EncodingserviceApplication",
+      "cwd": "${workspaceFolder}/server/encodingservice"
+    },
+    {
+      "type": "java",
+      "name": "IO Service",
+      "request": "launch",
+      "projectName": "ioservice",
+      "mainClass": "com.github.aayushjoshi.myvid.ioservice.IoServiceApplication",
+      "cwd": "${workspaceFolder}/server/ioservice"
+    },
+    {
+      "type": "java",
+      "name": "Gateway Service",
+      "request": "launch",
+      "projectName": "gateway",
+      "mainClass": "com.github.aayushjoshi.gateway.GatewayApplication",
+      "cwd": "${workspaceFolder}/server/gateway"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Run All Services + Client",
+      "configurations": [
+        "Client: Next.js Dev",
+        "Auth Service",
+        "Comment Service",
+        "Encoding Service",
+        "IO Service",
+        "Gateway Service"
+      ]
+    }
+  ]
+}
