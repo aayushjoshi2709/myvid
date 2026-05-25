@@ -41,6 +41,8 @@ public class User extends Common {
     private String profilePicUrl;
 
     @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private UserStatus status = UserStatus.ACTIVE;
 
     @OneToMany(mappedBy = "createdBy")
