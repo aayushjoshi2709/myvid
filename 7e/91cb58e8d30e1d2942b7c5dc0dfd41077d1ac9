@@ -1,36 +1,7 @@
-server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/entity/enums/Status.java
-  h_433e0a6a1836a6 1-6
-server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/entity/Role.java
-  h_433e0a6a1836a6 1-21
-server/gateway/pom.xml
-  h_433e0a6a1836a6 43-53
-.vscode/settings.json
-  s_cbfbcb75be0914::t_b18b9f841a3e09 4
-server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/entity/common/Common.java
-  h_433e0a6a1836a6 1-36
-server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/entity/Endpoint.java
-  h_433e0a6a1836a6 1-34
-server/ioservice/src/main/java/com/github/aayushjoshi2709/myvid/ioservice/entity/User.java
-  h_433e0a6a1836a6 44-45
 ---
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.5.1",
   "base_commit_sha": "7e91cb58e8d30e1d2942b7c5dc0dfd41077d1ac9",
-  "prompts": {},
-  "humans": {
-    "h_433e0a6a1836a6": {
-      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
-    }
-  },
-  "sessions": {
-    "s_cbfbcb75be0914": {
-      "agent_id": {
-        "tool": "github-copilot",
-        "id": "7a6b0c6d-d8c3-4316-a651-5cac55c1b7cf",
-        "model": "gpt-5-mini"
-      },
-      "human_author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
-    }
-  }
+  "prompts": {}
 }
