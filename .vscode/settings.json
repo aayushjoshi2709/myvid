@@ -1,10 +1,12 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "yaml.schemas": {
-    "https://json.schemastore.org/spring-boot": [
-      "server/*/src/main/resources/application.{yml,yaml}",
-      "server/*/src/main/resources/application-*.{yml,yaml}"
+    "https://json.schemastore.org/spring-boot-application-properties.json": [
+      "**/src/main/resources/application.yml",
+      "**/src/main/resources/application.yaml",
+      "**/src/main/resources/application-*.yml",
+      "**/src/main/resources/application-*.yaml"
     ]
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
