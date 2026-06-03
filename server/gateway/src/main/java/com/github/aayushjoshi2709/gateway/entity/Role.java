@@ -1,21 +1,25 @@
 package com.github.aayushjoshi2709.gateway.entity;
 
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
 import com.github.aayushjoshi2709.gateway.entity.common.Common;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Table("Role")
 @Getter
 @Setter
 @Builder
 public class Role extends Common {
-    @Column(name="name", length = 20, nullable = false) 
-    String name;
-    
-    @Column(name="description", length = 100, nullable = false)
-    String description;
+  @Size(max = 30)
+  @Column("name")
+  String name;
+
+  @Size(max = 60)
+  @Column("description")
+  String description;
 }

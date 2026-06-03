@@ -5,14 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.github.aayushjoshi2709.gateway.repository.EndpointRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import com.github.aayushjoshi2709.gateway.dto.Endpoints.CreateEndpointDto;
 import com.github.aayushjoshi2709.gateway.dto.Endpoints.UpdateEndpointDto;
 import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 import com.github.aayushjoshi2709.gateway.mapper.Endpoint.CreateEndpointDtoMapper;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EndpointService {
@@ -26,57 +29,50 @@ public class EndpointService {
     this.createEndpointDtoMapper = createEndpointDtoMapper;
   }
 
-  public Endpoint findById(Long id) throws ResponseStatusException {
-    Endpoint endpoint = this.endpointRepo.findByIdAndStatus(id, Status.ACTIVE)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endpoint not found"));
-    return endpoint;
+  public Mono<Endpoint> findById(Long id) throws ResponseStatusException {
+    return this.endpointRepo.findByIdAndStatus(id, Status.ACTIVE)
+        .switchIfEmpty(
+            Mono.error(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endpoint not found")));
   }
 
-  public List<Endpoint> findAll() {
+  public Flux<Endpoint> findAll() {
     return this.endpointRepo.findAll();
   }
 
-  public Map<String, String> create(CreateEndpointDto body) {
+  public Mono<Endpoint> create(CreateEndpointDto body) {
     Endpoint endpoint = createEndpointDtoMapper.toEntity(body);
-    this.endpointRepo.save(endpoint);
-    return Map.of("messsage", "Endpoint created successfully");
+    return this.endpointRepo.save(endpoint);
   }
 
-  public void delete(Long id) throws ResponseStatusException {
-    Endpoint endpoint = this.findById(id);
-    endpoint.setStatus(Status.INACTIVE);
-    this.endpointRepo.save(endpoint);
+  public Mono<Void> delete(Long id) {
+    return findById(id)
+        .flatMap(endpoint -> {
+          endpoint.setStatus(Status.INACTIVE);
+          return endpointRepo.save(endpoint);
+        })
+        .then();
   }
 
-  public Endpoint update(Long id, UpdateEndpointDto body) throws ResponseStatusException {
-    Endpoint e = this.findById(id);
+  public Mono<Endpoint> update(Long id, UpdateEndpointDto body) throws ResponseStatusException {
+    return findById(id)
+        .flatMap(endpoint -> {
 
-    String serviceName = body.getServiceName();
-    String sourceEndpoint = body.getSourceEndpoint();
-    String destEndpoint = body.getTargetEndpoint();
-    String sourceVersion = body.getSourceVersion();
-    String targetVersion = body.getTargetVersion();
+          Optional.ofNullable(body.getServiceName())
+              .ifPresent(endpoint::setServiceName);
 
-    if (serviceName != null) {
-      e.setServiceName(serviceName);
-    }
+          Optional.ofNullable(body.getSourceEndpoint())
+              .ifPresent(endpoint::setSourceEndpoint);
 
-    if (sourceEndpoint != null) {
-      e.setSourceEndpoint(sourceEndpoint);
-    }
+          Optional.ofNullable(body.getTargetEndpoint())
+              .ifPresent(endpoint::setTargetEndpoint);
 
-    if (destEndpoint != null) {
-      e.setTargetEndpoint(destEndpoint);
-    }
+          Optional.ofNullable(body.getSourceVersion())
+              .ifPresent(endpoint::setSourceVersion);
 
-    if (targetVersion != null) {
-      e.setTargetVersion(targetVersion);
-    }
+          Optional.ofNullable(body.getTargetVersion())
+              .ifPresent(endpoint::setTargetVersion);
 
-    if (sourceVersion != null) {
-      e.setSourceVersion(sourceVersion);
-    }
-
-    return this.endpointRepo.save(e);
+          return endpointRepo.save(endpoint);
+        });
   }
 }
