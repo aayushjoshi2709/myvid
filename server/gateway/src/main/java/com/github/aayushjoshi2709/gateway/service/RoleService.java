@@ -11,6 +11,8 @@ import com.github.aayushjoshi2709.gateway.mapper.Role.UpdateRoleDtoMapper;
 import com.github.aayushjoshi2709.gateway.repository.RoleRepository;
 import com.github.aayushjoshi2709.gateway.dto.Roles.CreateRoleDto;
 import jakarta.validation.Valid;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -27,34 +29,36 @@ public class RoleService {
     this.createRoleDtoMapper = createRoleDtoMapper;
   }
 
-  public List<Role> find(Long limit, Long offset) {
+  public Flux<Role> find(Long limit, Long offset) {
     return this.roleRepository.findAll();
   }
 
-  public Role findById(Long id) throws ResponseStatusException {
-    return this.roleRepository.findById(id).orElseThrow(
-        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No role present with the given id: " + id));
+  public Mono<Role> findById(Long id) throws ResponseStatusException {
+    return this.roleRepository.findById(id).switchIfEmpty(
+        Mono.error(
+            () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No role present with the given id: " + id)));
   }
 
-  public Role create(@Valid CreateRoleDto body) {
+  public Mono<Role> create(@Valid CreateRoleDto body) {
     Role role = this.createRoleDtoMapper.toEntity(body);
     return this.roleRepository.save(role);
   }
 
-  public Role update(Long id, UpdateRoleDto body) {
-    Role role = this.findById(id);
-    String name = body.name();
-    String desc = body.description();
-    if (name.length() == 0) {
-      role.setName(name);
-    }
-    if (desc.length() == 0) {
-      role.setName(desc);
-    }
-    return this.roleRepository.save(role);
+  public Mono<Role> update(Long id, UpdateRoleDto body) {
+    return this.findById(id).flatMap(role -> {
+      String name = body.name();
+      String desc = body.description();
+      if (name.length() == 0) {
+        role.setName(name);
+      }
+      if (desc.length() == 0) {
+        role.setName(desc);
+      }
+      return this.roleRepository.save(role);
+    });
   }
 
   public void delete(Long id) {
-    this.roleRepository.deleteById(id);
+    this.roleRepository.deleteById(id).then();
   }
 }

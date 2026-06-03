@@ -1,14 +1,15 @@
 package com.github.aayushjoshi2709.gateway.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
 import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 
-@Repository
-public interface EndpointRepository extends JpaRepository<Endpoint, Long> {
-  Optional<Endpoint> findByIdAndStatus(Long id, Status status);
+import reactor.core.publisher.Mono;
 
-  Endpoint findOne(String serviceName, String sourceVersion, String sourceEndpoint);
+@Repository
+public interface EndpointRepository extends ReactiveCrudRepository<Endpoint, Long> {
+  Mono<Endpoint> findByIdAndStatus(Long id, Status status);
+
+  Mono<Endpoint> findOne(String serviceName, String sourceVersion, String sourceEndpoint);
 }
