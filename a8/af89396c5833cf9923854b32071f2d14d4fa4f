@@ -1,0 +1,14 @@
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/repository/RoleRepository.java
+  h_433e0a6a1836a6 3-4,20-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "a8af89396c5833cf9923854b32071f2d14d4fa4f",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
