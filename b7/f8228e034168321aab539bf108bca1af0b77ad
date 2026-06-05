@@ -1,0 +1,32 @@
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/repository/RoleRepository.java
+  h_433e0a6a1836a6 3-4,11
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/service/ServiceService.java
+  h_433e0a6a1836a6 3-4,26
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/filter/UserRedirectionFilter.java
+  h_433e0a6a1836a6 13
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/service/EndpointService.java
+  h_433e0a6a1836a6 19,36,51,60
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/dto/Endpoints/UpdateEndpointDto.java
+  h_433e0a6a1836a6 10,18
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/service/UserRedirectionService.java
+  h_433e0a6a1836a6 7
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/dto/Endpoints/CreateEndpointDto.java
+  h_433e0a6a1836a6 9,18
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/repository/ServiceRepository.java
+  h_433e0a6a1836a6 3-4,11
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/service/RoleService.java
+  h_433e0a6a1836a6 3-4,36,47,61-62
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/repository/EndpointRepository.java
+  h_433e0a6a1836a6 9,11-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b7f8228e034168321aab539bf108bca1af0b77ad",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
