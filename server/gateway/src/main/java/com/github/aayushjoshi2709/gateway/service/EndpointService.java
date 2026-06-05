@@ -16,6 +16,7 @@ import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 import com.github.aayushjoshi2709.gateway.mapper.Endpoint.CreateEndpointDtoMapper;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EndpointService {
@@ -32,7 +33,7 @@ public class EndpointService {
     this.serviceService = serviceService;
   }
 
-  public Mono<Endpoint> findById(Long id) throws ResponseStatusException {
+  public Mono<Endpoint> findById(UUID id) throws ResponseStatusException {
     return this.endpointRepo.findByIdAndStatus(id, Status.ACTIVE)
         .switchIfEmpty(
             Mono.error(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endpoint not found")));
@@ -47,7 +48,7 @@ public class EndpointService {
     return this.endpointRepo.save(endpoint);
   }
 
-  public Mono<Void> delete(Long id) {
+  public Mono<Void> delete(UUID id) {
     return findById(id)
         .flatMap(endpoint -> {
           endpoint.setStatus(Status.INACTIVE);
@@ -56,7 +57,7 @@ public class EndpointService {
         .then();
   }
 
-  public Mono<Endpoint> update(Long id, UpdateEndpointDto body) {
+  public Mono<Endpoint> update(UUID id, UpdateEndpointDto body) {
 
     return findById(id)
         .flatMap(endpoint -> {

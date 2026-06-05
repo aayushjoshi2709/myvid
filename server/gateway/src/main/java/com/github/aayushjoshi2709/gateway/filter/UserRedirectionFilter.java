@@ -10,5 +10,6 @@ import reactor.core.publisher.Mono;
 class UserRedirectionFilter implements WebFilter {
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    return null;
   }
 }

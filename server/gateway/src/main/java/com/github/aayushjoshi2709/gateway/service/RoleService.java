@@ -1,5 +1,7 @@
 package com.github.aayushjoshi2709.gateway.service;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,7 +33,7 @@ public class RoleService {
     return this.roleRepository.findAll();
   }
 
-  public Mono<Role> findById(Long id) throws ResponseStatusException {
+  public Mono<Role> findById(UUID id) throws ResponseStatusException {
     return this.roleRepository.findById(id).switchIfEmpty(
         Mono.error(
             () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No role present with the given id: " + id)));
@@ -42,7 +44,7 @@ public class RoleService {
     return this.roleRepository.save(role);
   }
 
-  public Mono<Role> update(Long id, UpdateRoleDto body) {
+  public Mono<Role> update(UUID id, UpdateRoleDto body) {
     return this.findById(id).flatMap(role -> {
       String name = body.name();
       String desc = body.description();
@@ -56,7 +58,7 @@ public class RoleService {
     });
   }
 
-  public void delete(Long id) {
-    this.roleRepository.deleteById(id).then();
+  public Mono<Void> delete(UUID id) {
+    return this.roleRepository.deleteById(id).then();
   }
 }

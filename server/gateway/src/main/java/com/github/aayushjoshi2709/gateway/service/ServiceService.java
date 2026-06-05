@@ -1,5 +1,7 @@
 package com.github.aayushjoshi2709.gateway.service;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,7 +23,7 @@ public class ServiceService {
     this.createServiceDtoMapper = createServiceDtoMapper;
   }
 
-  public Mono<Service> findById(Long id) {
+  public Mono<Service> findById(UUID id) {
     return this.serviceRepository.findById(id).switchIfEmpty(Mono.error(
         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Service not found with the given service id")));
   }
