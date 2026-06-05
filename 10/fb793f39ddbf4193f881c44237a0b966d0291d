@@ -1,0 +1,30 @@
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/service/RoleService.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/entity/common/Common.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/controller/UserController.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/entity/Role.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/repository/UserRepository.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/repository/RoleRepository.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/controller/RoleController.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/entity/User.java
+  h_433e0a6a1836a6 1-5
+server/authservice/src/main/java/com/github/aayushjoshi2709/authservice/service/UserService.java
+  h_433e0a6a1836a6 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "10fb793f39ddbf4193f881c44237a0b966d0291d",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
