@@ -11,18 +11,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table("Role")
+@Table("service")
 @Getter
 @Setter
 @Builder
-public class Role extends Common {
-  @Size(max = 30)
+public class Service extends Common {
+  @Column("serviceName")
   @NotBlank
-  @Column("name")
-  String name;
+  @Size(min = 2, max = 30)
+  private String serviceName;
 
-  @Size(max = 60)
+  @Column("serviceUrl")
   @NotBlank
-  @Column("description")
-  String description;
+  @Size(min = 2, max = 50)
+  private String serviceUrl;
 }

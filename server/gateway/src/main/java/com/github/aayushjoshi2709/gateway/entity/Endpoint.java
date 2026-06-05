@@ -6,14 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import org.springframework.data.relational.core.mapping.Column;
+
+import java.util.UUID;
+
 import org.springframework.data.relational.core.mapping.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,9 +24,8 @@ import java.util.List;
 @Table("endpoint")
 public class Endpoint extends Common {
   @NotBlank
-  @Size(max = 30)
-  @Column("serviceName")
-  String serviceName;
+  @Column("serviceId")
+  UUID serviceId;
 
   @NotBlank
   @Size(max = 5)
@@ -47,5 +47,7 @@ public class Endpoint extends Common {
   @Column("targetEndpoint")
   String targetEndpoint;
 
-  List<Role> roles;
+  @NotBlank
+  @Column("roleId")
+  Long roleId;
 }

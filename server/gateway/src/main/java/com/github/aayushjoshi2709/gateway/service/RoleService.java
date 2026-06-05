@@ -14,8 +14,6 @@ import jakarta.validation.Valid;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
 public class RoleService {
   private final RoleRepository roleRepository;

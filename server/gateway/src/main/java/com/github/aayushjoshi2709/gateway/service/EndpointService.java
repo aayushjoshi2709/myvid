@@ -21,12 +21,15 @@ import java.util.Optional;
 public class EndpointService {
   private final EndpointRepository endpointRepo;
   private final CreateEndpointDtoMapper createEndpointDtoMapper;
+  private final ServiceService serviceService;
 
   EndpointService(
       final EndpointRepository endpointRepo,
-      final CreateEndpointDtoMapper createEndpointDtoMapper) {
+      final CreateEndpointDtoMapper createEndpointDtoMapper,
+      final ServiceService serviceService) {
     this.endpointRepo = endpointRepo;
     this.createEndpointDtoMapper = createEndpointDtoMapper;
+    this.serviceService = serviceService;
   }
 
   public Mono<Endpoint> findById(Long id) throws ResponseStatusException {
@@ -53,26 +56,39 @@ public class EndpointService {
         .then();
   }
 
-  public Mono<Endpoint> update(Long id, UpdateEndpointDto body) throws ResponseStatusException {
+  public Mono<Endpoint> update(Long id, UpdateEndpointDto body) {
+
     return findById(id)
         .flatMap(endpoint -> {
 
-          Optional.ofNullable(body.getServiceName())
-              .ifPresent(endpoint::setServiceName);
+          Mono<Endpoint> endpointMono;
 
-          Optional.ofNullable(body.getSourceEndpoint())
-              .ifPresent(endpoint::setSourceEndpoint);
+          if (body.getServiceId() != null) {
+            endpointMono = this.serviceService.findById(body.getServiceId())
+                .map(service -> {
+                  endpoint.setServiceId(service.getId());
+                  return endpoint;
+                });
+          } else {
+            endpointMono = Mono.just(endpoint);
+          }
 
-          Optional.ofNullable(body.getTargetEndpoint())
-              .ifPresent(endpoint::setTargetEndpoint);
+          return endpointMono.flatMap(e -> {
 
-          Optional.ofNullable(body.getSourceVersion())
-              .ifPresent(endpoint::setSourceVersion);
+            Optional.ofNullable(body.getSourceEndpoint())
+                .ifPresent(e::setSourceEndpoint);
 
-          Optional.ofNullable(body.getTargetVersion())
-              .ifPresent(endpoint::setTargetVersion);
+            Optional.ofNullable(body.getTargetEndpoint())
+                .ifPresent(e::setTargetEndpoint);
 
-          return endpointRepo.save(endpoint);
+            Optional.ofNullable(body.getSourceVersion())
+                .ifPresent(e::setSourceVersion);
+
+            Optional.ofNullable(body.getTargetVersion())
+                .ifPresent(e::setTargetVersion);
+
+            return endpointRepo.save(e);
+          });
         });
   }
 }
