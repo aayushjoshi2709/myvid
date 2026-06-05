@@ -1,0 +1,16 @@
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/controller/RoleController.java
+  h_433e0a6a1836a6 3-4,8,19,21,40,51
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/controller/EndpointController.java
+  h_433e0a6a1836a6 3-4,15,30,44,62,70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "51686b7d0bf7c904ecfaf7a89911c385484d7686",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
