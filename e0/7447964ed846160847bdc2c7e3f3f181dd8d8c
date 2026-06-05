@@ -1,0 +1,14 @@
+server/gateway/src/main/java/com/github/aayushjoshi2709/gateway/service/RoleService.java
+  h_433e0a6a1836a6 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "e07447964ed846160847bdc2c7e3f3f181dd8d8c",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
