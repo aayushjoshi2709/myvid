@@ -1,5 +1,7 @@
 package com.github.aayushjoshi2709.authservice.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.github.aayushjoshi2709.authservice.entity.Role;
@@ -14,5 +16,13 @@ public class RoleRepository {
 
     public RoleRepository(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
         this.roleTable = dynamoDbEnhancedClient.table("roles", TableSchema.fromBean(Role.class));
+    }
+    public Role save(Role role) {
+        roleTable.putItem(role);
+        return role;
+    }
+
+    public Optional<Role> findById(String id) {
+        return Optional.ofNullable(roleTable.getItem(r -> r.key(k -> k.partitionValue(id))));
     }
 }
