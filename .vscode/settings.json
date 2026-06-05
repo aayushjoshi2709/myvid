@@ -9,5 +9,8 @@
       "**/src/main/resources/application-*.yml",
       "**/src/main/resources/application-*.yaml"
     ]
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
   }
 }
