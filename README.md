@@ -10,4 +10,6 @@
         - [IO Service](./docs/ioservice/install.md)
         - [Encoding Service](./docs/encodingservice/install.md)
         - [Client Service](./docs/clientservice/install.md)
+        - [Auth Service](./docs/authservice/install.md)
+        - [Gateway](./docs/gateway/install.md)
 - System Architecture
