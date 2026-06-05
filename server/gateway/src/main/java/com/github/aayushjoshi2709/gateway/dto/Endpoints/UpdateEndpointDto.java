@@ -1,6 +1,7 @@
 
 package com.github.aayushjoshi2709.gateway.dto.Endpoints;
 
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,8 +13,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UpdateEndpointDto {
-  @Size(min = 1, message = "Service name should have min length of 1")
-  String serviceName;
+  @Positive(message = "Service id should be a Positive number")
+  Long serviceId;
 
   @Size(min = 1, message = "Service name should have min length of 1")
   String sourceVersion;

@@ -1,3 +1,7 @@
 spring:
     application:
         name: gateway
+    r2dbc:
+        url: r2dbc:postgresql://localhost:5432/mydb
+        username: postgres
+        password: password
