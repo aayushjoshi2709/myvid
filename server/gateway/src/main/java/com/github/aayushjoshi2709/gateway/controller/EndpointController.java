@@ -1,9 +1,10 @@
 package com.github.aayushjoshi2709.gateway.controller;
 
+import java.util.UUID;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.github.aayushjoshi2709.gateway.dto.Endpoints.CreateEndpointDto;
@@ -25,7 +27,7 @@ import jakarta.validation.constraints.Positive;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Controller
+@RestController
 @RequestMapping("/endpoints")
 @Validated
 class EndpointController {
@@ -39,7 +41,7 @@ class EndpointController {
 
   @GetMapping("/{id}")
   Mono<ResponseEntity<Endpoint>> getEndpoint(
-      @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") Long id)
+      @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id)
       throws ResponseStatusException {
     return this.endpointService.findById(id).map(ResponseEntity::ok);
   }
@@ -57,7 +59,7 @@ class EndpointController {
 
   @PatchMapping
   Mono<ResponseEntity<Endpoint>> updateEndpoint(
-      @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") Long id,
+      @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id,
       @Valid @RequestBody UpdateEndpointDto body) {
     return this.endpointService.update(id, body).map(
         response -> ResponseEntity.ok(response));
@@ -65,7 +67,7 @@ class EndpointController {
 
   @DeleteMapping("/{id}")
   ResponseEntity<Void> deleteEndpoint(
-      @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") Long id)
+      @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id)
       throws ResponseStatusException {
     this.endpointService.delete(id);
     return ResponseEntity.noContent().build();
