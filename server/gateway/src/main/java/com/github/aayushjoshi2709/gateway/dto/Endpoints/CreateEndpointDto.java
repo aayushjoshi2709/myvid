@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -14,7 +15,7 @@ import lombok.Setter;
 public class CreateEndpointDto {
   @NotBlank(message = "Service id is requried")
   @Positive(message = "Service id should be a positive number")
-  Long serviceId;
+  UUID serviceId;
 
   @NotBlank(message = "Source version is required")
   String sourceVersion;

@@ -6,10 +6,10 @@ import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 
 import reactor.core.publisher.Mono;
-
+import java.util.UUID;
 @Repository
-public interface EndpointRepository extends ReactiveCrudRepository<Endpoint, Long> {
-  Mono<Endpoint> findByIdAndStatus(Long id, Status status);
+public interface EndpointRepository extends ReactiveCrudRepository<Endpoint, UUID> {
+  Mono<Endpoint> findByIdAndStatus(UUID id, Status status);
 
   Mono<Endpoint> findOne(String serviceName, String sourceVersion, String sourceEndpoint);
 }

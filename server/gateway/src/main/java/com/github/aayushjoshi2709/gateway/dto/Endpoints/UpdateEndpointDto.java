@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -14,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateEndpointDto {
   @Positive(message = "Service id should be a Positive number")
-  Long serviceId;
+  UUID serviceId;
 
   @Size(min = 1, message = "Service name should have min length of 1")
   String sourceVersion;

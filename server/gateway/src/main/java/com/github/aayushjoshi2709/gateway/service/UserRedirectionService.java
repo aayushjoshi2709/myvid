@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserRedirectionService {
-  private authenticateUser(){
+  private void authenticateUser(){
 
   }
 
