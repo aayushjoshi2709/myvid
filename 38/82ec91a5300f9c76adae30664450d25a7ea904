@@ -1,0 +1,16 @@
+server/authservice/src/main/resources/application.yaml
+  h_433e0a6a1836a6 1-3
+README.md
+  h_433e0a6a1836a6 13-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "3882ec91a5300f9c76adae30664450d25a7ea904",
+  "prompts": {},
+  "humans": {
+    "h_433e0a6a1836a6": {
+      "author": "aayushjoshi2709 <aayushjoshi2709@gmail.com>"
+    }
+  }
+}
