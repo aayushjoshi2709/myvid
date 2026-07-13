@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -21,6 +22,6 @@ public class Common {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @CreatedDate
+    @UpdateTimestamp
     private LocalDateTime createdAt;
 }

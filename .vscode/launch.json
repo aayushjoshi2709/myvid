@@ -2,6 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "GatewayApplication",
+      "request": "launch",
+      "mainClass": "com.github.aayushjoshi2709.gateway.GatewayApplication"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Client: Next.js Dev",
