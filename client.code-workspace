@@ -1,16 +1,28 @@
 {
-	"folders": [
-		{
-			"path": "client"
-		},
-		{
-			"path": "ioservice"
-		},
-		{
-			"path": "encodingservice"
-		}
-	],
-	"settings": {
-		"java.configuration.updateBuildConfiguration": "interactive"
-	}
+  "folders": [
+    {
+      "path": "client",
+    },
+    {
+      "path": "server/analyticsservice",
+    },
+    {
+      "path": "server/authservice",
+    },
+    {
+      "path": "server/commentservice",
+    },
+    {
+      "path": "server/encodingservice",
+    },
+    {
+      "path": "server/gateway",
+    },
+    {
+      "path": "server/ioservice",
+    },
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "interactive",
+  },
 }
