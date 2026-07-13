@@ -1,10 +1,14 @@
 spring:
   application:
     name: authservice
-  cloud:
-    aws:
-      dynamodb:
-        region: ${AWS_REGION}
-      credentials:
-        access-key: ${AWS_ACCESS_KEY}
-        secret-key: ${AWS_SECRET_KEY}
+  datasource:
+    hikari:
+      connectionTimeout: ${DB_CONN_TIMEOUT}
+      maximumPoolSize: ${DB_MAX_POOL}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
