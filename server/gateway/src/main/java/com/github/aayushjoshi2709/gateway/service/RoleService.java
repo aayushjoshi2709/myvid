@@ -49,10 +49,10 @@ public class RoleService {
     return this.findById(id).flatMap(role -> {
       String name = body.name();
       String desc = body.description();
-      if (name.length() == 0) {
+      if (name.isEmpty()) {
         role.setName(name);
       }
-      if (desc.length() == 0) {
+      if (desc.isEmpty()) {
         role.setName(desc);
       }
       return this.roleRepository.save(role);
