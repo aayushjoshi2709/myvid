@@ -7,6 +7,7 @@ import com.github.aayushjoshi2709.authservice.repository.RoleRepository;
 import com.github.aayushjoshi2709.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,20 @@ public class SeedData implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
+    @Value("${appdata.defaults.adminPassword}")
+    private String adminPassword = "";
+
+    @Value("${appdata.defaults.adminEmail}")
+    private String adminEmail = "";
+
     @Override
     public void run(String @NonNull ... args) throws Exception {
         if(this.userRepository.count() == 0){
+
+            if(adminEmail.isEmpty() || adminPassword.isEmpty()){
+                throw new RuntimeException("Admin email or password now round in config");
+            }
+
             Role adminRole = new Role("ADMIN", "A role with all privileges");
             Role userRole = new Role("USER", "A role with all privileges");
 
@@ -32,9 +44,9 @@ public class SeedData implements CommandLineRunner {
 
             User admin = new User();
             admin.setUsername("admin");
-            admin.setEmail("admin@myvid.com");
+            admin.setEmail(adminEmail);
             admin.setName("admin");
-            admin.setPassword(passwordEncoder.encode("Admin@123"));
+            admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRoles(List.of(savedAdminRole, savedUserRole));
             userRepository.save(admin);
 

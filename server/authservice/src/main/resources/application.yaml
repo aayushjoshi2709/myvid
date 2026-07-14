@@ -12,6 +12,12 @@ spring:
     hibernate:
       ddl-auto: update
 
+appdata:
+  defaults:
+    adminPassword: ${ADMIN_PASSWORD}
+    adminEmail: ${ADMIN_EMAIL}
+
+
 springdoc:
   swagger-ui:
     path: /
