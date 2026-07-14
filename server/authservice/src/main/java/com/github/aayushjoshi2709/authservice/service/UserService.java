@@ -1,6 +1,8 @@
 package com.github.aayushjoshi2709.authservice.service;
 
+import com.github.aayushjoshi2709.authservice.dto.LoginResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.user.CreateUserDto;
+import com.github.aayushjoshi2709.authservice.dto.user.LoginDto;
 import com.github.aayushjoshi2709.authservice.dto.user.UpdateUserDto;
 import com.github.aayushjoshi2709.authservice.dto.user.UserResponseDto;
 
@@ -17,4 +19,6 @@ public interface UserService {
     UserResponseDto update(UUID id, UpdateUserDto body);
 
     void delete(UUID id);
+
+    LoginResponseDto login(LoginDto data);
 }

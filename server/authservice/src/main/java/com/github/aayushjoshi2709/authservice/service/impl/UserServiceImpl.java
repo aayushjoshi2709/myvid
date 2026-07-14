@@ -1,6 +1,8 @@
 package com.github.aayushjoshi2709.authservice.service.impl;
 
+import com.github.aayushjoshi2709.authservice.dto.LoginResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.user.CreateUserDto;
+import com.github.aayushjoshi2709.authservice.dto.user.LoginDto;
 import com.github.aayushjoshi2709.authservice.dto.user.UpdateUserDto;
 import com.github.aayushjoshi2709.authservice.dto.user.UserResponseDto;
 import com.github.aayushjoshi2709.authservice.entity.User;
@@ -10,6 +12,7 @@ import com.github.aayushjoshi2709.authservice.mapper.User.UserResponseMapper;
 import com.github.aayushjoshi2709.authservice.service.UserService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.aayushjoshi2709.authservice.repository.UserRepository;
@@ -26,6 +29,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CreateUserMapper createUserMapper;
     private final UserResponseMapper userResponseMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    private String getEncryptedPassword(String password){
+        return this.passwordEncoder.encode(password);
+    }
+
+    private Boolean matchPassword(String providedPassword, String hashedPassword){
+        return this.passwordEncoder.matches(providedPassword, hashedPassword);
+    }
+
+
     private User findUserById(UUID id){
         return this.userRepository.findByIdAndStatus(id, UserStatusEnum.ACTIVE).orElseThrow(
                 ()-> new ResponseStatusException(
@@ -35,9 +49,30 @@ public class UserServiceImpl implements UserService {
         );
     }
 
+
+    @Override
+    public LoginResponseDto login(LoginDto data){
+        User user = this.userRepository.findByUsernameAndStatus(data.username(), UserStatusEnum.ACTIVE).orElseThrow(
+                ()-> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "User not found"
+                )
+        );
+
+        if(!matchPassword(data.password(), user.getPassword())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+        }
+
+        String authToken = "";
+        String refreshToken = "";
+
+        return new LoginResponseDto(authToken, refreshToken);
+    }
+
     @Override
     public UserResponseDto create(CreateUserDto body) {
         User user = this.createUserMapper.toEntity(body);
+        user.setPassword(this.getEncryptedPassword(user.getPassword()));
         User savedUser = this.userRepository.save(user);
         return this.userResponseMapper.toDto(savedUser);
     }
@@ -50,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> findAll(Integer page, Integer size) {
-        return this.userRepository.findAll().stream().map(userResponseMapper::toDto).toList();
+        return this.userRepository.findAll().parallelStream().map(userResponseMapper::toDto).toList();
     }
 
     @Override
