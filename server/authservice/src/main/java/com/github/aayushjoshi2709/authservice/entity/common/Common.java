@@ -16,6 +16,7 @@ import java.util.UUID;
 public abstract class Common {
     @Id
     private UUID id;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
