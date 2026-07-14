@@ -25,7 +25,7 @@ public class User extends Common{
     @Column(name="email", length = 50, nullable = false, unique = true)
     private String email;
 
-    @Column(name="password", length = 30, nullable = false)
+    @Column(name="password", length = 60, nullable = false)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)

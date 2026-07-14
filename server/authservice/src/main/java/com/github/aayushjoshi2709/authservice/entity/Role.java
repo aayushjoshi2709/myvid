@@ -24,4 +24,11 @@ public class Role extends Common {
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private RoleStatusEnum status = RoleStatusEnum.ACTIVE;
+
+    public Role(String name, String description) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.status = RoleStatusEnum.ACTIVE;
+    }
 }
