@@ -14,7 +14,6 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Setter
 public class RefreshToken extends Common {
     @Column

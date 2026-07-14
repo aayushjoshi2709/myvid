@@ -1,10 +1,7 @@
 package com.github.aayushjoshi2709.authservice.service.impl;
 
-import com.github.aayushjoshi2709.authservice.dto.LoginResponseDto;
-import com.github.aayushjoshi2709.authservice.dto.user.CreateUserDto;
-import com.github.aayushjoshi2709.authservice.dto.user.LoginDto;
-import com.github.aayushjoshi2709.authservice.dto.user.UpdateUserDto;
-import com.github.aayushjoshi2709.authservice.dto.user.UserResponseDto;
+import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
+import com.github.aayushjoshi2709.authservice.dto.user.*;
 import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.entity.enums.UserStatusEnum;
@@ -86,6 +83,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public LoginResponseDto refresh(RefreshTokenRequestDto data) {
+        return null;
+    }
+
+    @Override
+    public void Logout(RefreshTokenRequestDto data) {
+
+    }
+
+    @Override
     public UserResponseDto create(CreateUserDto body) {
         User user = this.createUserMapper.toEntity(body);
         user.setPassword(this.getEncryptedPassword(user.getPassword()));
@@ -100,8 +107,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> findAll(Integer page, Integer size) {
-        return this.userRepository.findAll().parallelStream().map(userResponseMapper::toDto).toList();
+    public PaginatedResponseDto<List<UserResponseDto>> findAll(Integer page, Integer limit) {
+        List<UserResponseDto> users = this.userRepository.findAll().stream().map(userResponseMapper::toDto).toList();
+        return new PaginatedResponseDto<>(page, limit, 0, users);
     }
 
     @Override
