@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    public UserResponseDto create(CreateUserDto body);
+    UserResponseDto create(CreateUserDto body);
 
-    public UserResponseDto findById(UUID id);
+    UserResponseDto findById(UUID id);
 
-    public List<UserResponseDto> findAll(Integer page, Integer size);
+    List<UserResponseDto> findAll(Integer page, Integer size);
 
-    public UserResponseDto update(UUID id, UpdateUserDto body);
+    UserResponseDto update(UUID id, UpdateUserDto body);
 
-    public void delete(UUID id);
+    void delete(UUID id);
 }

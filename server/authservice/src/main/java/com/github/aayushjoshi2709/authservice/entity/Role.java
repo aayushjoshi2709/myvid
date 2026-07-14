@@ -18,7 +18,7 @@ public class Role extends Common {
     @Column(name="name", nullable = false, length = 70)
     private String name;
 
-    @Column(name="description", nullable = true, length = 255)
+    @Column(name="description")
     private String description;
 
     @Enumerated(EnumType.ORDINAL)
