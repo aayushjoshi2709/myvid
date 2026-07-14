@@ -1,6 +1,4 @@
 package com.github.aayushjoshi2709.authservice.repository;
-
-import java.lang.ScopedValue;
 import java.util.Optional;
 import java.util.UUID;
 
