@@ -16,6 +16,8 @@ appdata:
   defaults:
     adminPassword: ${ADMIN_PASSWORD}
     adminEmail: ${ADMIN_EMAIL}
+    refreshTokenExpiryDays: ${REFRESH_TOKEN_EXP}
+    accessTokenExpiryDays: ${ACCESS_TOKEN_EXP}
 
 
 springdoc:
