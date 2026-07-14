@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.authservice.service.impl;
 
+import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.CreateRoleDto;
 import com.github.aayushjoshi2709.authservice.dto.role.RoleResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.UpdateRoleDto;
@@ -36,7 +37,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     public RoleResponseDto create(CreateRoleDto body) {
-        Role savedRole = this.roleRepository.save(createRoleMapper.toEntity(body));
+        Role role = createRoleMapper.toEntity(body);
+        Role savedRole = this.roleRepository.save(role);
         return roleResponseMapper.toDto(savedRole);
     }
 
@@ -45,8 +47,24 @@ public class RoleServiceImpl implements RoleService {
         return roleResponseMapper.toDto(role);
     }
 
-    public List<RoleResponseDto> findAll(Integer page, Integer size){
-        return this.roleRepository.findAll().stream().map(roleResponseMapper::toDto).toList();
+    public PaginatedResponseDto<List<RoleResponseDto>> findAll(Integer page, Integer limit){
+        Integer count = this.roleRepository.countByStatus(RoleStatusEnum.ACTIVE);
+        int totalPages = (count + limit - 1) / limit;
+
+        if (totalPages > 0 && page > totalPages) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Invalid page or limit value"
+            );
+        }
+
+        List<RoleResponseDto> roles =  this.roleRepository.findAllByStatus(RoleStatusEnum.ACTIVE).stream().map(roleResponseMapper::toDto).toList();
+        return new PaginatedResponseDto<>(
+                page,
+                limit,
+                totalPages,
+                roles
+        );
     }
 
     public RoleResponseDto update(UUID id, UpdateRoleDto body){

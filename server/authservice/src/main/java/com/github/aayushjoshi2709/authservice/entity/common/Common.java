@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.authservice.entity.common;
 
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class Common {
     @Id
+    @GeneratedValue
     private UUID id;
 
     @CreationTimestamp

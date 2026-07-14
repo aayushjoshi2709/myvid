@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.authservice.service;
 
+import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.CreateRoleDto;
 import com.github.aayushjoshi2709.authservice.dto.role.RoleResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.UpdateRoleDto;
@@ -15,7 +16,7 @@ public interface RoleService {
 
     RoleResponseDto findById(UUID id);
 
-    List<RoleResponseDto> findAll(Integer page, Integer size);
+    PaginatedResponseDto<List<RoleResponseDto>> findAll(Integer page, Integer size);
 
     RoleResponseDto update(UUID id, UpdateRoleDto body);
 

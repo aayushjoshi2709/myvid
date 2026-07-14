@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.authservice.controller;
 
+import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.CreateRoleDto;
 import com.github.aayushjoshi2709.authservice.dto.role.RoleResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.UpdateRoleDto;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/role")
 @RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;
@@ -28,8 +30,8 @@ public class RoleController {
     }
 
     @GetMapping("")
-    ResponseEntity<List<RoleResponseDto>> getRoles(@RequestParam Integer page, @RequestParam Integer size){
-        return ResponseEntity.ok(this.roleService.findAll(page, size));
+    ResponseEntity<PaginatedResponseDto<List<RoleResponseDto>>> getRoles(@RequestParam Integer page, @RequestParam Integer limit){
+        return ResponseEntity.ok(this.roleService.findAll(page, limit));
     }
 
     @PutMapping("/{id}")
