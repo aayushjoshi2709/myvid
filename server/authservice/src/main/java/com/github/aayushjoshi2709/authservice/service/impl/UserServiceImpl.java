@@ -5,13 +5,18 @@ import com.github.aayushjoshi2709.authservice.dto.user.CreateUserDto;
 import com.github.aayushjoshi2709.authservice.dto.user.LoginDto;
 import com.github.aayushjoshi2709.authservice.dto.user.UpdateUserDto;
 import com.github.aayushjoshi2709.authservice.dto.user.UserResponseDto;
+import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.entity.enums.UserStatusEnum;
 import com.github.aayushjoshi2709.authservice.mapper.User.CreateUserMapper;
 import com.github.aayushjoshi2709.authservice.mapper.User.UserResponseMapper;
+import com.github.aayushjoshi2709.authservice.repository.RefreshTokenRepository;
 import com.github.aayushjoshi2709.authservice.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
+import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +25,7 @@ import com.github.aayushjoshi2709.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,9 +33,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final CreateUserMapper createUserMapper;
     private final UserResponseMapper userResponseMapper;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${appdata.defaults.accessTokenExpiryDays}")
+    private Integer accessTokenExpiryDays;
 
     private String getEncryptedPassword(String password){
         return this.passwordEncoder.encode(password);
@@ -49,6 +59,16 @@ public class UserServiceImpl implements UserService {
         );
     }
 
+    private String getNewRefreshToken(User user){
+        StringKeyGenerator generator = new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 22);
+        RefreshToken refreshToken = new RefreshToken(user.getId(), generator.generateKey());
+        return this.refreshTokenRepository.save(refreshToken).getToken();
+    }
+
+    private String generateJWTToken(User user){
+        return "";
+    }
+
 
     @Override
     public LoginResponseDto login(LoginDto data){
@@ -62,11 +82,7 @@ public class UserServiceImpl implements UserService {
         if(!matchPassword(data.password(), user.getPassword())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
-
-        String authToken = "";
-        String refreshToken = "";
-
-        return new LoginResponseDto(authToken, refreshToken);
+        return new LoginResponseDto(generateJWTToken(user), getNewRefreshToken(user));
     }
 
     @Override
