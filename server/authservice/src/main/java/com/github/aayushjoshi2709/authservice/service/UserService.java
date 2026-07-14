@@ -1,13 +1,20 @@
 package com.github.aayushjoshi2709.authservice.service;
 
-import org.springframework.stereotype.Service;
+import com.github.aayushjoshi2709.authservice.dto.user.CreateUserDto;
+import com.github.aayushjoshi2709.authservice.dto.user.UpdateUserDto;
+import com.github.aayushjoshi2709.authservice.dto.user.UserResponseDto;
 
-import com.github.aayushjoshi2709.authservice.repository.UserRepository;
+import java.util.List;
+import java.util.UUID;
 
-import lombok.RequiredArgsConstructor;
+public interface UserService {
+    public UserResponseDto create(CreateUserDto body);
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+    public UserResponseDto findById(UUID id);
+
+    public List<UserResponseDto> findAll(Integer page, Integer size);
+
+    public UserResponseDto update(UUID id, UpdateUserDto body);
+
+    public void delete(UUID id);
 }
