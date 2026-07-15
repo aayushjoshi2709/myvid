@@ -18,6 +18,7 @@ appdata:
     adminEmail: ${ADMIN_EMAIL}
     refreshTokenExpiryDays: ${REFRESH_TOKEN_EXP}
     accessTokenExpiryDays: ${ACCESS_TOKEN_EXP}
+    jwtSecret: ${JWT_SECRET}
 
 
 springdoc:
