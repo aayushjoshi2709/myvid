@@ -2,18 +2,14 @@ package com.github.aayushjoshi2709.authservice.service.impl;
 
 import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.user.*;
-import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.entity.enums.UserStatusEnum;
 import com.github.aayushjoshi2709.authservice.mapper.User.CreateUserMapper;
 import com.github.aayushjoshi2709.authservice.mapper.User.UserResponseMapper;
-import com.github.aayushjoshi2709.authservice.repository.RefreshTokenRepository;
+import com.github.aayushjoshi2709.authservice.service.RefreshTokenService;
 import com.github.aayushjoshi2709.authservice.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
-import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +18,6 @@ import com.github.aayushjoshi2709.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,13 +25,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final CreateUserMapper createUserMapper;
     private final UserResponseMapper userResponseMapper;
     private final PasswordEncoder passwordEncoder;
-
-    @Value("${appdata.defaults.accessTokenExpiryDays}")
-    private Integer accessTokenExpiryDays;
+    private final RefreshTokenService refreshTokenService;
 
     private String getEncryptedPassword(String password){
         return this.passwordEncoder.encode(password);
@@ -47,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private User findUserById(UUID id){
+    public User findUserById(UUID id){
         return this.userRepository.findByIdAndStatus(id, UserStatusEnum.ACTIVE).orElseThrow(
                 ()-> new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
@@ -55,17 +47,6 @@ public class UserServiceImpl implements UserService {
                 )
         );
     }
-
-    private String getNewRefreshToken(User user){
-        StringKeyGenerator generator = new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 22);
-        RefreshToken refreshToken = new RefreshToken(user.getId(), generator.generateKey());
-        return this.refreshTokenRepository.save(refreshToken).getToken();
-    }
-
-    private String generateJWTToken(User user){
-        return "";
-    }
-
 
     @Override
     public LoginResponseDto login(LoginDto data){
@@ -79,17 +60,18 @@ public class UserServiceImpl implements UserService {
         if(!matchPassword(data.password(), user.getPassword())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
-        return new LoginResponseDto(generateJWTToken(user), getNewRefreshToken(user));
+
+        return this.refreshTokenService.getNewRefreshToken(user);
     }
 
     @Override
     public LoginResponseDto refresh(RefreshTokenRequestDto data) {
-        return null;
+        return this.refreshTokenService.getNewAccessToken(data.token());
     }
 
     @Override
     public void Logout(RefreshTokenRequestDto data) {
-
+        this.refreshTokenService.revokeRefreshToken(data.token());
     }
 
     @Override
@@ -140,5 +122,6 @@ public class UserServiceImpl implements UserService {
         User user = this.findUserById(id);
         user.setStatus(UserStatusEnum.IN_ACTIVE);
         this.userRepository.save(user);
+        this.refreshTokenService.revokeRefreshTokenByUser(user);
     }
 }

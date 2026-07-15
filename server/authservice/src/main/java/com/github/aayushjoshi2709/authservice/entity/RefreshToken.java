@@ -6,7 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
-
 import java.util.UUID;
 
 @Entity
@@ -18,6 +17,9 @@ import java.util.UUID;
 public class RefreshToken extends Common {
     @Column
     private UUID userId;
-    @Column(name="token", length = 60)
-    private String token;
+    @Column(name="refresh_token", length = 60)
+    private String refreshToken;
+
+    @Column(name="current_access_token")
+    private String currentAccessToken;
 }
