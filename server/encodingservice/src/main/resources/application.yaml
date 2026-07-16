@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /api
-  port: 8001
+  port: 5012
 spring:
   application:
     name: encodingservice
