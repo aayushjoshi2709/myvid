@@ -7,3 +7,26 @@ spring:
     name: encodingservice
   profiles:
     default: local
+aws:
+  region: ${AWS_REGION}
+  endpoint: ${AWS_ENDPOINT:#{null}}
+  access-key: ${AWS_ACCESS_KEY:#{null}}
+  secret-key: ${AWS_SECRET_KEY:#{null}}
+  pathAccess: ${AWS_PATH_ACCESS:true}
+  s3:
+    data-processing:
+      bucket-name: ${AWS_S3_DATA_PROCESSING_BUCKET_NAME}
+    processed-data:
+      bucket-name: ${AWS_S3_PROCESSED_DATA_BUCKET_NAME}
+  sqs:
+    data-processing:
+      queue-url: ${AWS_SQS_DATA_PROCESSING_QUEUE_URL}
+    processed-data:
+      queue-url: ${AWS_SQS_PROCESSED_DATA_QUEUE_URL}
+  temp-store:
+    video:
+      src: ${AWS_TEMP_STORE_VIDEO_SRC}
+      dest: ${AWS_TEMP_STORE_VIDEO_DEST}
+    image:
+      src: ${AWS_TEMP_STORE_IMAGE_SRC}
+      dest: ${AWS_TEMP_STORE_IMAGE_DEST}
