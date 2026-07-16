@@ -21,7 +21,7 @@ public class JwtServiceImpl implements JwtService {
     @Value("${appdata.defaults.jwtSecret}")
     private String jwtSecret;
 
-    public String generateJWTToken(User user){
+    public String generateNewAccessToken(User user){
         Instant now = Instant.now();
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()

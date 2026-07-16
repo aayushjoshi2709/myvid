@@ -2,10 +2,12 @@ package com.github.aayushjoshi2709.authservice.service.impl;
 
 import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.user.*;
+import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.entity.enums.UserStatusEnum;
 import com.github.aayushjoshi2709.authservice.mapper.User.CreateUserMapper;
 import com.github.aayushjoshi2709.authservice.mapper.User.UserResponseMapper;
+import com.github.aayushjoshi2709.authservice.service.JwtService;
 import com.github.aayushjoshi2709.authservice.service.RefreshTokenService;
 import com.github.aayushjoshi2709.authservice.service.UserService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserResponseMapper userResponseMapper;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenService refreshTokenService;
+    private final JwtService jwtService;
 
     private String getEncryptedPassword(String password){
         return this.passwordEncoder.encode(password);
@@ -60,13 +63,24 @@ public class UserServiceImpl implements UserService {
         if(!matchPassword(data.password(), user.getPassword())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
-
-        return this.refreshTokenService.getNewRefreshToken(user);
+        String accessToken = this.jwtService.generateNewAccessToken(user);
+        RefreshToken refreshToken = this.refreshTokenService.generateNewRefreshToken(user, accessToken);
+        return new LoginResponseDto(
+                refreshToken.getCurrentAccessToken(),
+                refreshToken.getRefreshToken()
+        );
     }
 
     @Override
     public LoginResponseDto refresh(RefreshTokenRequestDto data) {
-        return this.refreshTokenService.getNewAccessToken(data.token());
+        RefreshToken refreshToken = this.refreshTokenService.findByRefreshToken(data.token());
+        User user = this.findUserById(refreshToken.getUserId());
+        String accessToken = this.jwtService.generateNewAccessToken(user);
+        RefreshToken updatedRefreshToken = this.refreshTokenService.updateAccessToken(refreshToken, accessToken);
+        return new LoginResponseDto(
+                updatedRefreshToken.getCurrentAccessToken(),
+                updatedRefreshToken.getRefreshToken()
+        );
     }
 
     @Override
