@@ -51,7 +51,7 @@ public class AwsConfig {
         builder.region(Region.of(region))
                .credentialsProvider(credentialsProvider());
 
-        if (endpoint != null) {
+        if (endpoint != null && !endpoint.isEmpty()) {
             builder.endpointOverride(URI.create(endpoint));
         }
         return builder;
@@ -89,7 +89,7 @@ public class AwsConfig {
                         .region(Region.of(region))
                         .credentialsProvider(credentialsProvider());
 
-        if (endpoint != null) {
+        if (endpoint != null  && !endpoint.isEmpty()) {
             builder.endpointOverride(URI.create(endpoint));
         }
         if (pathAccess) {
