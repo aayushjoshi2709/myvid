@@ -1,14 +1,14 @@
 package com.github.aayushjoshi2709.authservice.service;
 
-import com.github.aayushjoshi2709.authservice.dto.user.LoginResponseDto;
 import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
-import com.github.aayushjoshi2709.authservice.entity.User;
+
+import java.util.UUID;
 
 public interface RefreshTokenService {
     void deleteExpired();
-    RefreshToken generateNewRefreshToken(User user, String accessToken);
+    RefreshToken generateNewRefreshToken(UUID userId, String accessToken);
     void revokeRefreshToken(String refreshToken);
-    void revokeRefreshTokenByUser(User user);
+    void revokeRefreshTokenByUser(UUID userId);
     RefreshToken findByRefreshToken(String token);
     RefreshToken updateAccessToken(RefreshToken refreshToken, String accessToken);
 }
