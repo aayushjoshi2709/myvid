@@ -21,8 +21,4 @@ public class Comment extends Common {
 
     @Column(name= "likeCount", nullable = false)
     private Integer LikeCount = 0;
-
-    @Column(name= "likeCount", nullable = false)
-    private Integer dislikeCount = 0;
-
 }
