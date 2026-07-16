@@ -10,14 +10,14 @@ import org.hibernate.type.SqlTypes;
 
 
 @Entity
-@Table(name="comment")
+@Table(name="comments")
 public class Comment extends Common {
     @Column(name="comment", length=500, nullable = false)
     private String comment;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private User user;
+    private User userDetails;
 
     @Column(name= "likeCount", nullable = false)
     private Integer LikeCount = 0;
