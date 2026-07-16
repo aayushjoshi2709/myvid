@@ -5,3 +5,17 @@ server:
 spring:
   application:
     name: commentservice
+  datasource:
+    hikari:
+      connectionTimeout: ${DB_CONN_TIMEOUT}
+      maximumPoolSize: ${DB_MAX_POOL}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: ${SHOW_SQL:true}
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:true}
