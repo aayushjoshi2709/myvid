@@ -30,3 +30,6 @@ aws:
     image:
       src: ${AWS_TEMP_STORE_IMAGE_SRC}
       dest: ${AWS_TEMP_STORE_IMAGE_DEST}
+springdoc:
+  swagger-ui:
+    path: /
