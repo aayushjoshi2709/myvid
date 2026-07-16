@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
         String accessToken = this.jwtService.generateNewAccessToken(user);
-        RefreshToken refreshToken = this.refreshTokenService.generateNewRefreshToken(user, accessToken);
+        RefreshToken refreshToken = this.refreshTokenService.generateNewRefreshToken(user.getId(), accessToken);
         return new LoginResponseDto(
                 refreshToken.getCurrentAccessToken(),
                 refreshToken.getRefreshToken()
@@ -136,6 +136,6 @@ public class UserServiceImpl implements UserService {
         User user = this.findUserById(id);
         user.setStatus(UserStatusEnum.IN_ACTIVE);
         this.userRepository.save(user);
-        this.refreshTokenService.revokeRefreshTokenByUser(user);
+        this.refreshTokenService.revokeRefreshTokenByUser(user.getId());
     }
 }

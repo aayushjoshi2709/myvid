@@ -1,8 +1,6 @@
 package com.github.aayushjoshi2709.authservice.service.impl;
 
-import com.github.aayushjoshi2709.authservice.dto.user.LoginResponseDto;
 import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
-import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.repository.RefreshTokenRepository;
 import com.github.aayushjoshi2709.authservice.service.RefreshTokenService;
 
@@ -18,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,10 +40,10 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
-    public RefreshToken generateNewRefreshToken(User user, String accessToken){
+    public RefreshToken generateNewRefreshToken(UUID userId, String accessToken){
         StringKeyGenerator generator = new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 22);
         return this.refreshTokenRepository.save(
-                new RefreshToken(user.getId(), generator.generateKey(),accessToken)
+                new RefreshToken(userId, generator.generateKey(),accessToken)
         );
     }
 
@@ -56,8 +55,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
-    public void revokeRefreshTokenByUser(User user) {
-        List<RefreshToken> refreshTokens = this.refreshTokenRepository.findByUserId(user.getId());
+    public void revokeRefreshTokenByUser(UUID userId) {
+        List<RefreshToken> refreshTokens = this.refreshTokenRepository.findByUserId(userId);
         // Todo: publish revoked refresh tokens to gateway
         this.refreshTokenRepository.deleteAll(refreshTokens);
     }
