@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -19,7 +20,7 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID
     @Query("DELETE FROM RefreshToken rt WHERE rt.createdAt <= :tokenExpiryTime")
     void deleteExpiredTokens(@Param("tokenExpiryTime") LocalDateTime tokenExpiryTime);
 
-    RefreshToken findByRefreshToken(String refreshToken);
+    Optional<RefreshToken> findByRefreshToken(String refreshToken);
 
     List<RefreshToken> findByUserId(UUID userId);
 }

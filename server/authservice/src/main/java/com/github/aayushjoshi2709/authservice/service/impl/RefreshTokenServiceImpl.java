@@ -4,23 +4,20 @@ import com.github.aayushjoshi2709.authservice.dto.user.LoginResponseDto;
 import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.repository.RefreshTokenRepository;
+import com.github.aayushjoshi2709.authservice.service.JwtService;
 import com.github.aayushjoshi2709.authservice.service.RefreshTokenService;
+
 import com.github.aayushjoshi2709.authservice.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.sql.Date;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.List;
 
@@ -29,15 +26,10 @@ import java.util.List;
 public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserService userService;
+    private final JwtService jwtService;
 
     @Value("${appdata.defaults.refreshTokenExpiryDays}")
     private Integer refreshTokenExpiryDays;
-
-    @Value("${appdata.defaults.accessTokenExpiryDays}")
-    private Integer accessTokenExpiryDays;
-
-    @Value("${appdata.defaults.jwtSecret}")
-    private String jwtSecret;
 
     @Override
     @Scheduled(cron = "0 0 */6 * * *")
@@ -46,21 +38,15 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         this.refreshTokenRepository.deleteExpiredTokens(tokenExpiryTime);
     }
 
-    private String generateJWTToken(User user){
-        Instant now = Instant.now();
-        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder()
-                .subject(user.getId().toString())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(accessTokenExpiryDays, ChronoUnit.DAYS)))
-                .claim("roles", user.getRoles())
-                .signWith(key)
-                .compact();
+    private RefreshToken findByRefreshToken(String token) {
+        return this.refreshTokenRepository.findByRefreshToken(token).orElseThrow(
+                ()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Refresh token not found")
+        );
     }
 
     @Override
     public LoginResponseDto getNewRefreshToken(User user){
-        String currentAccessToken = this.generateJWTToken(user);
+        String currentAccessToken = this.jwtService.generateJWTToken(user);
         StringKeyGenerator generator = new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 22);
         RefreshToken savedRefreshToken = this.refreshTokenRepository.save(
                 new RefreshToken(user.getId(), generator.generateKey(),currentAccessToken)
@@ -73,7 +59,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public void revokeRefreshToken(String token) {
-        RefreshToken refreshToken = this.refreshTokenRepository.findByRefreshToken(token);
+        RefreshToken refreshToken = this.findByRefreshToken(token);
         // Todo: publish revoked refresh tokens to gateway
         this.refreshTokenRepository.delete(refreshToken);
     }
@@ -87,9 +73,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public LoginResponseDto getNewAccessToken(String token) {
-        RefreshToken refreshToken = this.refreshTokenRepository.findByRefreshToken(token);
+        RefreshToken refreshToken = this.findByRefreshToken(token);
         User user = this.userService.findUserById(refreshToken.getUserId());
-        String currentAccessToken = this.generateJWTToken(user);
+        String currentAccessToken = this.jwtService.generateJWTToken(user);
         refreshToken.setCurrentAccessToken(currentAccessToken);
         return  new LoginResponseDto(
                 currentAccessToken,
