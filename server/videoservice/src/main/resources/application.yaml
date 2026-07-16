@@ -1,0 +1,42 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: videoservice
+  profiles:
+    default: local
+  datasource:
+    hikari:
+      connectionTimeout: ${DB_CONN_TIMEOUT}
+      maximumPoolSize: ${DB_MAX_POOL}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD:}
+
+aws:
+  region: ${AWS_REGION}
+  endpoint: ${AWS_ENDPOINT:#{null}}
+  access-key: ${AWS_ACCESS_KEY:#{null}}
+  secret-key: ${AWS_SECRET_KEY:#{null}}
+  pathAccess: ${AWS_PATH_ACCESS:true}
+  s3:
+    data-processing:
+      bucket-name: ${AWS_S3_DATA_PROCESSING_BUCKET_NAME}
+  sqs:
+    data-processing:
+      queue-url: ${AWS_SQS_DATA_PROCESSING_QUEUE_URL}
+    processed-data:
+      queue-url: ${AWS_SQS_PROCESSED_DATA_QUEUE_URL}
+
+springdoc:
+  swagger-ui:
+    path: /
