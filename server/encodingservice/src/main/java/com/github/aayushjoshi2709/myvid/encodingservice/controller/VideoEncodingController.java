@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class VideoEncodingController {
     private VideoEncodingService videoEncodingService;
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<Void> encodeVedio(@RequestBody PublishVideoDto entity) {
         this.videoEncodingService.encodeVideo(entity);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
