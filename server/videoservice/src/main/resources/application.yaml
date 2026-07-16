@@ -14,8 +14,12 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
+    show-sql: ${SHOW_SQL:true}
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:true}
   data:
     redis:
       host: ${REDIS_HOST}
