@@ -7,7 +7,7 @@
 - [Service Description](./docs/services.md)
 - Installation Guide
     - Manual Setup
-        - [IO Service](./docs/ioservice/install.md)
+        - [Video Service](docs/videoservice/install.md)
         - [Encoding Service](./docs/encodingservice/install.md)
         - [Client Service](./docs/clientservice/install.md)
         - [Auth Service](./docs/authservice/install.md)

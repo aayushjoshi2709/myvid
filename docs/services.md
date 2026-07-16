@@ -9,7 +9,7 @@ The platform is powered by a distributed microservices architecture, categorized
 
     The security hub of the system. It governs user identity, authentication protocols, and role-based access control (RBAC) to ensure data integrity.
 
-3. **IO Service**
+3. **Video Service**
 
     The primary backend for video assets. This service manages the end-to-end lifecycle of video data, including high-performance storage and retrieval.
 
