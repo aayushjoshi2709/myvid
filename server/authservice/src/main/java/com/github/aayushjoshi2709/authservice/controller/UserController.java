@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/v1/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;

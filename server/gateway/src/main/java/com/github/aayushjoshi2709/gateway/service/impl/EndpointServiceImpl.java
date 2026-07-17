@@ -45,6 +45,10 @@ public class EndpointServiceImpl implements EndpointService {
     return this.endpointRepo.findAll();
   }
 
+  public Flux<Endpoint> findByServiceId(UUID id) {
+    return this.endpointRepo.findByServiceIdAndStatus(id, Status.ACTIVE);
+  }
+
   public Mono<Endpoint> create(CreateEndpointDto body) {
     Endpoint endpoint = createEndpointDtoMapper.toEntity(body);
     return this.endpointRepo.save(endpoint);
@@ -55,8 +59,7 @@ public class EndpointServiceImpl implements EndpointService {
               .flatMap(endpoint -> {
                   endpoint.setStatus(Status.INACTIVE);
                   return endpointRepo.save(endpoint);
-              })
-              .then();
+              }).subscribe();
   }
 
   public Mono<Endpoint> update(UUID id, UpdateEndpointDto body) {
