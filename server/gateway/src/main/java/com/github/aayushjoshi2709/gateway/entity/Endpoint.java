@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import org.springframework.data.relational.core.mapping.Column;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.relational.core.mapping.*;
@@ -47,7 +48,6 @@ public class Endpoint extends Common {
   @Column("targetEndpoint")
   String targetEndpoint;
 
-  @NotBlank
-  @Column("roleId")
-  Long roleId;
+  @Column("roles")
+  List<String> roles;
 }

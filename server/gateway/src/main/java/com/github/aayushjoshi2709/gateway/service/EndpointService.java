@@ -11,13 +11,13 @@ import java.util.UUID;
 
 @Service
 public interface EndpointService {
-  public Mono<Endpoint> findById(UUID id);
+  Mono<Endpoint> findById(UUID id);
 
-  public Flux<Endpoint> findAll();
+  Flux<Endpoint> findAll();
 
-  public Mono<Endpoint> create(CreateEndpointDto body);
+  Mono<Endpoint> create(CreateEndpointDto body);
 
-  public Mono<Void> delete(UUID id);
+  void delete(UUID id);
 
-  public Mono<Endpoint> update(UUID id, UpdateEndpointDto body);
+  Mono<Endpoint> update(UUID id, UpdateEndpointDto body);
 }
