@@ -50,13 +50,13 @@ public class EndpointServiceImpl implements EndpointService {
     return this.endpointRepo.save(endpoint);
   }
 
-  public Mono<Void> delete(UUID id) {
-    return findById(id)
-        .flatMap(endpoint -> {
-          endpoint.setStatus(Status.INACTIVE);
-          return endpointRepo.save(endpoint);
-        })
-        .then();
+  public void delete(UUID id) {
+      findById(id)
+              .flatMap(endpoint -> {
+                  endpoint.setStatus(Status.INACTIVE);
+                  return endpointRepo.save(endpoint);
+              })
+              .then();
   }
 
   public Mono<Endpoint> update(UUID id, UpdateEndpointDto body) {

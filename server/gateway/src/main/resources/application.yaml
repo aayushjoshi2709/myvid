@@ -13,10 +13,13 @@ spring:
             enabled: true
             max-size: ${DB_MAX_POOL}
             initial-size: ${DB_MIN_POOL}
+    sql:
+        init:
+            mode: always
 logging:
     level:
         root: INFO
 
 springdoc:
     swagger-ui:
-        path: /
+        path: /api

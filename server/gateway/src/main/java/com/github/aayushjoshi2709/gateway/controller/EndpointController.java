@@ -3,6 +3,7 @@ package com.github.aayushjoshi2709.gateway.controller;
 import java.util.UUID;
 
 import com.github.aayushjoshi2709.gateway.service.EndpointService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +31,10 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/endpoints")
+@RequiredArgsConstructor
 @Validated
 class EndpointController {
-
   private final EndpointService endpointService;
-
-  EndpointController(
-      final EndpointService endpointService) {
-    this.endpointService = endpointService;
-  }
 
   @GetMapping("/{id}")
   Mono<ResponseEntity<Endpoint>> getEndpoint(
@@ -63,7 +59,7 @@ class EndpointController {
       @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id,
       @Valid @RequestBody UpdateEndpointDto body) {
     return this.endpointService.update(id, body).map(
-        response -> ResponseEntity.ok(response));
+            ResponseEntity::ok);
   }
 
   @DeleteMapping("/{id}")
