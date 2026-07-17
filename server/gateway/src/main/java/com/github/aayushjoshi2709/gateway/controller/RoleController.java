@@ -2,13 +2,14 @@ package com.github.aayushjoshi2709.gateway.controller;
 
 import java.util.UUID;
 
+import com.github.aayushjoshi2709.gateway.service.RoleService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.github.aayushjoshi2709.gateway.entity.Role;
-import com.github.aayushjoshi2709.gateway.service.RoleService;
+import com.github.aayushjoshi2709.gateway.service.impl.RoleServiceImpl;
 import com.github.aayushjoshi2709.gateway.dto.Roles.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -37,7 +38,7 @@ public class RoleController {
 
   @GetMapping("/{id}")
   public Mono<ResponseEntity<Role>> getById(
-      @Valid @PathVariable("id") @NotNull(message = "Please provide an id") @Positive(message = "The id should be a positive value") UUID id) {
+          @PathVariable @Valid @NotNull(message = "Please provide an id") @Positive(message = "The id should be a positive value") UUID id) {
     return this.roleService.findById(id).map(ResponseEntity::ok);
   }
 
@@ -48,7 +49,7 @@ public class RoleController {
 
   @PatchMapping("/{id}")
   public Mono<ResponseEntity<Role>> updateRole(
-      @Valid @PathVariable("id") @NotNull(message = "Please provide an id") @Positive(message = "Id cannot be a negative value") UUID id,
+          @PathVariable @Valid @NotNull(message = "Please provide an id") @Positive(message = "Id cannot be a negative value") UUID id,
       @Valid @RequestBody UpdateRoleDto body) {
     return this.roleService.update(id, body).map(ResponseEntity::ok);
   }
