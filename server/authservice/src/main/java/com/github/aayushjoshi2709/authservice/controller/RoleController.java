@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/v1/role")
 @RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;

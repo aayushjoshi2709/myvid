@@ -19,11 +19,13 @@ public interface ServiceService {
 
   Mono<Service> findById(UUID id);
 
+  Mono<Service> findByName(String name);
+
   Mono<Service> create(CreateServiceDto csd);
 
   Mono<Service> update(UUID id, UpdateServiceDto csd);
 
   void delete(UUID id);
 
-  Flux<List<Service>> findAll();
+  Flux<Service> findAll();
 }

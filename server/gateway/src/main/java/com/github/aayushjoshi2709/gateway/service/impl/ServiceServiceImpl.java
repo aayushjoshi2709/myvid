@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.github.aayushjoshi2709.gateway.dto.Service.UpdateServiceDto;
+import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 import com.github.aayushjoshi2709.gateway.service.ServiceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +33,12 @@ public class ServiceServiceImpl implements ServiceService {
         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Service not found with the given service id")));
   }
 
+  @Override
+  public Mono<Service> findByName(String name) {
+    return this.serviceRepository.findByServiceName(name).switchIfEmpty(Mono.error(
+            () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Service not found with the given service name")));
+  }
+
   public Mono<Service> create(CreateServiceDto csd) {
     Service svc = createServiceDtoMapper.toEntity(csd);
     return this.serviceRepository.save(svc);
@@ -44,11 +51,15 @@ public class ServiceServiceImpl implements ServiceService {
 
   @Override
   public void delete(UUID id) {
-    this.serviceRepository.deleteById(id);
+    findById(id)
+            .flatMap(service -> {
+              service.setStatus(Status.INACTIVE);
+              return serviceRepository.save(service);
+            }).subscribe();
   }
 
   @Override
-  public Flux<List<Service>> findAll() {
-    return null;
+  public Flux<Service> findAll() {
+    return this.serviceRepository.findAll();
   }
 }

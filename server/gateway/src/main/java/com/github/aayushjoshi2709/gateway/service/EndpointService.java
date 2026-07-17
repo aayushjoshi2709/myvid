@@ -13,6 +13,8 @@ import java.util.UUID;
 public interface EndpointService {
   Mono<Endpoint> findById(UUID id);
 
+  Flux<Endpoint> findByServiceId(UUID id);
+
   Flux<Endpoint> findAll();
 
   Mono<Endpoint> create(CreateEndpointDto body);
