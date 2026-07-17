@@ -2,6 +2,7 @@ package com.github.aayushjoshi2709.gateway.controller;
 
 import java.util.UUID;
 
+import com.github.aayushjoshi2709.gateway.service.EndpointService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import com.github.aayushjoshi2709.gateway.dto.Endpoints.CreateEndpointDto;
 import com.github.aayushjoshi2709.gateway.dto.Endpoints.UpdateEndpointDto;
 import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 
-import com.github.aayushjoshi2709.gateway.service.EndpointService;
+import com.github.aayushjoshi2709.gateway.service.impl.EndpointServiceImpl;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
