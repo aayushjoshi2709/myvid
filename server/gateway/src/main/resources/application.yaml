@@ -15,11 +15,7 @@ spring:
             initial-size: ${DB_MIN_POOL}
 logging:
     level:
-      io:
-          r2dbc:
-              postgresql:
-                  query:true
-                  param:true
+        root: INFO
 
 springdoc:
     swagger-ui:
