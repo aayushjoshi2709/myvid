@@ -9,3 +9,18 @@ spring:
         url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
+        pool:
+            enabled: true
+            max-size: ${DB_MAX_POOL}
+            initial-size: ${DB_MIN_POOL}
+logging:
+    level:
+      io:
+          r2dbc:
+              postgresql:
+                  query:true
+                  param:true
+
+springdoc:
+    swagger-ui:
+        path: /
