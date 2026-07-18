@@ -19,9 +19,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,7 +35,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
   private static final Pattern PATH_VARIABLE = Pattern.compile("\\{[^{}/]+}");
 
   private boolean matchesPath(String requestPath, Endpoint endpoint) {
-    String template = "/api/" + endpoint.getSourceVersion() + endpoint.getSourceEndpoint();
+    String template = "/api/" + endpoint.getEndpoint();
 
     Matcher variableMatcher = PATH_VARIABLE.matcher(template);
     StringBuilder regex = new StringBuilder();
@@ -82,6 +80,17 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
     return satisfyRole(endpoint.getRoles(), userRoles);
   }
 
+
+  private String prepareTargetUri(URI uri, String serviceUrl){
+    String targetUrl = serviceUrl
+            + uri.getRawPath();
+
+    if (uri.getRawQuery() != null) {
+      targetUrl += "?" + uri.getRawQuery();
+    }
+    return targetUrl;
+  }
+
   private Mono<Void> prepareClientResponse(ServerWebExchange exchange, ClientResponse clientResponse){
     exchange.getResponse()
             .setStatusCode(clientResponse.statusCode());
@@ -106,9 +115,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
           String targetUrl,
           ServerWebExchange exchange
   ){
-    WebClient webClient = webClientBuilder.build();
-
-    return webClient
+    return webClientBuilder.build()
             .method(exchange.getRequest().getMethod())
             .uri(URI.create(targetUrl))
             .headers(headers -> {
@@ -117,9 +124,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
               headers.remove(HttpHeaders.CONTENT_LENGTH);
             })
             .body(BodyInserters.fromDataBuffers(exchange.getRequest().getBody()))
-            .exchangeToMono(clientResponse -> {
-              return prepareClientResponse(exchange, clientResponse);
-            });
+            .exchangeToMono(clientResponse -> prepareClientResponse(exchange, clientResponse));
   }
 
   @Override
@@ -146,14 +151,8 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
                                           "You do not have proper authorization to access this route"));
                               }
 
-                              String targetUrl = service.getServiceUrl()
-                                      + exchange.getRequest().getURI().getRawPath();
-
-                              if (exchange.getRequest().getURI().getRawQuery() != null) {
-                                targetUrl += "?" + exchange.getRequest().getURI().getRawQuery();
-                              }
-
-                              return getResponseFromDownStreamService(targetUrl, exchange);
+                              String targetUri = this.prepareTargetUri(exchange.getRequest().getURI(), service.getServiceUrl());
+                              return getResponseFromDownStreamService(targetUri, exchange);
                             })
             );
   }

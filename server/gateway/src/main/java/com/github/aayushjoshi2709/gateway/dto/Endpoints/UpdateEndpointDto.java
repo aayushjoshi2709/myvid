@@ -1,12 +1,14 @@
 
 package com.github.aayushjoshi2709.gateway.dto.Endpoints;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -14,18 +16,13 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class UpdateEndpointDto {
-  @Positive(message = "Service id should be a Positive number")
+  @NotBlank(message = "Service id is required")
+  @Positive(message = "Service id should be a positive number")
   UUID serviceId;
 
-  @Size(min = 1, message = "Service name should have min length of 1")
-  String sourceVersion;
+  @NotBlank(message = "Endpoint in the service")
+  String endpoint;
 
-  @Size(min = 1, message = "Service name should have min length of 1")
-  String sourceEndpoint;
-
-  @Size(min = 1, message = "Service name should have min length of 1")
-  String targetVersion;
-
-  @Size(min = 1, message = "Service name should have min length of 1")
-  String targetEndpoint;
+  @NotBlank(message = "Roles required to access the endpoint")
+  List<String> roles;
 }

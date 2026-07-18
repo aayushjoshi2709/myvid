@@ -81,17 +81,15 @@ public class EndpointServiceImpl implements EndpointService {
 
           return endpointMono.flatMap(e -> {
 
-            Optional.ofNullable(body.getSourceEndpoint())
-                .ifPresent(e::setSourceEndpoint);
+            Optional.ofNullable(body.getEndpoint())
+                .ifPresent(e::setEndpoint);
 
-            Optional.ofNullable(body.getTargetEndpoint())
-                .ifPresent(e::setTargetEndpoint);
 
-            Optional.ofNullable(body.getSourceVersion())
-                .ifPresent(e::setSourceVersion);
+            Optional.ofNullable(body.getRoles())
+                .ifPresent(e::setRoles);
 
-            Optional.ofNullable(body.getTargetVersion())
-                .ifPresent(e::setTargetVersion);
+            Optional.ofNullable(body.getServiceId())
+                .ifPresent(e::setServiceId);
 
             return endpointRepo.save(e);
           });
