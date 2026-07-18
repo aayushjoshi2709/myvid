@@ -29,24 +29,9 @@ public class Endpoint extends Common {
   UUID serviceId;
 
   @NotBlank
-  @Size(max = 5)
-  @Column("sourceVersion")
-  String sourceVersion;
-
-  @NotBlank
-  @Size(max = 60)
-  @Column("sourceEndpoint")
-  String sourceEndpoint;
-
-  @NotBlank
-  @Size(max = 4)
-  @Column("targetVersion")
-  String targetVersion;
-
-  @NotBlank
-  @Size(max = 60)
-  @Column("targetEndpoint")
-  String targetEndpoint;
+  @Size(max = 150)
+  @Column("endpoint")
+  String endpoint;
 
   @Column("roles")
   List<String> roles;

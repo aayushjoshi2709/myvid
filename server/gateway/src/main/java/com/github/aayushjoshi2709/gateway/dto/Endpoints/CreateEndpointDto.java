@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -13,19 +15,13 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class CreateEndpointDto {
-  @NotBlank(message = "Service id is requried")
+  @NotBlank(message = "Service id is required")
   @Positive(message = "Service id should be a positive number")
   UUID serviceId;
 
-  @NotBlank(message = "Source version is required")
-  String sourceVersion;
+  @NotBlank(message = "Endpoint in the service")
+  String endpoint;
 
-  @NotBlank(message = "Source endpoint is required")
-  String sourceEndpoint;
-
-  @NotBlank(message = "Target version is required")
-  String targetVersion;
-
-  @NotBlank(message = "Target endpoint is requried")
-  String targetEndpoint;
+  @NotBlank(message = "Roles required to access the endpoint")
+  List<String> roles;
 }
