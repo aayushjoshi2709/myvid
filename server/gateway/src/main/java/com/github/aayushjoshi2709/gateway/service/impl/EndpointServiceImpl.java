@@ -84,6 +84,8 @@ public class EndpointServiceImpl implements EndpointService {
             Optional.ofNullable(body.getEndpoint())
                 .ifPresent(e::setEndpoint);
 
+            Optional.ofNullable(body.getMethod())
+                .ifPresent(e::setMethod);
 
             Optional.ofNullable(body.getRoles())
                 .ifPresent(e::setRoles);

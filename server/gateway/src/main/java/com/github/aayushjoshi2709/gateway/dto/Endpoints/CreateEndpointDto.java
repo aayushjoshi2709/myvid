@@ -1,7 +1,8 @@
 package com.github.aayushjoshi2709.gateway.dto.Endpoints;
 
+import com.github.aayushjoshi2709.gateway.entity.enums.HttpMethod;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,13 +16,15 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class CreateEndpointDto {
-  @NotBlank(message = "Service id is required")
-  @Positive(message = "Service id should be a positive number")
+  @NotNull(message = "Service id is required")
   UUID serviceId;
 
   @NotBlank(message = "Endpoint in the service")
   String endpoint;
 
-  @NotBlank(message = "Roles required to access the endpoint")
+  @NotNull(message = "HTTP method for the endpoint is required")
+  HttpMethod method;
+
+  @NotNull(message = "Roles required to access the endpoint")
   List<String> roles;
 }
