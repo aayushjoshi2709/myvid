@@ -139,7 +139,9 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found")))
             .flatMap(service ->
                     endpointService.findByServiceId(service.getId())
-                            .filter(endpoint -> matchesPath(requestPath, endpoint))
+                            .filter(endpoint -> endpoint.getMethod().name().equals(
+                                    exchange.getRequest().getMethod().name())
+                                    && matchesPath(requestPath, endpoint))
                             .next()
                             .switchIfEmpty(Mono.error(
                                     new ResponseStatusException(HttpStatus.NOT_FOUND, "Endpoint not found")))

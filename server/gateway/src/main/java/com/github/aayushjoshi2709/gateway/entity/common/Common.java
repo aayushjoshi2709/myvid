@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Column;
 
 import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 
@@ -26,11 +27,14 @@ public abstract class Common {
   UUID id;
 
   @LastModifiedDate
+  @Column("updatedAt")
   private LocalDateTime updatedAt;
 
   @CreatedDate
+  @Column("createdAt")
   private LocalDateTime createdAt;
 
   @Builder.Default
+  @Column("status")
   private Status status = Status.ACTIVE;
 }

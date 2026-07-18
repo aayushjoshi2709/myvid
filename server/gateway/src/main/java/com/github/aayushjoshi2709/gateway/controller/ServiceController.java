@@ -1,17 +1,12 @@
 package com.github.aayushjoshi2709.gateway.controller;
 
-import com.github.aayushjoshi2709.gateway.dto.Endpoints.CreateEndpointDto;
-import com.github.aayushjoshi2709.gateway.dto.Endpoints.UpdateEndpointDto;
 import com.github.aayushjoshi2709.gateway.dto.Service.CreateServiceDto;
 import com.github.aayushjoshi2709.gateway.dto.Service.UpdateServiceDto;
-import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 import com.github.aayushjoshi2709.gateway.entity.Service;
 import com.github.aayushjoshi2709.gateway.service.ServiceService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +17,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@RestController("/services")
+@RestController
+@RequestMapping("/services")
 @Validated
 @RequiredArgsConstructor
 public class ServiceController {
@@ -31,7 +27,7 @@ public class ServiceController {
 
     @GetMapping("/{id}")
     Mono<ResponseEntity<Service>> getEndpoint(
-            @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id)
+            @PathVariable @NotNull(message = "Id cannot be null") UUID id)
             throws ResponseStatusException {
         return this.serviceService.findById(id).map(ResponseEntity::ok);
     }
@@ -47,9 +43,9 @@ public class ServiceController {
                 response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     Mono<ResponseEntity<Service>> updateEndpoint(
-            @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id,
+            @PathVariable @NotNull(message = "Id cannot be null") UUID id,
             @Valid @RequestBody UpdateServiceDto body) {
         return this.serviceService.update(id, body).map(
                 ResponseEntity::ok);
@@ -57,7 +53,7 @@ public class ServiceController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteEndpoint(
-            @Param("id") @NotNull(message = "Id cannot be null") @Positive(message = "Id must be a positive value") UUID id)
+            @PathVariable @NotNull(message = "Id cannot be null") UUID id)
             throws ResponseStatusException {
         this.serviceService.delete(id);
         return ResponseEntity.noContent().build();
