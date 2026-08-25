@@ -28,3 +28,4 @@ appdata:
 springdoc:
   swagger-ui:
     path: /
+  try-it-out-enabled: true

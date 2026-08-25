@@ -1,25 +1,28 @@
 server:
-    port: 8080
-    servlet:
-        context-path: /api
+  port: 8080
+  servlet:
+    context-path: /api
 spring:
-    application:
-        name: gateway
-    r2dbc:
-        url: ${DB_URL}
-        username: ${DB_USERNAME}
-        password: ${DB_PASSWORD}
-        pool:
-            enabled: true
-            max-size: ${DB_MAX_POOL}
-            initial-size: ${DB_MIN_POOL}
-    sql:
-        init:
-            mode: always
+  application:
+    name: gateway
+  r2dbc:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    pool:
+      enabled: true
+      max-size: ${DB_MAX_POOL:5}
+      initial-size: ${DB_MIN_POOL:2}
+  sql:
+    init:
+      mode: always
 logging:
-    level:
-        root: INFO
+  level:
+    root: INFO
 
 springdoc:
-    swagger-ui:
-        path: /api
+  api-docs:
+    path: /api/gateway/api-docs
+    enabled: true
+  swagger-ui:
+    path: /api/gateway/swagger

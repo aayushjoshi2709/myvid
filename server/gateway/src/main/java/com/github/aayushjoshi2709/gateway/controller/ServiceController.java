@@ -18,44 +18,43 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/services")
+@RequestMapping("/v1/services")
 @Validated
 @RequiredArgsConstructor
 public class ServiceController {
-    private final ServiceService serviceService;
+  private final ServiceService serviceService;
 
+  @GetMapping("/{id}")
+  Mono<ResponseEntity<Service>> getEndpoint(
+      @PathVariable @NotNull(message = "Id cannot be null") UUID id)
+      throws ResponseStatusException {
+    return this.serviceService.findById(id).map(ResponseEntity::ok);
+  }
 
-    @GetMapping("/{id}")
-    Mono<ResponseEntity<Service>> getEndpoint(
-            @PathVariable @NotNull(message = "Id cannot be null") UUID id)
-            throws ResponseStatusException {
-        return this.serviceService.findById(id).map(ResponseEntity::ok);
-    }
+  @GetMapping
+  Flux<Service> getEndpoints() {
+    return this.serviceService.findAll();
+  }
 
-    @GetMapping
-    Flux<Object> getEndpoints() {
-        return this.serviceService.findAll().map(ResponseEntity::ok);
-    }
+  @PostMapping
+  Mono<ResponseEntity<Service>> createEndpoint(@Valid @RequestBody CreateServiceDto body) {
+    return this.serviceService.create(body).map(
+        response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
+  }
 
-    @PostMapping
-    Mono<ResponseEntity<Service>> createEndpoint(@Valid @RequestBody CreateServiceDto body) {
-        return this.serviceService.create(body).map(
-                response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
-    }
+  @PatchMapping("/{id}")
+  Mono<ResponseEntity<Service>> updateEndpoint(
+      @PathVariable @NotNull(message = "Id cannot be null") UUID id,
+      @Valid @RequestBody UpdateServiceDto body) {
+    return this.serviceService.update(id, body).map(
+        ResponseEntity::ok);
+  }
 
-    @PatchMapping("/{id}")
-    Mono<ResponseEntity<Service>> updateEndpoint(
-            @PathVariable @NotNull(message = "Id cannot be null") UUID id,
-            @Valid @RequestBody UpdateServiceDto body) {
-        return this.serviceService.update(id, body).map(
-                ResponseEntity::ok);
-    }
-
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteEndpoint(
-            @PathVariable @NotNull(message = "Id cannot be null") UUID id)
-            throws ResponseStatusException {
-        this.serviceService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/{id}")
+  ResponseEntity<Void> deleteEndpoint(
+      @PathVariable @NotNull(message = "Id cannot be null") UUID id)
+      throws ResponseStatusException {
+    this.serviceService.delete(id);
+    return ResponseEntity.noContent().build();
+  }
 }

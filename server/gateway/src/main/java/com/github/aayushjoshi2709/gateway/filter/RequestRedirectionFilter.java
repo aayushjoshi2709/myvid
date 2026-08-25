@@ -28,12 +28,11 @@ class RequestRedirectionFilter implements WebFilter {
     log.info("In request redirection filter redirecting" );
     String path = exchange.getRequest().getURI().getPath();
     List<String> splitPath = List.of(path.split("/"));
-    String service = splitPath.get(2);
 
-    String newPath = "/" + String.join("/", splitPath.subList(3, splitPath.size()));
-    log.info("Redirecting request to {} service", service);
-    if(service != null && !Objects.equals(service, "gateway")) {
-      newPath = "/api" + newPath;
+    if(splitPath.size() > 2 && (!Objects.equals(splitPath.get(2), "gateway"))) {
+      String service = splitPath.get(2);
+      String newPath = "/api/" + String.join("/", splitPath.subList(3, splitPath.size()));
+      log.info("Redirecting request to {} service", service);
       ServerHttpRequest request = exchange.getRequest()
               .mutate()
               .path(newPath)
@@ -41,9 +40,11 @@ class RequestRedirectionFilter implements WebFilter {
       ServerWebExchange modifiedExchange = exchange.mutate()
               .request(request)
               .build();
-
       return this.userRedirectionService.handleRedirection(service, modifiedExchange);
     } else {
+      log.info("here is split path: {}", splitPath);
+      String newPath ="/" + String.join("/", splitPath.subList(3, splitPath.size()));
+      log.info("Here is new path: {}", newPath);
       ServerHttpRequest request = exchange.getRequest()
               .mutate()
               .path(newPath)

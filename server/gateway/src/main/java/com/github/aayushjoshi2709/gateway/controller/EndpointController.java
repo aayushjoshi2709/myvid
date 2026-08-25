@@ -27,7 +27,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/endpoints")
+@RequestMapping("/v1/endpoints")
 @RequiredArgsConstructor
 @Validated
 class EndpointController {
@@ -41,8 +41,8 @@ class EndpointController {
   }
 
   @GetMapping
-  Flux<Object> getEndpoints() {
-    return this.endpointService.findAll().map(ResponseEntity::ok);
+  ResponseEntity<Flux<Endpoint>> getEndpoints() {
+    return ResponseEntity.ok(endpointService.findAll());
   }
 
   @PostMapping

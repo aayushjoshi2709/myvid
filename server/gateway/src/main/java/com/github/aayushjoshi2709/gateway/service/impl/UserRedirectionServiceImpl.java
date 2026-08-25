@@ -146,7 +146,6 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
                             .switchIfEmpty(Mono.error(
                                     new ResponseStatusException(HttpStatus.NOT_FOUND, "Endpoint not found")))
                             .flatMap(endpoint -> {
-
                               if(!validateRequest(exchange, endpoint)){
                                   return Mono.error(new ResponseStatusException(
                                           HttpStatus.FORBIDDEN,
