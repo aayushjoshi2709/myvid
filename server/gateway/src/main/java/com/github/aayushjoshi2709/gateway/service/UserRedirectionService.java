@@ -6,5 +6,5 @@ import reactor.core.publisher.Mono;
 
 @Service
 public interface UserRedirectionService {
-    Mono<Void> handleRedirection(String serviceName, ServerWebExchange exchange);
+  Mono<Void> handleRedirection(String serviceName, ServerWebExchange exchange);
 }

@@ -9,6 +9,9 @@ import com.github.aayushjoshi2709.authservice.entity.enums.RoleStatusEnum;
 import com.github.aayushjoshi2709.authservice.mapper.role.CreateRoleMapper;
 import com.github.aayushjoshi2709.authservice.mapper.role.RoleResponseMapper;
 import com.github.aayushjoshi2709.authservice.service.RoleService;
+
+import org.apache.catalina.connector.Response;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +46,14 @@ public class RoleServiceImpl implements RoleService {
   public RoleResponseDto findById(UUID id) {
     Role role = findRoleById(id);
     return roleResponseMapper.toDto(role);
+  }
+
+  public Role findByName(String name) {
+    Role role = this.roleRepository.findByName(name);
+    if (role == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role with name Not found");
+    }
+    return role;
   }
 
   public PaginatedResponseDto<List<RoleResponseDto>> findAll(Integer page, Integer limit) {

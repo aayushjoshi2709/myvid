@@ -4,6 +4,7 @@ import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.CreateRoleDto;
 import com.github.aayushjoshi2709.authservice.dto.role.RoleResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.role.UpdateRoleDto;
+import com.github.aayushjoshi2709.authservice.entity.Role;
 
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,15 @@ import java.util.UUID;
 
 @Service
 public interface RoleService {
-    RoleResponseDto create(CreateRoleDto body);
+  RoleResponseDto create(CreateRoleDto body);
 
-    RoleResponseDto findById(UUID id);
+  RoleResponseDto findById(UUID id);
 
-    PaginatedResponseDto<List<RoleResponseDto>> findAll(Integer page, Integer size);
+  Role findByName(String name);
 
-    RoleResponseDto update(UUID id, UpdateRoleDto body);
+  PaginatedResponseDto<List<RoleResponseDto>> findAll(Integer page, Integer size);
 
-    void delete(UUID id);
+  RoleResponseDto update(UUID id, UpdateRoleDto body);
+
+  void delete(UUID id);
 }

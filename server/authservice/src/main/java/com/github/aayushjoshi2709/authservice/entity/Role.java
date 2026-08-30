@@ -8,27 +8,27 @@ import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 @Getter
 @Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends Common {
-    @Column(name="name", nullable = false, length = 70)
-    private String name;
+  @Column(name = "name", unique = true, nullable = false, length = 70)
+  private String name;
 
-    @Column(name="description")
-    private String description;
+  @Column(name = "description")
+  private String description;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(nullable = false)
-    private RoleStatusEnum status = RoleStatusEnum.ACTIVE;
+  @Enumerated(EnumType.ORDINAL)
+  @Column(nullable = false)
+  private RoleStatusEnum status = RoleStatusEnum.ACTIVE;
 
-    public Role(String name, String description) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.status = RoleStatusEnum.ACTIVE;
-    }
+  public Role(String name, String description) {
+    super();
+    this.name = name;
+    this.description = description;
+    this.status = RoleStatusEnum.ACTIVE;
+  }
 }

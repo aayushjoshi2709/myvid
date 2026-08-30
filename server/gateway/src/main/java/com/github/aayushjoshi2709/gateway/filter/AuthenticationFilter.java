@@ -22,35 +22,39 @@ import java.util.*;
 @Slf4j
 public class AuthenticationFilter implements WebFilter {
 
-    private final JwtService jwtService;
+  private final JwtService jwtService;
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        HttpHeaders headers = exchange.getRequest().getHeaders();
-        String authToken = headers.getFirst("Authorization");
+  @Override
+  public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    HttpHeaders headers = exchange.getRequest().getHeaders();
+    String authToken = headers.getFirst("Authorization");
 
-        if(authToken != null && !authToken.isEmpty()) {
-            log.info("Going to validate the access token: {}", authToken);
-            String token = Objects.requireNonNull(authToken).substring(7);
-            UUID userId = null;
-            ArrayList<String> roles = null;
-            try {
-                userId = this.jwtService.getUserId(token);
-                roles = this.jwtService.getClaims(token);
-            } catch (Exception e){
-                log.info("An error occurred while processing the access token: ", e);
-                return Mono.error(
-                        new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token")
-                );
-            }
-            log.debug("Access token validated successfully: {}", authToken);
-            ServerHttpRequest request = exchange.getRequest().mutate()
-                    .header("X-User-Id", userId.toString())
-                    .header("X-User-Roles", roles.toString())
-                    .build();
-            ServerWebExchange mutatedExchange = exchange.mutate().request(request).build();
-            return chain.filter(mutatedExchange);
-        }
-        return chain.filter(exchange);
+    if (authToken != null && !authToken.isEmpty()) {
+      log.info("Going to validate the access token: {}", authToken);
+      String token = Objects.requireNonNull(authToken).substring(7);
+      UUID userId = null;
+      ArrayList<String> roles = null;
+      try {
+        userId = this.jwtService.getUserId(token);
+        roles = this.jwtService.getRoles(token);
+      } catch (Exception e) {
+        log.info("An error while processing the access token: ", e);
+        return Mono.error(
+            new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token"));
+      }
+
+      if (userId == null) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token");
+      }
+
+      log.debug("Access token validated successfully: {}", authToken);
+      ServerHttpRequest request = exchange.getRequest().mutate()
+          .header("x-user-id", userId.toString())
+          .header("x-user-roles", roles.toString())
+          .build();
+      ServerWebExchange mutatedExchange = exchange.mutate().request(request).build();
+      return chain.filter(mutatedExchange);
     }
+    return chain.filter(exchange);
+  }
 }

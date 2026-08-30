@@ -20,6 +20,9 @@ logging:
   level:
     root: INFO
 
+appdata:
+  defaults:
+    jwtSecret: ${JWT_SECRET}
 springdoc:
   api-docs:
     path: /api/gateway/api-docs

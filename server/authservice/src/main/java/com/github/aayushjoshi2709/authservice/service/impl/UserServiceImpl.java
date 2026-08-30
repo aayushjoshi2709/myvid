@@ -3,12 +3,14 @@ package com.github.aayushjoshi2709.authservice.service.impl;
 import com.github.aayushjoshi2709.authservice.dto.common.PaginatedResponseDto;
 import com.github.aayushjoshi2709.authservice.dto.user.*;
 import com.github.aayushjoshi2709.authservice.entity.RefreshToken;
+import com.github.aayushjoshi2709.authservice.entity.Role;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.entity.enums.UserStatusEnum;
 import com.github.aayushjoshi2709.authservice.mapper.user.CreateUserMapper;
 import com.github.aayushjoshi2709.authservice.mapper.user.UserResponseMapper;
 import com.github.aayushjoshi2709.authservice.service.JwtService;
 import com.github.aayushjoshi2709.authservice.service.RefreshTokenService;
+import com.github.aayushjoshi2709.authservice.service.RoleService;
 import com.github.aayushjoshi2709.authservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,7 @@ import com.github.aayushjoshi2709.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,6 +38,7 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final RefreshTokenService refreshTokenService;
   private final JwtService jwtService;
+  private final RoleService roleService;
 
   private String getEncryptedPassword(String password) {
     return this.passwordEncoder.encode(password);
@@ -96,6 +100,13 @@ public class UserServiceImpl implements UserService {
 
     user.setPassword(this.getEncryptedPassword(user.getPassword()));
     user.setStatus(UserStatusEnum.ACTIVE);
+
+    List<Role> defaultRoles = new ArrayList<>();
+
+    Role userRole = this.roleService.findByName("USER");
+    defaultRoles.add(userRole);
+    user.setRoles(defaultRoles);
+
     User savedUser = this.userRepository.save(user);
     return this.userResponseMapper.toDto(savedUser);
   }

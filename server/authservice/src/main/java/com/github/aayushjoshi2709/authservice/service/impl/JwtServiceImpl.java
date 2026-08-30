@@ -2,8 +2,11 @@ package com.github.aayushjoshi2709.authservice.service.impl;
 
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.service.JwtService;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,21 +18,27 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    @Value("${appdata.defaults.accessTokenExpiryDays}")
-    private Integer accessTokenExpiryDays;
+  @Value("${appdata.defaults.accessTokenExpiryDays}")
+  private Integer accessTokenExpiryDays;
 
-    @Value("${appdata.defaults.jwtSecret}")
-    private String jwtSecret;
+  @Value("${appdata.defaults.jwtSecret}")
+  private String jwtSecret;
+  private SecretKey secretKey;
 
-    public String generateNewAccessToken(User user){
-        Instant now = Instant.now();
-        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder()
-                .subject(user.getId().toString())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(accessTokenExpiryDays, ChronoUnit.DAYS)))
-                .claim("roles", user.getRoles())
-                .signWith(key)
-                .compact();
-    }
+  @PostConstruct
+  private void init() {
+    this.secretKey = Keys.hmacShaKeyFor(
+        jwtSecret.getBytes(StandardCharsets.UTF_8));
+  }
+
+  public String generateNewAccessToken(User user) {
+    Instant now = Instant.now();
+    return Jwts.builder()
+        .subject(user.getId().toString())
+        .issuedAt(Date.from(now))
+        .expiration(Date.from(now.plus(accessTokenExpiryDays, ChronoUnit.DAYS)))
+        .claim("roles", user.getRoles())
+        .signWith(secretKey, Jwts.SIG.HS256)
+        .compact();
+  }
 }
