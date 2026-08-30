@@ -1,4 +1,4 @@
-package com.github.aayushjoshi2709.authservice.mapper.Role;
+package com.github.aayushjoshi2709.authservice.mapper.role;
 
 import org.mapstruct.Mapper;
 
@@ -8,7 +8,7 @@ import com.github.aayushjoshi2709.authservice.entity.Role;
 
 @Mapper(componentModel = "spring")
 public interface CreateRoleMapper {
-    Role toEntity(CreateRoleDto dto);
+  Role toEntity(CreateRoleDto dto);
 
-    RoleResponseDto toDto(Role role);
+  RoleResponseDto toDto(Role role);
 }

@@ -1,6 +1,5 @@
 package com.github.aayushjoshi2709.authservice;
 
-
 import com.github.aayushjoshi2709.authservice.entity.Role;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.repository.RoleRepository;
@@ -18,41 +17,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SeedData implements CommandLineRunner {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final RoleRepository roleRepository;
 
-    @Value("${appdata.defaults.adminPassword}")
-    private String adminPassword = "";
+  @Value("${appdata.defaults.adminPassword}")
+  private String adminPassword = "";
 
-    @Value("${appdata.defaults.adminEmail}")
-    private String adminEmail = "";
+  @Value("${appdata.defaults.adminEmail}")
+  private String adminEmail = "";
 
-    @Override
-    public void run(String @NonNull ... args) throws Exception {
-        if(this.userRepository.count() == 0){
+  @Override
+  public void run(String @NonNull... args) throws Exception {
+    if (this.userRepository.count() == 0) {
 
-            if(adminEmail.isEmpty() || adminPassword.isEmpty()){
-                throw new RuntimeException("Admin email or password now round in config");
-            }
+      if (adminEmail.isEmpty() || adminPassword.isEmpty()) {
+        throw new RuntimeException("Admin email or password now round in config");
+      }
 
-            Role adminRole = new Role("ADMIN", "A role with all privileges");
-            Role userRole = new Role("USER", "A role with all privileges");
+      Role adminRole = new Role("ADMIN", "A role with all privileges");
+      Role userRole = new Role("USER", "A role with all privileges");
 
-            Role savedAdminRole = this.roleRepository.save(adminRole);
-            Role savedUserRole = this.roleRepository.save(userRole);
+      Role savedAdminRole = this.roleRepository.save(adminRole);
+      Role savedUserRole = this.roleRepository.save(userRole);
 
-            User admin = new User();
-            admin.setUsername("admin");
-            admin.setEmail(adminEmail);
-            admin.setName("admin");
-            admin.setPassword(passwordEncoder.encode(adminPassword));
-            admin.setRoles(List.of(savedAdminRole, savedUserRole));
-            userRepository.save(admin);
+      User admin = new User();
+      admin.setUsername("admin");
+      admin.setEmail(adminEmail);
+      admin.setName("admin");
+      admin.setPassword(passwordEncoder.encode(adminPassword));
+      admin.setRoles(List.of(savedAdminRole, savedUserRole));
+      userRepository.save(admin);
 
-            System.out.println("Database successfully seeded with BCrypt encrypted profiles.");
-        } else {
-            System.out.println("Database already contains data seeding skipped...");
-        }
+      System.out.println("Database successfully seeded with BCrypt encrypted profiles.");
+    } else {
+      System.out.println("Database already contains data seeding skipped...");
     }
+  }
 }
