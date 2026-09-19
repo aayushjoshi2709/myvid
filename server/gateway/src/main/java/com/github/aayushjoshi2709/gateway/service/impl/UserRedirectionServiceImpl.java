@@ -127,10 +127,9 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
   public Mono<Void> handleRedirection(String serviceName, ServerWebExchange exchange) {
 
     log.info("Redirecting request to service {}", serviceName);
-
     String requestPath = exchange.getRequest().getURI().getRawPath();
 
-    return serviceService.findByName(serviceName)
+    return this.serviceService.findByName(serviceName)
         .switchIfEmpty(Mono.error(
             new ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found")))
         .flatMap(service -> endpointService.findByServiceId(service.getId())
@@ -148,7 +147,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
               }
 
               String targetUri = this.prepareTargetUri(exchange.getRequest().getURI(), service.getServiceUrl());
-              return getResponseFromDownStreamService(targetUri, exchange);
+              return this.getResponseFromDownStreamService(targetUri, exchange);
             }));
   }
 }

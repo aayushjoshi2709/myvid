@@ -3,6 +3,9 @@ server:
   servlet:
     context-path: /api
 spring:
+  webflux:
+    problemdetails:
+      enabled: true
   application:
     name: gateway
   r2dbc:

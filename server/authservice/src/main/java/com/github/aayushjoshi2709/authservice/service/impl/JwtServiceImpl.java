@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.authservice.service.impl;
 
+import com.github.aayushjoshi2709.authservice.entity.Role;
 import com.github.aayushjoshi2709.authservice.entity.User;
 import com.github.aayushjoshi2709.authservice.service.JwtService;
 
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -33,11 +35,15 @@ public class JwtServiceImpl implements JwtService {
 
   public String generateNewAccessToken(User user) {
     Instant now = Instant.now();
+    List<String> roles = user.getRoles()
+        .stream()
+        .map(Role::getName)
+        .toList();
     return Jwts.builder()
         .subject(user.getId().toString())
         .issuedAt(Date.from(now))
         .expiration(Date.from(now.plus(accessTokenExpiryDays, ChronoUnit.DAYS)))
-        .claim("roles", user.getRoles())
+        .claim("roles", roles)
         .signWith(secretKey, Jwts.SIG.HS256)
         .compact();
   }
