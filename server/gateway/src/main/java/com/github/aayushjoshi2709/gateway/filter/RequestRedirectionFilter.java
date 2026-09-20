@@ -3,6 +3,7 @@ package com.github.aayushjoshi2709.gateway.filter;
 import com.github.aayushjoshi2709.gateway.service.UserRedirectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ class RequestRedirectionFilter implements WebFilter {
   private final UserRedirectionService userRedirectionService;
 
   @Override
+  @NullMarked
   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
     log.info("In request redirection filter redirecting" );
     String path = exchange.getRequest().getURI().getPath();

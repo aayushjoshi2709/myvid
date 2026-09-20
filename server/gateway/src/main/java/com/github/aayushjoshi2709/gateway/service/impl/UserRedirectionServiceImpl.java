@@ -60,11 +60,6 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
     if (endpointRoles == null || endpointRoles.isEmpty()) {
       return true;
     }
-
-    if (userRoles == null || userRoles.isEmpty()) {
-      return false;
-    }
-
     return userRoles.stream().anyMatch(endpointRoles::contains);
   }
 
@@ -142,15 +137,8 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
           roles.addAll(this.jwtService.getRoles(token));
         } catch (Exception e) {
           log.info("An error while processing the access token: ", e);
-          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token");
-        }
-
-        if (userId == null) {
-          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token");
         }
       }
-
-
       log.debug("Access token validated successfully: {}", authToken);
       log.debug("Here are roles: {}", roles);
       ServerHttpRequest request = exchange.getRequest().mutate()

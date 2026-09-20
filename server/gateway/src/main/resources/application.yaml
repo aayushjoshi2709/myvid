@@ -27,6 +27,7 @@ appdata:
   defaults:
     jwtSecret: ${JWT_SECRET}
     roles: ${DEFAULT_ROLES}
+    endpointRoles: ${DEFAULT_ENDPOINT_ROLES}
 springdoc:
   api-docs:
     path: /api/gateway/api-docs

@@ -1,6 +1,7 @@
 package com.github.aayushjoshi2709.gateway.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Slf4j
 public class RequestIdGenerationFilter implements WebFilter {
     @Override
+    @NullMarked
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String requestId = UUID.randomUUID().toString();
         ServerHttpRequest request = exchange.getRequest().mutate().header("X-Request-ID", requestId).build();

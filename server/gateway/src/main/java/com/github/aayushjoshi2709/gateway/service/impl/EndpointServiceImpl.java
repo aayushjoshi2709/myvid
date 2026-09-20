@@ -2,6 +2,7 @@ package com.github.aayushjoshi2709.gateway.service.impl;
 
 import com.github.aayushjoshi2709.gateway.service.EndpointService;
 import com.github.aayushjoshi2709.gateway.service.ServiceService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,11 +18,14 @@ import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 import com.github.aayushjoshi2709.gateway.entity.enums.Status;
 import com.github.aayushjoshi2709.gateway.mapper.Endpoint.CreateEndpointDtoMapper;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class EndpointServiceImpl implements EndpointService {
+  @Value("${appdata.defaults.endpointRoles}")
+  private String defaultEndpointRoles;
   private final EndpointRepository endpointRepo;
   private final CreateEndpointDtoMapper createEndpointDtoMapper;
   private final ServiceService serviceService;
@@ -51,6 +55,9 @@ public class EndpointServiceImpl implements EndpointService {
 
   public Mono<Endpoint> create(CreateEndpointDto body) {
     Endpoint endpoint = createEndpointDtoMapper.toEntity(body);
+    if(endpoint.getRoles().isEmpty()){
+        endpoint.setRoles(List.of(this.defaultEndpointRoles.split(",")));
+    }
     return this.endpointRepo.save(endpoint);
   }
 

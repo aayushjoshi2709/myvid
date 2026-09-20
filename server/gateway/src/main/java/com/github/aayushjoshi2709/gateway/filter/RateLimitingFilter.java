@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.gateway.filter;
 
+import org.jspecify.annotations.NullMarked;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
 @Order(0)
 public class RateLimitingFilter implements WebFilter {
     @Override
+    @NullMarked
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 
         return chain.filter(exchange);
