@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.github.aayushjoshi2709.gateway.dto.Service.UpdateServiceDto;
 import com.github.aayushjoshi2709.gateway.entity.enums.Status;
+import com.github.aayushjoshi2709.gateway.mapper.Service.UpdateServiceDtoMapper;
 import com.github.aayushjoshi2709.gateway.service.ServiceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,11 +22,13 @@ public class ServiceServiceImpl implements ServiceService {
 
   private final ServiceRepository serviceRepository;
   private final CreateServiceDtoMapper createServiceDtoMapper;
+  private final UpdateServiceDtoMapper updateServiceDtoMapper;
 
   public ServiceServiceImpl(final ServiceRepository serviceRepository,
-                            final CreateServiceDtoMapper createServiceDtoMapper) {
+                            final CreateServiceDtoMapper createServiceDtoMapper, UpdateServiceDtoMapper updateServiceDtoMapper) {
     this.serviceRepository = serviceRepository;
     this.createServiceDtoMapper = createServiceDtoMapper;
+    this.updateServiceDtoMapper = updateServiceDtoMapper;
   }
 
   public Mono<Service> findById(UUID id) {
@@ -35,18 +38,21 @@ public class ServiceServiceImpl implements ServiceService {
 
   @Override
   public Mono<Service> findByName(String name) {
-    return this.serviceRepository.findByServiceName(name).switchIfEmpty(Mono.error(
+    return this.serviceRepository.findByServiceName(name.toLowerCase()).switchIfEmpty(Mono.error(
             () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Service not found with the given service name")));
   }
 
   public Mono<Service> create(CreateServiceDto csd) {
     Service svc = createServiceDtoMapper.toEntity(csd);
+    svc.setServiceName(svc.getServiceName().toLowerCase());
     return this.serviceRepository.save(svc);
   }
 
   @Override
-  public Mono<Service> update(UUID id, UpdateServiceDto csd) {
-    return null;
+  public Mono<Service> update(UUID id, UpdateServiceDto usd) {
+    Service svc = updateServiceDtoMapper.toEntity(usd);
+    svc.setServiceName(svc.getServiceName().toLowerCase());
+    return this.serviceRepository.save(svc);
   }
 
   @Override

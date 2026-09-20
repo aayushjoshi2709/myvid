@@ -26,6 +26,7 @@ logging:
 appdata:
   defaults:
     jwtSecret: ${JWT_SECRET}
+    roles: ${DEFAULT_ROLES}
 springdoc:
   api-docs:
     path: /api/gateway/api-docs

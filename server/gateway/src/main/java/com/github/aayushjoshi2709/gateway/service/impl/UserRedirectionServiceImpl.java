@@ -2,13 +2,16 @@ package com.github.aayushjoshi2709.gateway.service.impl;
 
 import com.github.aayushjoshi2709.gateway.entity.Endpoint;
 import com.github.aayushjoshi2709.gateway.service.EndpointService;
+import com.github.aayushjoshi2709.gateway.service.JwtService;
 import com.github.aayushjoshi2709.gateway.service.ServiceService;
 import com.github.aayushjoshi2709.gateway.service.UserRedirectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -18,8 +21,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,9 +30,12 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserRedirectionServiceImpl implements UserRedirectionService {
 
+  @Value("${appdata.defaults.roles}")
+  private String defaultRoles;
   private final EndpointService endpointService;
   private final ServiceService serviceService;
   private final WebClient.Builder webClientBuilder;
+  private final JwtService jwtService;
 
   private static final Pattern PATH_VARIABLE = Pattern.compile("\\{[^{}/]+}");
 
@@ -123,6 +128,38 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
         .exchangeToMono(clientResponse -> prepareClientResponse(exchange, clientResponse));
   }
 
+  void extractUserDetails(ServerWebExchange exchange) {
+      HttpHeaders headers = exchange.getRequest().getHeaders();
+      String authToken = headers.getFirst("Authorization");
+      String userId ="";
+      List<String> roles = new ArrayList<>(List.of(defaultRoles.split(",")));
+
+      if (authToken != null && !authToken.isEmpty()) {
+        log.info("Going to validate the access token: {}", authToken);
+        String token = Objects.requireNonNull(authToken).substring(7);
+        try {
+          userId = this.jwtService.getUserId(token).toString();
+          roles.addAll(this.jwtService.getRoles(token));
+        } catch (Exception e) {
+          log.info("An error while processing the access token: ", e);
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token");
+        }
+
+        if (userId == null) {
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth token");
+        }
+      }
+
+
+      log.debug("Access token validated successfully: {}", authToken);
+      log.debug("Here are roles: {}", roles);
+      ServerHttpRequest request = exchange.getRequest().mutate()
+              .header("x-user-id", userId)
+              .header("x-user-roles", roles.toString())
+              .build();
+      exchange.mutate().request(request).build();
+  }
+
   @Override
   public Mono<Void> handleRedirection(String serviceName, ServerWebExchange exchange) {
 
@@ -140,6 +177,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
             .switchIfEmpty(Mono.error(
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Endpoint not found")))
             .flatMap(endpoint -> {
+              this.extractUserDetails(exchange);
               if (!validateRequest(exchange, endpoint)) {
                 return Mono.error(new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
