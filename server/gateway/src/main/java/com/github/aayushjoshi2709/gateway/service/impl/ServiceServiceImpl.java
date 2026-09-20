@@ -1,6 +1,5 @@
 package com.github.aayushjoshi2709.gateway.service.impl;
 
-import java.util.List;
 import java.util.UUID;
 
 import com.github.aayushjoshi2709.gateway.dto.Service.UpdateServiceDto;
