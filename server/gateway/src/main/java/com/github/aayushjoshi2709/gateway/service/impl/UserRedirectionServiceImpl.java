@@ -123,7 +123,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
         .exchangeToMono(clientResponse -> prepareClientResponse(exchange, clientResponse));
   }
 
-  void extractUserDetails(ServerWebExchange exchange) {
+  ServerWebExchange extractUserDetails(ServerWebExchange exchange) {
       HttpHeaders headers = exchange.getRequest().getHeaders();
       String authToken = headers.getFirst("Authorization");
       String userId ="";
@@ -145,7 +145,7 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
               .header("x-user-id", userId)
               .header("x-user-roles", roles.toString())
               .build();
-      exchange.mutate().request(request).build();
+      return exchange.mutate().request(request).build();
   }
 
   @Override
@@ -165,15 +165,15 @@ public class UserRedirectionServiceImpl implements UserRedirectionService {
             .switchIfEmpty(Mono.error(
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Endpoint not found")))
             .flatMap(endpoint -> {
-              this.extractUserDetails(exchange);
-              if (!validateRequest(exchange, endpoint)) {
+              ServerWebExchange exchangeWithUserDetails = this.extractUserDetails(exchange);
+              if (!validateRequest(exchangeWithUserDetails, endpoint)) {
                 return Mono.error(new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "You do not have proper authorization to access this route"));
               }
 
-              String targetUri = this.prepareTargetUri(exchange.getRequest().getURI(), service.getServiceUrl());
-              return this.getResponseFromDownStreamService(targetUri, exchange);
+              String targetUri = this.prepareTargetUri(exchangeWithUserDetails.getRequest().getURI(), service.getServiceUrl());
+              return this.getResponseFromDownStreamService(targetUri, exchangeWithUserDetails);
             }));
   }
 }

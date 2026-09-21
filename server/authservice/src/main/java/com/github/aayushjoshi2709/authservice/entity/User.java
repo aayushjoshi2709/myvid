@@ -3,7 +3,6 @@ import java.util.List;
 
 import com.github.aayushjoshi2709.authservice.entity.common.Common;
 
-import com.github.aayushjoshi2709.authservice.entity.enums.RoleStatusEnum;
 import com.github.aayushjoshi2709.authservice.entity.enums.UserStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,8 +15,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends Common{
-    @Column(name="name", length = 50, nullable = false)
-    private String name;
+    @Column(name="firstName", length = 50, nullable = false)
+    private String firstName;
+
+    @Column(name="lastName", length = 50, nullable = false)
+    private String lastName;
 
     @Column(name="username", length = 30, nullable = false, unique = true)
     private String username;
@@ -27,6 +29,10 @@ public class User extends Common{
 
     @Column(name="password", length = 60, nullable = false)
     private String password;
+
+    @Column(name="phoneNo", nullable = false, unique = true)
+    private Long phoneNo;
+
 
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)

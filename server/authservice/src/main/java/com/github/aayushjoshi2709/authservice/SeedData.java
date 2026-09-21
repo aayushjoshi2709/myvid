@@ -28,7 +28,7 @@ public class SeedData implements CommandLineRunner {
   private String adminEmail = "";
 
   @Override
-  public void run(String @NonNull... args) throws Exception {
+  public void run(String @NonNull... args) {
     if (this.userRepository.count() == 0) {
 
       if (adminEmail.isEmpty() || adminPassword.isEmpty()) {
@@ -44,7 +44,8 @@ public class SeedData implements CommandLineRunner {
       User admin = new User();
       admin.setUsername("admin");
       admin.setEmail(adminEmail);
-      admin.setName("admin");
+      admin.setFirstName("admin");
+      admin.setLastName("admin");
       admin.setPassword(passwordEncoder.encode(adminPassword));
       admin.setRoles(List.of(savedAdminRole, savedUserRole));
       userRepository.save(admin);

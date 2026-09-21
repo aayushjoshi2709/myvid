@@ -94,12 +94,15 @@ public class UserServiceImpl implements UserService {
 
     Optional<User> existingUser = this.userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
+    log.debug("Creating new user {}", user.getUsername());
+
     if (existingUser.isPresent()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists");
     }
 
     user.setPassword(this.getEncryptedPassword(user.getPassword()));
     user.setStatus(UserStatusEnum.ACTIVE);
+
 
     List<Role> defaultRoles = new ArrayList<>();
 
@@ -108,6 +111,7 @@ public class UserServiceImpl implements UserService {
     user.setRoles(defaultRoles);
 
     User savedUser = this.userRepository.save(user);
+    log.debug("Created user {}", savedUser.getId());
     return this.userResponseMapper.toDto(savedUser);
   }
 
@@ -126,9 +130,19 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserResponseDto update(UUID id, UpdateUserDto body) {
     User user = this.findUserById(id);
-    String name = body.name(), username = body.username(), email = body.email();
-    if (!name.isEmpty()) {
-      user.setName(name);
+
+    Long phoneNo = body.phoneNo();
+    String firstName = body.firstName(), lastName=body.lastName(), username = body.username(), email = body.email();
+    if (!firstName.isEmpty()) {
+      user.setFirstName(firstName);
+    }
+
+    if (!lastName.isEmpty()) {
+      user.setLastName(lastName);
+    }
+
+    if(phoneNo != null){
+      user.setPhoneNo(phoneNo);
     }
 
     if (!username.isEmpty()) {
