@@ -6,7 +6,7 @@ export async function POST(){
     const apiClient = new ApiClient<null>(process.env.HOST_URL as string);
     await apiClient.post(Routes.server.user.LOGOUT, null);
     const res = NextResponse.json({success: true})
-        res.cookies.set("accessToken", "", {
+        res.cookies.set("jwtToken", "", {
         maxAge: 0,
         path: "/",
     });

@@ -12,7 +12,7 @@ export class ApiClient<T> {
     };
 
     const cookieStore = await cookies();
-    const token: string | undefined = cookieStore.get("accessToken")?.value;
+    const token: string | undefined = cookieStore.get("jwtToken")?.value;
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }

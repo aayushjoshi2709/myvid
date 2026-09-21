@@ -3,5 +3,6 @@ export interface LoginRequestBody{
     password: string;
 }
 export interface LoginResponse{
-    accessToken: string;
+    jwtToken: string;
+    refreshToken: string;
 }

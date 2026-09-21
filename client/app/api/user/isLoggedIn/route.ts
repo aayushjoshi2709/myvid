@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const cookie = await cookies()
-  const token = cookie.get("accessToken");
+  const token = cookie.get("jwtToken");
 
   if (!token) {
     return NextResponse.json({ loggedIn: false }, { status: 401 });

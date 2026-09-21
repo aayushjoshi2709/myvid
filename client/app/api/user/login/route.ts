@@ -9,7 +9,14 @@ export async function POST(req:Request){
     const apiClient = new ApiClient<LoginResponse>(process.env.HOST_URL as string);
     const data:LoginResponse = await apiClient.post(Routes.server.user.LOGIN, body);
     const response = NextResponse.json({ success: true });
-    response.cookies.set("accessToken", data.accessToken, {
+    response.cookies.set("jwtToken", data.jwtToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 60 * 60,
+    });
+    response.cookies.set("refreshToken", data.refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
