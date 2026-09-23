@@ -5,12 +5,14 @@ import com.github.aayushjoshi2709.commentservice.entity.common.Common;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 
 @Entity
 @Table(name="comments")
+@Data
 public class Comment extends Common {
     @Column(name="comment", length=500, nullable = false)
     private String comment;
