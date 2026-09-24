@@ -6,6 +6,7 @@ public record UpdateUserDto(
     String username,
     String email,
     String password,
-    Long phoneNo
+    Long phoneNo,
+    String profilePicUrl
 ) {
 }

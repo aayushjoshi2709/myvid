@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
     User user = this.findUserById(id);
 
     Long phoneNo = body.phoneNo();
-    String firstName = body.firstName(), lastName=body.lastName(), username = body.username(), email = body.email();
+    String firstName = body.firstName(), lastName=body.lastName(), username = body.username(), email = body.email(), profilePicUrl = body.profilePicUrl();
     if (!firstName.isEmpty()) {
       user.setFirstName(firstName);
     }
@@ -151,6 +151,10 @@ public class UserServiceImpl implements UserService {
 
     if (!email.isEmpty()) {
       user.setEmail(email);
+    }
+
+    if (!profilePicUrl.isEmpty()) {
+      user.setProfilePicUrl(profilePicUrl);
     }
 
     try {

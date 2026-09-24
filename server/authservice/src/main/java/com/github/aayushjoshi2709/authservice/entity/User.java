@@ -33,6 +33,8 @@ public class User extends Common{
     @Column(name="phoneNo", nullable = false, unique = true)
     private Long phoneNo;
 
+    @Column(name="profilePicUrl", nullable = false, unique = false)
+    private String profilePicUrl;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)

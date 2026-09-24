@@ -2,7 +2,7 @@ import VideoDetailsInterface from "@/common/interfaces/VideoDetails";
 import VideoCard from "@/components/VideoCard/VideoCard";
 import axios from "axios";
 const VideoList = async (): Promise<React.ReactElement> => {
-  const response = await axios.get(`${process.env.HOST_URL}/api/videoservice/v1/video`);
+  const response = await axios.get(`${process.env.HOST_URL}/api/video/v1/video`);
   const videoData: VideoDetailsInterface[] = response.data;
   return (
     <div className="overflow-y-scroll">
