@@ -1,6 +1,7 @@
 package com.github.aayushjoshi2709.myvid.videoservice.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.github.aayushjoshi2709.myvid.videoservice.entity.Common.Common;
 import com.github.aayushjoshi2709.myvid.videoservice.entity.enums.VideoStatus;
@@ -34,5 +35,5 @@ public class Video extends Common {
     private VideoStatus status = VideoStatus.CREATED;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private UUID userId;
 }

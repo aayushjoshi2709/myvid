@@ -7,6 +7,8 @@ import com.github.aayushjoshi2709.myvid.videoservice.dto.video.CreateVideoDto;
 import com.github.aayushjoshi2709.myvid.videoservice.dto.video.GetVideoDto;
 import com.github.aayushjoshi2709.myvid.videoservice.dto.video.UpdateVideoDto;
 import com.github.aayushjoshi2709.myvid.videoservice.entity.Video;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface VideoService {
     List<GetVideoDto> getVideos(Integer Page, Integer Size);
@@ -15,11 +17,11 @@ public interface VideoService {
 
     GetVideoDto findById(UUID id);
 
-    GetVideoDto addVideo(CreateVideoDto createVideo);
+    GetVideoDto addVideo(HttpHeaders headers, CreateVideoDto createVideo);
 
-    GetVideoDto updateById(UUID id, UpdateVideoDto updatedVideoData, boolean publishVideoEvent);
+    GetVideoDto updateById(HttpHeaders headers, UUID id, UpdateVideoDto updatedVideoData, boolean publishVideoEvent, boolean validateUserDetails);
 
-    void deleteVideoById(UUID id);
+    void deleteVideoById(HttpHeaders headers, UUID id);
 
     void getAndUpdateVideosFromQueue();
 }

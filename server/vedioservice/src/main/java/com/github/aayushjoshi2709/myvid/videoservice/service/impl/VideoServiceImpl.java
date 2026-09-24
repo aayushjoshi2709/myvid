@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.github.aayushjoshi2709.myvid.videoservice.dto.user.UserDto;
+import com.github.aayushjoshi2709.myvid.videoservice.repository.AuthServiceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import software.amazon.awssdk.services.sqs.model.Message;
 
 import org.springframework.http.HttpStatus;
@@ -39,6 +42,7 @@ import org.springframework.data.domain.Page;
 @RequiredArgsConstructor
 @Slf4j
 public class VideoServiceImpl implements VideoService {
+    private final AuthServiceRepository authServiceRepository;
     private final VideoRepository videoRepository;
     private final CreateVideoMapper createVideoMapper;
     private final GetVideoMapper getVideoMapper;
@@ -46,6 +50,30 @@ public class VideoServiceImpl implements VideoService {
     private final PubSubService pubSubService;
     private final ObjectMapper objectMapper;
     private final PublishVideoMapper publishVideoMapper;
+
+    private String getUserIdFromHeader(HttpHeaders headers) {
+        String userId = headers.getFirst("x-user-id");
+        log.debug("Going to get user details for user id {}", userId);
+        if(Objects.isNull(userId)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        return userId;
+    }
+
+    private UserDto getUserDetailsFromHeaders(HttpHeaders headers) {
+        String userId = getUserIdFromHeader(headers);
+        return this.authServiceRepository.getUserDetailsById(UUID.fromString(userId));
+    }
+
+    private void validateVideoUpdate(HttpHeaders headers, Video video) {
+        if(!Objects.equals(video.getUserId().toString(), this.getUserIdFromHeader(headers))){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        if (video.getStatus() == VideoStatus.DELETED) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The video has already been deleted");
+        }
+    }
 
     public Video findVideoObjectById(UUID videoId) throws ResponseStatusException {
         log.info("Going to get video with id: {}", videoId);
@@ -78,7 +106,6 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public GetVideoDto findById(UUID videoId) throws ResponseStatusException {
-        log.info("Going to get video with id: {}", videoId);
         Video video = this.findVideoObjectById(videoId);
         GetVideoDto findByIdResponse = this.getVideoMapper.toDto(video);
         log.info("Got video for id: {} with values: {}", videoId, findByIdResponse);
@@ -87,12 +114,11 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @Transactional
-    public GetVideoDto addVideo(CreateVideoDto createVideo) throws ResponseStatusException {
-        // Todo: get user id from headers and set it here
-        Integer userId = 123;
+    public GetVideoDto addVideo(HttpHeaders headers, CreateVideoDto createVideo) throws ResponseStatusException {
+        UserDto user = this.getUserDetailsFromHeaders(headers);
         log.info("Going to add new video with following data: {}", createVideo);
         Video video = this.createVideoMapper.toEntity(createVideo);
-        video.setUserId(userId);
+        video.setUserId(user.id());
         Video savedVideo = this.videoRepository.save(video);
         GetVideoDto addVideoResponse = this.getVideoMapper.toDto(savedVideo);
         log.info("Video data saved successfully: {}", addVideoResponse);
@@ -101,17 +127,16 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public GetVideoDto updateById(UUID videoId, UpdateVideoDto updatedVideoData, boolean publishVideoEvent)
+    public GetVideoDto updateById(HttpHeaders headers, UUID videoId, UpdateVideoDto updatedVideoData, boolean publishVideoEvent, boolean validateUserDetails)
             throws ResponseStatusException {
         log.info("Going to update video with id {} with the following data {}", videoId, updatedVideoData);
         Video video = this.findVideoObjectById(videoId);
 
-        if (video.getStatus() == VideoStatus.DELETED) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vedio has already been deleted");
+        if(validateUserDetails) {
+            this.validateVideoUpdate(headers, video);
         }
 
         String originalVideoUrl = video.getVideoUrl();
-
         log.info("Video data for id: {} before update: {}", videoId, video);
         this.updateVideoMapper.updateVideo(updatedVideoData, video);
         if (updatedVideoData.getVideoUrl() != null) {
@@ -127,12 +152,10 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void deleteVideoById(UUID videoId) throws ResponseStatusException {
+    public void deleteVideoById(HttpHeaders headers, UUID videoId) throws ResponseStatusException {
         log.info("Going to delete video with id: {}", videoId);
         Video video = this.findVideoObjectById(videoId);
-        if (video.getStatus() == VideoStatus.DELETED) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vedio has already been deleted");
-        }
+        this.validateVideoUpdate(headers, video);
         video.setStatus(VideoStatus.DELETED);
         this.videoRepository.save(video);
         log.info("Video with id: {} deleted successfully", videoId);
@@ -151,7 +174,7 @@ public class VideoServiceImpl implements VideoService {
                         .thumbnailUrl(videoDetails.getThumbnailUrl())
                         .videoUrl(videoDetails.getVideoUrl())
                         .build();
-                this.updateById(videoDetails.getId(), updateVideoDto, false);
+                this.updateById(null, videoDetails.getId(), updateVideoDto, false, false);
                 log.info("Going to delete video processed event with data: {}", videoDetails);
                 this.pubSubService.deleteMessage(message);
             } catch (JsonProcessingException | ResponseStatusException e) {
