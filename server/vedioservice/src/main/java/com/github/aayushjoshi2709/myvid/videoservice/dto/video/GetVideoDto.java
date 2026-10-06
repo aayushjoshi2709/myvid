@@ -1,5 +1,6 @@
 package com.github.aayushjoshi2709.myvid.videoservice.dto.video;
 
+import com.github.aayushjoshi2709.myvid.videoservice.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,5 @@ public class GetVideoDto implements Serializable {
     private String description;
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
+    private UserDto createdBy;
 }

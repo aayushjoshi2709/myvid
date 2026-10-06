@@ -62,7 +62,7 @@ public class VideoServiceImpl implements VideoService {
 
     private UserDto getUserDetailsFromHeaders(HttpHeaders headers) {
         String userId = getUserIdFromHeader(headers);
-        return this.authServiceRepository.getUserDetailsById(UUID.fromString(userId));
+        return this.authServiceRepository.getUserDetailsById(headers, UUID.fromString(userId));
     }
 
     private void validateVideoUpdate(HttpHeaders headers, Video video) {
@@ -89,8 +89,6 @@ public class VideoServiceImpl implements VideoService {
             this.pubSubService.sendMessage(objectMapper.writeValueAsString(videoDto));
         } catch (JsonProcessingException e) {
             log.error("An error occurred while processing video: {}", Arrays.toString(e.getStackTrace()));
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "An error occurred while sending video for id:" + videoDto.getId());
         }
     }
 
@@ -119,6 +117,7 @@ public class VideoServiceImpl implements VideoService {
         log.info("Going to add new video with following data: {}", createVideo);
         Video video = this.createVideoMapper.toEntity(createVideo);
         video.setUserId(user.id());
+        video.setCreatedBy(user);
         Video savedVideo = this.videoRepository.save(video);
         GetVideoDto addVideoResponse = this.getVideoMapper.toDto(savedVideo);
         log.info("Video data saved successfully: {}", addVideoResponse);

@@ -20,13 +20,24 @@ export async function s3FileUpload(
         method: "PUT",
         headers: {
           "Content-Type": file.type,
+          "x-amz-meta-name": body.name,
+          "x-amz-meta-storagetype": body.storageType
         },
         body: file,
       });
 
-      if (s3Response.ok) {
-        return presignedUrlData.originalUrl;
+      if (!s3Response.ok) {
+        const errorBody = await s3Response.text();
+
+        console.error("S3 upload failed:", {
+          status: s3Response.status,
+          statusText: s3Response.statusText,
+          body: errorBody,
+        });
+
+        throw new Error(`S3 upload failed: ${s3Response.status}`);
       }
+      return presignedUrlData.originalUrl;
     }
 
     throw new Error("Error video file uploading file");

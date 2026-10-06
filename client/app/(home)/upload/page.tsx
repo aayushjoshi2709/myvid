@@ -108,7 +108,7 @@ const VideoUploadPage = () => {
         <div className="my-4 w-full flex justify-center">
           <button
             onClick={uploadvideo}
-            disabled={thumbnailUrl.length == 0 || videoUrl.length == 0}
+            disabled={thumbnailUrl.length == 0 || videoUrl.length == 0 || title.length == 0 || description.length == 0}
             className="border rounded-3xl text-center font-bold bg-green-500 disabled:bg-green-100 text-white border-[#eee2e2] shadow-xl p-2 px-6"
           >
             <UploadIcon />

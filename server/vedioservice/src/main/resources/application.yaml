@@ -42,6 +42,9 @@ aws:
     processed-data:
       queue-url: ${AWS_SQS_PROCESSED_DATA_QUEUE_URL}
 
+services:
+  auth: ${AUTH_SERVICE_URL}
+
 springdoc:
   swagger-ui:
     path: /
