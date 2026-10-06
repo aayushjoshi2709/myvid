@@ -42,7 +42,7 @@ public class VideoController {
         ));
     }
 
-    @PutMapping("/{videoId}")
+    @PatchMapping("/{videoId}")
     public ResponseEntity<GetVideoDto> updateVideo(@RequestHeader HttpHeaders headers,@PathVariable UUID videoId,
             @RequestBody @Valid UpdateVideoDto updatedVideoData) {
         return ResponseEntity.ok(this.videoService.updateById(headers, videoId, updatedVideoData, true, true));

@@ -71,6 +71,7 @@ export class ApiClient<T> {
     });
 
     if (!res.ok) {
+      console.log("An error occoured", await res.text());
       throw new Error("An error occoured");
     }
     const data: T = await res.json();

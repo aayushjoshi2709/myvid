@@ -34,7 +34,7 @@ public class RoleController {
         return ResponseEntity.ok(this.roleService.findAll(page, limit));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     ResponseEntity<RoleResponseDto> updateRole(@PathVariable UUID id, UpdateRoleDto body){
         return ResponseEntity.ok(this.roleService.update(id, body));
     }
