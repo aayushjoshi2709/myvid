@@ -20,8 +20,12 @@ public class VideoEncodingController {
     private VideoEncodingService videoEncodingService;
 
     @PostMapping()
-    public ResponseEntity<Void> encodeVedio(@RequestBody PublishVideoDto entity) {
-        this.videoEncodingService.encodeVideo(entity);
+    public ResponseEntity<Void> encodeVideo(@RequestBody PublishVideoDto entity) {
+        try {
+            this.videoEncodingService.encodeVideo(entity);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

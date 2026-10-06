@@ -37,9 +37,6 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
     @Value("${aws.temp-store.video.dest}")
     private String tempSorageVideoDestination = "";
 
-    @Value("${aws.endpoint}")
-    private String endpointUrl = "";
-
     @PostConstruct
     public void init() {
         try {
@@ -52,7 +49,7 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
         }
     }
 
-    private String runAdaptiveBitrateEncoding(String inputPath, String outputDir) {
+    private String runAdaptiveBitrateEncoding(String inputPath, String outputDir) throws Exception {
         final String masterFileName = "master.m3u8";
 
         List<String> command = Arrays.asList(
@@ -116,8 +113,8 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
             return masterFileName;
         } catch (IOException | InterruptedException e) {
             log.error("Error transcoding file path: {} with stack trace: {}", inputPath, e);
+            throw new Exception(e);
         }
-        return masterFileName;
     }
 
     public void publishEncodedVideoEvent(PublishVideoDto videoDetails) {
@@ -131,7 +128,7 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
     }
 
     @Override
-    public void encodeVideo(PublishVideoDto videoDetails) {
+    public void encodeVideo(PublishVideoDto videoDetails) throws Exception{
         try {
             String originalFileUrl = tempSorageVideoSource + videoDetails.getId();
             this.storageService.getFileByUrl(videoDetails.getVideoUrl(), originalFileUrl);
@@ -144,8 +141,7 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
                     pathUploaded);
 
             videoDetails.setVideoUrl(String.format(
-                    "%s/%s/%s",
-                    this.endpointUrl,
+                    "%s/%s",
                     pathUploaded,
                     masterFileName));
             videoDetails.setStatus(VideoStatus.PROCESSED);
@@ -153,6 +149,7 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
             this.pubSubService.sendMessage(objectMapper.writeValueAsString(videoDetails));
         } catch (Exception e) {
             log.error("An error occoured while encoding video with  id:{} \n error:{}", videoDetails.getId(), e);
+            throw e;
         }
     }
 
@@ -167,6 +164,9 @@ public class VideoEncodingServiceImpl implements VideoEncodingService {
                 this.pubSubService.deleteMessage(message);
             } catch (JsonProcessingException e) {
                 log.error("Failed to decode json payload inside process encoding vedio for messageId: {} {}",
+                        message.messageId(), e);
+            } catch (Exception e) {
+                log.error("Error while processing encoding video for messageId: {} {}",
                         message.messageId(), e);
             }
         }

@@ -11,7 +11,7 @@ export async function GET(
     const {id} = await context.params;
     const apiClient = new ApiClient<VideoDetailsInterface>(process.env.HOST_URL as string)
     let data = await apiClient.get(util.format(Routes.server.video.GET, id))
-    data.videoUrl = process.env.AWS_CDN_PREFIX + data.videoUrl;
+    data.videoUrl = process.env.AWS_CDN_PROCESSED_VIDEO_PREFIX + data.videoUrl;
     data.thumbnailUrl = process.env.AWS_CDN_PREFIX + data.thumbnailUrl;
     const response = NextResponse.json({ success: true, data: data });
     return response;

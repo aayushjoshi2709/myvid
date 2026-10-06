@@ -56,6 +56,6 @@ public class S3StorageRepository {
                                                 .s3Prefix(prefix)
                                                 .build())
                                 .completionFuture().join();
-                return dataProcessedBucket + "/" + prefix;
+                return prefix;
         }
 }
