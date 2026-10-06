@@ -37,7 +37,7 @@ export async function s3FileUpload(
 
         throw new Error(`S3 upload failed: ${s3Response.status}`);
       }
-      return presignedUrlData.originalUrl;
+      return presignedUrlData.keyName;
     }
 
     throw new Error("Error video file uploading file");

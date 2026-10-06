@@ -6,6 +6,9 @@ import {NextResponse } from "next/server";
 export async function GET(){
     const apiClient = new ApiClient<UserInfo>(process.env.HOST_URL as string)
     const data: UserInfo = await apiClient.get(Routes.server.user.ME)
+    if(data.profilePicUrl){
+    data.profilePicUrl = process.env.AWS_CDN_PREFIX + data.profilePicUrl;
+    }
     return NextResponse.json(data)
 }
 

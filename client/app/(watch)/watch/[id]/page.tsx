@@ -2,7 +2,6 @@ import DescriptionCard from "@/components/DescriptionCard/DescriptionCard";
 import RecomendationList from "@/components/RecomendationList/RecomendationList";
 import RoundedImage from "@/components/RoundedImage/RoundedImage";
 import VideoDetailsInterface from "@/common/interfaces/VideoDetails";
-import axios from "axios";
 import MediaPlayerWrapper from "@/components/MediaPlayer/MediaPlayer";
 import CommentsCard from "@/components/Comments/CommentsCard/CommentsCard";
 const WatchPage = async ({
@@ -11,10 +10,8 @@ const WatchPage = async ({
   params: Promise<{ id: string }>;
 }): Promise<React.ReactElement> => {
   const { id } = await params;
-  const response = await axios.get(
-    `${process.env.HOST_URL}/api/v1/video/${id}`,
-  );
-  const currentlyWatching: VideoDetailsInterface = response.data;
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/video/${id}`);
+  const currentlyWatching: VideoDetailsInterface = (await response.json()).data;
 
   return (
     <div className="flex w-full flex-col lg:flex-row p-6 gap-4 backdrop-brightness">
@@ -40,7 +37,7 @@ const WatchPage = async ({
         <CommentsCard videoId={currentlyWatching.id} />
       </div>
       <div className="w-full lg:w-4/12 2xl:w-3/12">
-        <RecomendationList />
+        {/*<RecomendationList />*/}
       </div>
     </div>
   );

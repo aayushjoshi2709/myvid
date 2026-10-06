@@ -9,5 +9,5 @@ export interface PresignedUrlBody{
 
 export interface PresignedUrlResponse{
     presignedUrl: string,
-    originalUrl: string
+    keyName: string
 }

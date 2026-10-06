@@ -15,9 +15,6 @@ import java.util.Map;
 
 @Repository
 public class S3StorageRepository {
-    @Value("${aws.endpoint:#{null}}")
-    private String endpointUrl;
-
     private final S3Presigner s3Presigner;
 
     S3StorageRepository(S3Presigner s3Presigner) {
@@ -42,15 +39,10 @@ public class S3StorageRepository {
 
         PresignedPutObjectRequest presignedRequest = s3Presigner.presignPutObject(presignRequest);
 
-        String originalUrl = String.format(
-                "%s/%s/%s",
-                this.endpointUrl,
-                bucketName,
-                keyName);
 
         return new StorageResponse(
                 presignedRequest.url().toString(),
-                originalUrl);
+                keyName);
     }
 
     public String getDataFromStorage(String originalUrl) {

@@ -36,7 +36,7 @@ const VideoCard = (props: VideoCardProps): React.ReactElement => {
       <Link href={`/watch/${props.videoData.id}`}>
         <Image
           id="video-logo"
-          src={props.videoData.thumbnailUrl}
+          src={process.env.AWS_CDN_PREFIX + props.videoData.thumbnailUrl}
           width={0}
           height={0}
           sizes={props.thumbnailStyle?.size || "100vw"}

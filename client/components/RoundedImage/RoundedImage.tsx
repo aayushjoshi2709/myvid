@@ -14,7 +14,7 @@ const RoundedImage = (props: RoundedImageProps): React.ReactElement => {
       style={props.style}
     >
       <Image
-        src={props.imageUrl}
+        src={process.env.AWS_CDN_PREFIX + props.imageUrl}
         alt="Image"
         fill
         className="object-cover"
