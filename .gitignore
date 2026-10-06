@@ -72,3 +72,4 @@ server/ioservice/src/main/resources/application-local.yaml
 server/analyticsservice/src/main/resources/application-local.yaml
 /temp
 ioservice/temp
+**/temp
